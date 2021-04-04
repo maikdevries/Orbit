@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>Orbit - Manage Lunar for your Discord server</title>
+
+		<link rel='icon' href='./orbit/resources/favicon.png'>
+		<script src='./orbit/js/authentication.js' defer></script>
+		<script src='./orbit/js/getDiscord.js' defer></script>
+	</head>
+
+	<body>
+
+		<a id='authDiscord' style='display: none' href='https://discord.com/api/oauth2/authorize?client_id=827556501631139891&redirect_uri=https%3A%2F%2Fmaikdevries.com%2Forbit%2Fhtml%2Fauthenticated.html&response_type=token&scope=identify%20guilds'>Authenticate</a>
+
+		<p id='welcome'></p>
+
+		<button id='logout' style='display: none' onclick='logout()'>Logout</button>
+
+		<script>
+			window.onload = () => {
+				if (!isAuthenticated()) {
+					generateState();
+					document.getElementById('authDiscord').style.display = 'block';
+				} else {
+					getGuilds();
+					document.getElementById('logout').style.display = 'block';
+				}
+			}
+		</script>
+
+	</body>
+
+</html>
