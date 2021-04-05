@@ -13,17 +13,27 @@
 
 		<a id='authDiscord' style='display: none' href='https://discord.com/api/oauth2/authorize?client_id=827556501631139891&redirect_uri=https%3A%2F%2Fmaikdevries.com%2Forbit%2Fauthenticated.html&response_type=token&scope=identify%20guilds'>Authenticate</a>
 
-		<p id='welcome'></p>
+		<p id='welcome' style='display: none'></p>
+
+		<select id='guilds' style='display: none'></select>
 
 		<button id='logout' style='display: none' onclick='logout()'>Logout</button>
 
 		<script>
-			window.onload = () => {
+			window.onload = async () => {
 				if (!isAuthenticated()) {
 					generateState();
 					document.getElementById('authDiscord').style.display = 'block';
 				} else {
-					getGuilds();
+					document.getElementById('welcome').innerText = `Welcome to Orbit, ${(await getUser()).username}! Please select the Discord server below.`;
+					(await getFilteredGuilds()).forEach((guild) => {
+						const guildSelector = document.createElement('option');
+						guildSelector.innerText = guild.name;
+						guildSelector.value = guild.id;
+						document.getElementById('guilds').add(guildSelector);
+					});
+					document.getElementById('welcome').style.display = 'block';
+					document.getElementById('guilds').style.display = 'block';
 					document.getElementById('logout').style.display = 'block';
 				}
 			}
