@@ -6,12 +6,6 @@
 	</head>
 
 	<body>
-
-		<form style='display: none' method='POST' action='https://maikdevries.com/orbit/authenticate'>
-			<input id='accessToken' type='hidden' name='accessToken' value=''>
-			<input id='tokenType' type='hidden' name='tokenType' value=''>
-		</form>
-
 		<script>
 			window.onload = async () => {
 				const fragment = window.location.hash.substring(1).split('&').map((v) => v.split('=')).reduce((pre, [key, value]) => ({ ...pre, [key]: value }), {});
@@ -21,10 +15,7 @@
 				localStorage.setItem('accessToken', fragment.access_token);
 				localStorage.setItem('tokenType', fragment.token_type);
 
-				document.getElementById('accessToken').value = fragment.access_token;
-				document.getElementById('tokenType').value = fragment.token_type;
-
-				document.forms[0].submit();
+				window.location.replace('https://maikdevries.com/orbit');
 			}
 		</script>
 	</body>

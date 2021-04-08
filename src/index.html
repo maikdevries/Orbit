@@ -26,7 +26,7 @@
 					document.getElementById('authDiscord').style.display = 'block';
 				} else {
 					document.getElementById('welcome').innerText = `Welcome to Orbit, ${(await getUser()).username}! Please select the Discord server below.`;
-					(await getFilteredGuilds()).forEach((guild) => {
+					(await getGuilds()).forEach((guild) => {
 						const guildSelector = document.createElement('option');
 						guildSelector.innerText = guild.name;
 						guildSelector.value = guild.id;

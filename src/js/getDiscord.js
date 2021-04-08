@@ -1,21 +1,14 @@
 async function getUser () {
-	try {
-		const res = await fetch('https://discord.com/api/users/@me', { headers: { Authorization: `${localStorage.getItem('tokenType')} ${localStorage.getItem('accessToken')}` } });
-		return await res.json();
-	} catch (error) { console.error(error) }
-}
-
-async function getFilteredGuilds () {
-	return filterGuilds(await getGuilds());
+	return await fetchRequest(`https://maikdevries.com/orbit/api/discord/getUser`);
 }
 
 async function getGuilds () {
-	try {
-		const res = await fetch(`https://discord.com/api/users/@me/guilds`, { headers: { Authorization: `${localStorage.getItem('tokenType')} ${localStorage.getItem('accessToken')}` } });
-		return await res.json();
-	} catch (error) { console.error(error) }
+	return await fetchRequest(`https://maikdevries.com/orbit/api/discord/getGuilds`);
 }
 
-function filterGuilds (guilds) {
-	return guilds.filter((guild) => guild.owner || (guild.permissions & 0x20) === 0x20 || (guild.permissions & 0x8) === 0x8);
+async function fetchRequest (url) {
+	try {
+		const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' },  body: JSON.stringify({ tokenType: localStorage.getItem('tokenType'), accessToken: localStorage.getItem('accessToken') }) });
+		return await res.json();
+	} catch (error) { console.error(error) }
 }
