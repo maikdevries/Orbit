@@ -1,10 +1,10 @@
+require(`dotenv`).config();
 const http = require(`http`);
 
 const Express = require(`express`);
 const app = Express();
 
 const httpServer = http.createServer(app);
-
 
 app.use(Express.json());
 app.use(Express.urlencoded({ extended: true }));

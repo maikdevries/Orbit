@@ -6,7 +6,7 @@
 
 		<link rel='icon' href='./orbit/resources/favicon.png'>
 		<script src='./orbit/js/authentication.js' defer></script>
-		<script src='./orbit/js/getDiscord.js' defer></script>
+		<script src='./orbit/js/getData.js' defer></script>
 	</head>
 
 	<body>
@@ -15,9 +15,12 @@
 
 		<p id='welcome' style='display: none'></p>
 
-		<select id='guilds' style='display: none'></select>
-
 		<button id='logout' style='display: none' onclick='logout()'>Logout</button>
+
+		<select id='guilds' style='display: none'></select>
+		<button id='loadSettings' style='display: none'>Load settings</button>
+
+		<pre id='guildSettings' style='display: none'></pre>
 
 		<script>
 			window.onload = async () => {
@@ -25,15 +28,23 @@
 					generateState();
 					document.getElementById('authDiscord').style.display = 'block';
 				} else {
-					document.getElementById('welcome').innerText = `Welcome to Orbit, ${(await getUser()).username}! Please select the Discord server below.`;
-					(await getGuilds()).forEach((guild) => {
+					document.getElementById('welcome').innerText = `Welcome to Orbit, ${(await getDiscordUser()).username}! Please select the Discord server below.`;
+					(await getDiscordGuilds()).forEach((guild) => {
 						const guildSelector = document.createElement('option');
 						guildSelector.innerText = guild.name;
 						guildSelector.value = guild.id;
 						document.getElementById('guilds').add(guildSelector);
 					});
+
+					document.getElementById('loadSettings').addEventListener('click', async () => {
+						const settings = await getGuildSettings(document.getElementById('guilds').value);
+						document.getElementById('guildSettings').innerText = JSON.stringify(settings, null, 2);
+						document.getElementById('guildSettings').style.display = 'block';
+					});
+
 					document.getElementById('welcome').style.display = 'block';
 					document.getElementById('guilds').style.display = 'block';
+					document.getElementById('loadSettings').style.display = 'block';
 					document.getElementById('logout').style.display = 'block';
 				}
 			}

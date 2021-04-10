@@ -5,7 +5,6 @@ const fetch = require(`node-fetch`);
 
 module.exports = router;
 
-
 router.post(`/getUser`, async (req, res) => {
 	try {
 		const response = await fetch('https://discord.com/api/users/@me', { headers: { Authorization: `${req.body.tokenType} ${req.body.accessToken}`, 'Content-Type': 'application/json' } });
