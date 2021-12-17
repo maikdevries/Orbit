@@ -5,7 +5,7 @@ Orbit is the interface behind <b><a href="https://github.com/maikdevries/Lunar">
 <br>
 Through this interface, users can easily change Lunar's behaviour for their Discord servers.
 <br><br>
-<b><a href="https://orbit.maikdevries.com">Launch into Orbit</a></b>
+<b><a href="https://maikdevries.com/orbit">Launch into Orbit</a></b>
 <br>
 </p>
 

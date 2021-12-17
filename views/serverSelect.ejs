@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+
+		<%- include('./partials/head.ejs') %>
+
+	</head>
+
+	<body>
+
+		<%- include('./partials/header.ejs') %>
+
+		<p id='welcomeMessage'>Welcome to Orbit, <%= user.username %>!</p>
+
+		<% for (const guild of guilds) { %>
+			<a href='/dashboard/<%= guild.id %>'><%= guild.name %></a>
+		<% } %>
+
+	</body>
+
+	<footer>
+
+		<%- include('./partials/footer.ejs') %>
+
+	</footer>
+
+</html>

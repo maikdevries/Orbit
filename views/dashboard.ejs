@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+
+		<%- include('./partials/head.ejs') %>
+
+		<script src='/js/manageData.js' defer></script>
+
+	</head>
+
+	<body>
+
+		<%- include('./partials/header.ejs') %>
+
+		<% for (const setting in guildData) { %>
+			<button type='button' id='<%= setting %>' onclick='displaySettingData(<%= JSON.stringify(guildData[setting]) %>)'><%= setting %></button>
+		<% } %>
+
+		<pre id='settingData'>
+
+		</pre>
+
+	</body>
+
+	<footer>
+
+		<%- include('./partials/footer.ejs') %>
+
+	</footer>
+
+</html>
