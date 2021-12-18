@@ -1,6 +1,6 @@
 const Express = require('express');
 const { getUser, getGuilds } = require('../controllers/discord.js');
-const { getGuildData } = require('../controllers/data.js');
+const { getGuildSettings, saveSetting } = require('../controllers/data.js');
 
 const router = Express.Router();
 
@@ -15,5 +15,9 @@ router.get('/dashboard', async (req, res, next) => {
 });
 
 router.get('/dashboard/:guildID', async (req, res, next) => {
-	res.render('dashboard', { guildData: await getGuildData(req.params.guildID) });
+	res.render('dashboard', { guildSettings: await getGuildSettings(req.params.guildID) });
+});
+
+router.post('/dashboard/:guildID/:settingName/save', async (req, res, next) => {
+	res.json(await saveSetting(req.params.guildID, req.params.settingName, req.body));
 });
