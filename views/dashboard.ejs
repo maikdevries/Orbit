@@ -14,18 +14,24 @@
 
 		<%- include('./partials/header.ejs') %>
 
-		<% for (const setting in guildSettings) { %>
-			<button type='button' id='<%= setting %>' onclick="displaySettingData(<%= JSON.stringify(guildSettings[setting]) %>, '<%= setting %>')"><%= setting %></button>
+		<% for (const featureName in guildSettings) { %>
+			<button type='button' id='<%= featureName %>' onclick="displaySettingData('<%= featureName %>')"><%= featureName %></button>
 		<% } %>
 
-		<input id='enabledCheckbox' type='checkbox'>
-		<label for='enabledCheckbox'>Enabled</label>
+		<div id='settingData' data-feature=''>
 
-		<pre id='settingData' data-setting=''>
-
-		</pre>
+		</div>
 
 		<button id='save' type='button' onclick='saveSettingData()'>Save</button>
+
+		<!-- TODO: Remove from production -->
+		<pre id='logSettingData'></pre>
+
+		<script>
+			const guildSettings = <%- JSON.stringify(guildSettings) %>;
+			const channels = <%- JSON.stringify(channels) %>;
+			const roles = <%- JSON.stringify(roles) %>;
+		</script>
 
 	</body>
 

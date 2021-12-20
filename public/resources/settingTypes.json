@@ -1,0 +1,43 @@
+{
+	"welcomeMessage": {
+		"ADD": {
+			"enabled": "boolean",
+			"channel": "Channel",
+			"defaultMessage": "hide",
+			"messages": "stringArray"
+		},
+		"REMOVE": {
+			"enabled": "boolean",
+			"channel": "Channel",
+			"defaultMessage": "hide",
+			"messages": "stringArray"
+		}
+	},
+
+	"reactionRole": {
+		"enabled": "boolean",
+		"messages": "stringObject",
+		"messages.messageID": "stringObject",
+		"messages.messageID.emoji": "RoleArray"
+	},
+
+	"streamStatus": {
+		"enabled": "boolean",
+		"requiredRole": "Role",
+		"streamingRole": "Role"
+	},
+
+	"twitch": {
+		"enabled": "boolean",
+		"username": "TwitchUsername",
+		"channel": "Channel",
+		"message": "string"
+	},
+
+	"youtube": {
+		"enabled": "boolean",
+		"channelID": "YouTubeUsername",
+		"channel": "Channel",
+		"message": "string"
+	}
+}
