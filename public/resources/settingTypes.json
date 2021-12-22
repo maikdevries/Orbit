@@ -3,22 +3,20 @@
 		"ADD": {
 			"enabled": "boolean",
 			"channel": "Channel",
-			"defaultMessage": "hide",
+			"defaultMessage": "hidden",
 			"messages": "stringArray"
 		},
 		"REMOVE": {
 			"enabled": "boolean",
 			"channel": "Channel",
-			"defaultMessage": "hide",
+			"defaultMessage": "hidden",
 			"messages": "stringArray"
 		}
 	},
 
 	"reactionRole": {
 		"enabled": "boolean",
-		"messages": "stringObject",
-		"messages.messageID": "stringObject",
-		"messages.messageID.emoji": "RoleArray"
+		"messages": "hidden"
 	},
 
 	"streamStatus": {
@@ -36,7 +34,7 @@
 
 	"youtube": {
 		"enabled": "boolean",
-		"channelID": "YouTubeUsername",
+		"username": "YouTubeUsername",
 		"channel": "Channel",
 		"message": "string"
 	}
