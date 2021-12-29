@@ -2,15 +2,26 @@ let settingTypes;
 (async () => settingTypes = await (await fetch('/resources/settingTypes.json')).json())();
 
 function displaySettingData (featurePath) {
-	// TODO: Remove from production
-	document.getElementById('logSettingData').textContent = JSON.stringify(getProperty(guildSettings, featurePath), null, 2);
+	document.getElementById('settingData').dataset.feature = featurePath;
 
-	const settingDataElement = document.getElementById('settingData');
-	settingDataElement.replaceChildren();
-	settingDataElement.dataset.feature = featurePath;
-	settingDataElement.append(...generateSettingElements(featurePath));
+	const settingListElement = document.getElementById('settingList');
+	settingListElement.replaceChildren();
+	settingListElement.append(...wrapListEntryElements(...generateSettingElements(featurePath)), createSaveButtonElement());
 
 	return document.location.hash = featurePath;
+}
+
+function wrapListEntryElements (...elements) {
+	const data = [];
+	for (const element of elements) {
+		const listEntryElement = document.createElement('li');
+		listEntryElement.classList.add('settingEntry');
+		listEntryElement.append(element);
+
+		data.push(listEntryElement);
+	}
+
+	return data;
 }
 
 function generateSettingElements (featurePath) {
@@ -85,6 +96,16 @@ function extractListEntries (element) {
 	for (const entry of element.children) if (entry.id !== 'addListEntryButton') entries.push(entry.dataset.value);
 
 	return entries;
+}
+
+function createSaveButtonElement () {
+	const buttonElement = document.createElement('button');
+	buttonElement.type = 'button';
+	buttonElement.id = 'save';
+	buttonElement.textContent = 'Save';
+	buttonElement.addEventListener('click', () => updateSettingData());
+
+	return createLabelElement('', buttonElement);
 }
 
 function createCheckBoxElement (featurePath, setting) {

@@ -28,3 +28,35 @@
 	background: #f0f0f0;
 	color: #161616;
 }
+
+#settingData {
+	width: 50%;
+	margin: 1% 25% 0% 25%;
+}
+
+#settingList {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.settingEntry {
+	padding: 2.5% 0% 2.5% 0%;
+}
+
+.settingEntry > label > * {
+	margin: 0% 0% 0% 5%;
+}
+
+button {
+	margin: 1% 0.5% 1% 0.5%;
+	padding: 0.5% 1.5% 0.5% 1.5%;
+	cursor: pointer;
+	border: none;
+	border-radius: 25px;
+	transition: all 0.3s ease 0s;
+}
+
+button:hover {
+	background: #9b9b9b;
+}
