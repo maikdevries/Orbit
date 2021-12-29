@@ -1,6 +1,6 @@
 const Express = require('express');
-const { getUser, getGuilds, getGuildChannels, getGuildRoles } = require('../controllers/discord.js');
-const { getGuildSettings, updateSetting, saveSetting } = require('../controllers/data.js');
+const { getUser, hasGuildAccess, getGuilds, getGuildChannels, getGuildRoles } = require('../controllers/discord.js');
+const { hasGuildSettings, getGuildSettings, updateSetting, saveSetting } = require('../controllers/data.js');
 
 const router = Express.Router();
 
@@ -12,11 +12,21 @@ router.get('/', async (req, res, next) => {
 	});
 });
 
+router.use('/dashboard', (req, res, next) => {
+	if (!req.session.tokenType || !req.session.token) return res.redirect('/auth');
+	next();
+});
+
 router.get('/dashboard', async (req, res, next) => {
 	res.render('guildSelect', {
 		user: await getUser(req.session.tokenType, req.session.token),
 		guilds: await getGuilds(req.session.tokenType, req.session.token)
 	});
+});
+
+router.use('/dashboard/:guildID', async (req, res, next) => {
+	if (!await hasGuildSettings(req.params.guildID) || !await hasGuildAccess(req.params.guildID, req.session.tokenType, req.session.token)) return res.redirect('/dashboard');
+	next();
 });
 
 router.get('/dashboard/:guildID', async (req, res, next) => {

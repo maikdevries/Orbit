@@ -5,7 +5,13 @@ const router = Express.Router();
 
 module.exports = router;
 
+router.get('/', (req, res, next) => {
+	res.redirect(process.env.INVITE_URL);
+});
+
 router.get('/login', async (req, res, next) => {
+	if (!req.query.code) return res.redirect('/auth');
+
 	Object.assign(req.session, await getAuthentication(req.query.code));
 
 	req.session.save(() => res.redirect('/dashboard'));

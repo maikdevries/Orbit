@@ -1,17 +1,21 @@
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
-const { getGuildSettings } = require('../controllers/data.js');
+const { hasGuildSettings } = require('../controllers/data.js');
 
 module.exports = {
-	getUser, getGuilds, getGuildChannels, getGuildRoles
+	getUser, hasGuildAccess, getGuilds, getGuildChannels, getGuildRoles
 }
 
 async function getUser (tokenType, token) {
 	return await getFetch('users/@me', tokenType, token);
 }
 
+async function hasGuildAccess (guildID, tokenType, token) {
+	return (await getFetch('users/@me/guilds', tokenType, token)).filter((guild) => guild.owner || (guild.permissions & 0x20) === 0x20 || (guild.permissions & 0x8) === 0x8).some((guild) => guild.id === guildID);
+}
+
 async function getGuilds (tokenType, token) {
 	const guilds = (await getFetch('users/@me/guilds', tokenType, token)).filter((guild) => guild.owner || (guild.permissions & 0x20) === 0x20 || (guild.permissions & 0x8) === 0x8);
-	return await Promise.all(guilds.map(async (guild) => ({ ...guild, joined: await getGuildSettings(guild.id) ? true : false })));
+	return await Promise.all(guilds.map(async (guild) => ({ ...guild, joined: await hasGuildSettings(guild.id) })));
 }
 
 async function getGuildChannels (guildID, tokenType, token) {

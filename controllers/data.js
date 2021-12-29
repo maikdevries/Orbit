@@ -12,7 +12,11 @@ const db = new Josh({
 });
 
 module.exports = {
-	getGuildSettings, updateSetting, saveSetting
+	hasGuildSettings, getGuildSettings, updateSetting, saveSetting
+}
+
+async function hasGuildSettings (guildID) {
+	return await db.has(guildID);
 }
 
 async function getGuildSettings (guildID) {
