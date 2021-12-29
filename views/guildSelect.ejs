@@ -6,11 +6,17 @@
 
 		<%- include('./partials/head.ejs') %>
 
+		<link rel='stylesheet' href='/css/guildSelect.css'>
+
 	</head>
 
 	<body>
 
+		<header>
+
 		<%- include('./partials/header.ejs') %>
+
+		</header>
 
 		<p id='welcomeMessage'>Welcome to Orbit, <%= user.username %>!</p>
 
@@ -18,12 +24,12 @@
 			<a href='/dashboard/<%= guild.id %>'><%= guild.name %></a>
 		<% } %>
 
+		<footer>
+
+			<%- include('./partials/footer.ejs') %>
+
+		</footer>
+
 	</body>
-
-	<footer>
-
-		<%- include('./partials/footer.ejs') %>
-
-	</footer>
 
 </html>

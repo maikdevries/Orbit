@@ -1,0 +1,47 @@
+body {
+	background: #233a54;
+	font: normal normal bold 100% 'Open Sans', sans-serif;
+	color: #f0f0f0;
+}
+
+button {
+	font: inherit;
+}
+
+a, a:visited {
+	text-decoration: none;
+	color: inherit;
+}
+
+header {
+	display: flex;
+	justify-content: space-around;
+}
+
+#navLinks {
+	padding: 0;
+}
+
+#navLinks li {
+	display: inline-block;
+	padding: 0px 15px;
+}
+
+#navLinks li a {
+	transition: all 0.3s ease 0s;
+}
+
+#navLinks li a:hover {
+	color: #9b9b9b;
+}
+
+#loginButton {
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+	transition: all 0.3s ease 0s;
+}
+
+#userAvatar {
+	padding: 0% 15% 0% 0%;
+}

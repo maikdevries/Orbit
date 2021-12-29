@@ -12,7 +12,11 @@
 
 	<body>
 
-		<%- include('./partials/header.ejs') %>
+		<header>
+
+			<%- include('./partials/header.ejs') %>
+
+		</header>
 
 		<% for (const featureName in guildSettings) { %>
 			<button type='button' id='<%= featureName %>' onclick="displaySettingData('<%= featureName %>')"><%= featureName %></button>
@@ -33,12 +37,12 @@
 			const roles = <%- JSON.stringify(roles) %>;
 		</script>
 
+		<footer>
+
+			<%- include('./partials/footer.ejs') %>
+
+		</footer>
+
 	</body>
-
-	<footer>
-
-		<%- include('./partials/footer.ejs') %>
-
-	</footer>
 
 </html>

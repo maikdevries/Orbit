@@ -10,21 +10,19 @@
 
 	<body>
 
-		<%- include('./partials/header.ejs') %>
+		<header>
 
-		<!-- TODO: Change the URL to production -->
-		<a id='login' href='https://discord.com/api/oauth2/authorize?client_id=827556501631139891&redirect_uri=http%3A%2F%2Flocalhost%3A3001%2Fauth%2Flogin&response_type=code&scope=identify%20guilds&prompt=none'>Login</a>
+			<%- include('./partials/header.ejs') %>
 
-		<a id='dashboard' href='/dashboard'>Dashboard</a>
+		</header>
 
-		<a id='logout' href='/auth/logout'>Logout</a>
+
+		<footer>
+
+			<%- include('./partials/footer.ejs') %>
+
+		</footer>
 
 	</body>
-
-	<footer>
-
-		<%- include('./partials/footer.ejs') %>
-
-	</footer>
 
 </html>

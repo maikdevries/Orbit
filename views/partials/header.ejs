@@ -1,0 +1,30 @@
+<img id='logo' src='/resources/logo.svg' draggable='false' alt='Orbit logo'>
+
+<ul id='navLinks'>
+
+	<li><a href='/'>Main</a></li>
+	<li><a href='/dashboard'>Dashboard</a></li>
+	<li><a href='/support'>Support</a></li>
+	<li><a href='/auth/logout'>Logout</a></li>
+
+</ul>
+
+<% if (user.id) { %>
+	<div id='loginButton'>
+
+		<img id='userAvatar' src='https://cdn.discordapp.com/avatars/<%= user.id %>/<%= user.avatar %>.png?size=32' draggable='false' alt='User avatar'>
+		<%= user.username %>
+
+	</div>
+
+	<script>
+		document.getElementById('loginButton').addEventListener('click', (event) => document.location.replace('/dashboard'));
+	</script>
+
+<% } else { %>
+	<div id='loginButton'>Login</div>
+
+	<script>
+		document.getElementById('loginButton').addEventListener('click', (event) => document.location.replace('/auth'));
+	</script>
+<% } %>

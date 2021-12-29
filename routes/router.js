@@ -6,12 +6,14 @@ const router = Express.Router();
 
 module.exports = router;
 
-router.get('/', (req, res, next) => {
-	res.render('index');
+router.get('/', async (req, res, next) => {
+	res.render('index', {
+		user: await getUser(req.session.tokenType, req.session.token)
+	});
 });
 
 router.get('/dashboard', async (req, res, next) => {
-	res.render('serverSelect', {
+	res.render('guildSelect', {
 		user: await getUser(req.session.tokenType, req.session.token),
 		guilds: await getGuilds(req.session.tokenType, req.session.token)
 	});
@@ -19,6 +21,7 @@ router.get('/dashboard', async (req, res, next) => {
 
 router.get('/dashboard/:guildID', async (req, res, next) => {
 	res.render('dashboard', {
+		user: await getUser(req.session.tokenType, req.session.token),
 		guildSettings: await getGuildSettings(req.params.guildID),
 		channels: await getGuildChannels(req.params.guildID, process.env.TOKEN_TYPE, process.env.TOKEN),
 		roles: await getGuildRoles(req.params.guildID, process.env.TOKEN_TYPE, process.env.TOKEN)
@@ -31,4 +34,8 @@ router.post('/dashboard/:guildID/:settingName/update', async (req, res, next) =>
 
 router.post('/dashboard/:guildID/:settingName/save', async (req, res, next) => {
 	res.json(await saveSetting(req.params.guildID, req.params.settingName, req.body));
+});
+
+router.get('/support', (req, res, next) => {
+	res.redirect('https://discord.gg/aMeGvFD');
 });
