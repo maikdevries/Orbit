@@ -1,0 +1,30 @@
+#featureContainer {
+	width: 70%;
+	margin: 0% 15% 0% 15%;
+}
+
+#featureNav {
+	display: flex;
+	justify-content: center;
+	padding: 0;
+	margin: 0;
+	border-bottom: 1px solid #f0f0f0;
+	list-style: none;
+}
+
+.featureLink {
+	margin: 1% 0.5% 1% 0.5%;
+	padding: 0.5% 1.5% 0.5% 1.5%;
+	cursor: pointer;
+	border-radius: 25px;
+}
+
+.featureLink:hover {
+	background: #f0f0f0;
+	color: #161616;
+}
+
+.featureLink:target {
+	background: #f0f0f0;
+	color: #161616;
+}

@@ -18,13 +18,13 @@
 	</div>
 
 	<script>
-		document.getElementById('loginButton').addEventListener('click', (event) => document.location.replace('/dashboard'));
+		document.getElementById('loginButton').addEventListener('click', () => document.location.replace('/dashboard'));
 	</script>
 
 <% } else { %>
 	<div id='loginButton'>Login</div>
 
 	<script>
-		document.getElementById('loginButton').addEventListener('click', (event) => document.location.replace('/auth'));
+		document.getElementById('loginButton').addEventListener('click', () => document.location.replace('/auth'));
 	</script>
 <% } %>

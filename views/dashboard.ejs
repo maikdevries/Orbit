@@ -6,6 +6,8 @@
 
 		<%- include('./partials/head.ejs') %>
 
+		<link rel='stylesheet' href='/css/dashboard.css'>
+
 		<script src='/js/manageData.js' defer></script>
 
 	</head>
@@ -18,9 +20,17 @@
 
 		</header>
 
-		<% for (const featureName in guildSettings) { %>
-			<button type='button' id='<%= featureName %>' onclick="displaySettingData('<%= featureName %>')"><%= featureName %></button>
-		<% } %>
+		<div id='featureContainer'>
+
+			<ul id='featureNav'>
+
+				<% for (const featureName in guildSettings) { %>
+					<li id='<%= featureName %>' class='featureLink' onclick="displaySettingData('<%= featureName %>')"><%= featureName %></li>
+				<% } %>
+
+			</ul>
+
+		</div>
 
 		<div id='settingData' data-feature=''>
 

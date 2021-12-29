@@ -8,8 +8,9 @@ function displaySettingData (featurePath) {
 	const settingDataElement = document.getElementById('settingData');
 	settingDataElement.replaceChildren();
 	settingDataElement.dataset.feature = featurePath;
+	settingDataElement.append(...generateSettingElements(featurePath));
 
-	return settingDataElement.append(...generateSettingElements(featurePath));
+	return document.location.hash = featurePath;
 }
 
 function generateSettingElements (featurePath) {
@@ -57,14 +58,14 @@ async function updateSettingData () {
 		Array.isArray(settingData) ? await saveSettingData(`${featurePath}.${setting}`, settingData) : data[setting] = settingData;
 	}
 
-	const response = await postFetch(`${window.location.href}/${featurePath}/update`, data);
+	const response = await postFetch(`${window.location.href.split('#')[0]}/${featurePath}/update`, data);
 	setProperty(guildSettings, featurePath, response);
 
 	return displaySettingData(featurePath);
 }
 
 async function saveSettingData (featurePath, data) {
-	return await postFetch(`${window.location.href}/${featurePath}/save`, data);
+	return await postFetch(`${window.location.href.split('#')[0]}/${featurePath}/save`, data);
 }
 
 function extractSettingData (settingType, element) {
