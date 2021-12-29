@@ -14,3 +14,11 @@ router.get('/login', async (req, res, next) => {
 router.get('/logout', (req, res, next) => {
 	req.session.destroy(() => res.redirect('/'));
 });
+
+router.get('/server', (req, res, next) => {
+	res.redirect(`/dashboard/${req.query.guild_id}`);
+});
+
+router.get('/server/:guildID', (req, res, next) => {
+	res.redirect(`${process.env.SERVER_INVITE_URL}&guild_id=${req.params.guildID}`);
+});

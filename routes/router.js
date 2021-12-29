@@ -37,5 +37,5 @@ router.post('/dashboard/:guildID/:settingName/save', async (req, res, next) => {
 });
 
 router.get('/support', (req, res, next) => {
-	res.redirect('https://discord.gg/aMeGvFD');
+	res.redirect(process.env.SUPPORT_INVITE_URL);
 });
