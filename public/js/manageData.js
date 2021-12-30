@@ -144,7 +144,7 @@ function createObjectElement (featurePath, setting) {
 	const buttonElement = document.createElement('button');
 	buttonElement.type = 'button';
 	buttonElement.id = featurePath;
-	buttonElement.textContent = setting;
+	buttonElement.textContent = translateJSON(setting);
 	buttonElement.setAttribute('onclick', `displaySettingData('${featurePath}.${setting}')`);
 
 	return buttonElement;
@@ -197,10 +197,14 @@ function createAddListEntryButtonElement () {
 
 function createLabelElement (setting, element) {
 	const labelElement = document.createElement('label');
-	labelElement.textContent = setting;
+	labelElement.textContent = translateJSON(setting);
 	labelElement.append(element);
 
 	return labelElement;
+}
+
+function translateJSON (name) {
+	return translations.JSON[name] ?? name;
 }
 
 async function postFetch (url, data) {

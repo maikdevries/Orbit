@@ -42,6 +42,11 @@
 			const guildSettings = <%- JSON.stringify(guildSettings) %>;
 			const channels = <%- JSON.stringify(channels) %>;
 			const roles = <%- JSON.stringify(roles) %>;
+
+			fetch('/resources/translations.json').then((json) => json.json().then((data) => {
+				translations = data;
+				for (const element of document.getElementsByClassName('featureLink')) element.textContent = translateJSON(element.textContent);
+			}));
 		</script>
 
 		<footer>

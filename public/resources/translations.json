@@ -1,0 +1,17 @@
+{
+	"JSON": {
+		"welcomeMessage": "Welcome Message",
+		"reactionRole": "Reaction Role",
+		"streamStatus": "Stream Status",
+		"twitch": "Twitch",
+		"youtube": "YouTube",
+		"ADD": "Join Messages",
+		"REMOVE": "Leave Messages",
+		"enabled": "Feature Enabled",
+		"channel": "Discord Channel",
+		"requiredRole": "Content Creator Role",
+		"streamingRole": "Currently Livestreaming Role",
+		"username": "Username",
+		"message": "Message"
+	}
+}
