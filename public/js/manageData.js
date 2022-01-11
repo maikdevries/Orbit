@@ -53,6 +53,7 @@ function determineElementType (settingType, featurePath, setting) {
 		case 'stringArray': return createListElement(getProperty(guildSettings, `${featurePath}.${setting}`), featurePath, setting);
 		case 'TwitchUsername': return createTextBoxElement(featurePath, setting);
 		case 'YouTubeUsername': return createTextBoxElement(featurePath, setting);
+		case 'ReactionRoleMessages': return createReactionRoleMessages(featurePath, setting);
 	}
 }
 
@@ -66,7 +67,7 @@ async function updateSettingData () {
 		if (settingType === 'Object' || settingType === 'hidden') continue;
 
 		const settingData = extractSettingData(settingType, document.getElementById(setting));
-		Array.isArray(settingData) ? await saveSettingData(`${featurePath}.${setting}`, settingData) : data[setting] = settingData;
+		Array.isArray(settingData) || typeof settingData === 'object' ? await saveSettingData(`${featurePath}.${setting}`, settingData) : data[setting] = settingData;
 	}
 
 	const response = await postFetch(`${window.location.href.split('#')[0]}/${featurePath}/update`, data);
@@ -88,7 +89,33 @@ function extractSettingData (settingType, element) {
 		case 'stringArray': return extractListEntries(element);
 		case 'TwitchUsername': return element.value;
 		case 'YouTubeUsername': return element.value;
+		case 'ReactionRoleMessages': return extractReactionRole(element);
 	}
+}
+
+function extractReactionRole (element) {
+	const messages = {};
+	for (const message of element.children) {
+		if (message.id === 'addReactionMessageListEntryButton') continue;
+
+		const reactions = {};
+		for (const reaction of message.children) {
+			if (reaction.tagName === 'BUTTON') continue;
+
+			const roles = [];
+			for (const role of reaction.children) {
+				if (role.tagName === 'BUTTON' || !role.dataset.value) continue;
+
+				roles.push(role.dataset.value);
+			}
+
+			if (roles.length) reactions[reaction.id] = roles;
+		}
+
+		messages[message.id] = reactions;
+	}
+
+	return messages;
 }
 
 function extractListEntries (element) {
@@ -150,6 +177,123 @@ function createObjectElement (featurePath, setting) {
 	return buttonElement;
 }
 
+function createReactionRoleMessages (featurePath, setting) {
+	const messageEntries = [];
+	for (const message in getProperty(guildSettings, `${featurePath}.${setting}`)) {
+		const reactionEntries = [];
+		for (const reaction in getProperty(guildSettings, `${featurePath}.${setting}.${message}`)) {
+			const roleEntries = [];
+			for (const role of getProperty(guildSettings, `${featurePath}.${setting}.${message}.${reaction}`)) roleEntries.push(createRoleListEntryElement(role));
+
+			const listElement = document.createElement('ul');
+			listElement.id = reaction;
+			listElement.classList.add('reactionRoleRoles');
+			listElement.textContent = reaction;
+			listElement.append(createDeleteListEntryButtonElement(), ...roleEntries, createAddRoleListEntryButtonElement());
+
+			reactionEntries.push(listElement);
+		}
+
+		const listElement = document.createElement('ul');
+		listElement.id = message;
+		listElement.textContent = message;
+		listElement.append(createDeleteListEntryButtonElement(), ...reactionEntries, createAddReactionListEntryButtonElement());
+
+		messageEntries.push(listElement);
+	}
+
+	const listElement = document.createElement('ul');
+	listElement.id = setting;
+	listElement.textContent = translateJSON(setting);
+	listElement.append(createAddReactionMessageListEntryButtonElement(), ...messageEntries);
+
+	return listElement;
+}
+
+function createAddReactionMessageListEntryButtonElement () {
+	const addReactionMessageListEntryButton = document.createElement('ul');
+	addReactionMessageListEntryButton.id = 'addReactionMessageListEntryButton';
+	addReactionMessageListEntryButton.classList.add('addReactionRoleButton');
+	addReactionMessageListEntryButton.textContent = '+ New Reaction Role';
+	addReactionMessageListEntryButton.addEventListener('click', () => { addReactionMessageListEntryButton.textContent = ''; addReactionMessageListEntryButton.contentEditable = true; addReactionMessageListEntryButton.focus() });
+	addReactionMessageListEntryButton.addEventListener('keydown', (event) => {
+		if (event.key === 'Enter') {
+			const messageEntryElement = document.createElement('ul');
+			messageEntryElement.id = addReactionMessageListEntryButton.textContent;
+			messageEntryElement.textContent = addReactionMessageListEntryButton.textContent;
+			messageEntryElement.append(createDeleteListEntryButtonElement(), createAddReactionListEntryButtonElement());
+
+			addReactionMessageListEntryButton.parentElement.append(messageEntryElement);
+			addReactionMessageListEntryButton.textContent = '+ New Reaction Role';
+			addReactionMessageListEntryButton.contentEditable = false;
+		}
+	});
+
+	return addReactionMessageListEntryButton;
+}
+
+function createAddReactionListEntryButtonElement () {
+	const addReactionListEntryButton = document.createElement('ul');
+	addReactionListEntryButton.id = 'addReactionListEntryButton';
+	addReactionListEntryButton.classList.add('addReactionRoleButton');
+	addReactionListEntryButton.textContent = '+ New Reaction';
+	addReactionListEntryButton.addEventListener('click', () => { addReactionListEntryButton.textContent = ''; addReactionListEntryButton.contentEditable = true; addReactionListEntryButton.focus() });
+	addReactionListEntryButton.addEventListener('keydown', (event) => {
+		if (event.key === 'Enter') {
+			const reactionEntryElement = document.createElement('ul');
+			reactionEntryElement.id = addReactionListEntryButton.textContent;
+			reactionEntryElement.classList.add('reactionRoleRoles');
+			reactionEntryElement.textContent = addReactionListEntryButton.textContent;
+			reactionEntryElement.append(createDeleteListEntryButtonElement(), createAddRoleListEntryButtonElement());
+
+			addReactionListEntryButton.parentElement.insertBefore(reactionEntryElement, addReactionListEntryButton);
+			addReactionListEntryButton.textContent = '+ New Reaction';
+			addReactionListEntryButton.contentEditable = false;
+		}
+	});
+
+	return addReactionListEntryButton;
+}
+
+function createAddRoleListEntryButtonElement () {
+	const addRoleListEntryButton = document.createElement('li');
+	addRoleListEntryButton.id = 'addRoleListEntryButton';
+	addRoleListEntryButton.classList.add('addReactionRoleButton');
+	addRoleListEntryButton.textContent = '+ New Role';
+	addRoleListEntryButton.addEventListener('click', () => {
+		const options = [];
+		for (const role of roles) options.push(new Option(role.name, role.id));
+
+		const roleSelectElement = document.createElement('select');
+		roleSelectElement.append(...options);
+		roleSelectElement.addEventListener('keydown', (event) => {
+			if (event.key === 'Enter') {
+				const roleEntryElement = document.createElement('li');
+				roleEntryElement.dataset.value = roleSelectElement.value;
+				roleEntryElement.textContent = roles.find((role) => role.id === roleSelectElement.value).name;
+				roleEntryElement.append(createDeleteListEntryButtonElement());
+
+				roleSelectElement.parentElement.insertBefore(roleEntryElement, roleSelectElement);
+
+				roleSelectElement.parentNode.replaceChild(addRoleListEntryButton, roleSelectElement);
+			}
+		});
+
+		addRoleListEntryButton.parentNode.replaceChild(roleSelectElement, addRoleListEntryButton);
+	});
+
+	return addRoleListEntryButton;
+}
+
+function createRoleListEntryElement (data) {
+	const entryElement = document.createElement('li');
+	entryElement.dataset.value = data;
+	entryElement.textContent = roles.find((role) => role.id === data).name;
+	entryElement.append(createDeleteListEntryButtonElement());
+
+	return entryElement;
+}
+
 function createListElement (allData, featurePath, setting) {
 	const entries = [];
 	for (const data of allData) entries.push(createListEntryElement(data));
@@ -173,7 +317,8 @@ function createListEntryElement (data) {
 function createDeleteListEntryButtonElement () {
 	const deleteButtonElement = document.createElement('button');
 	deleteButtonElement.type = 'button';
-	deleteButtonElement.textContent = 'x';
+	deleteButtonElement.classList.add('deleteListEntryButton');
+	deleteButtonElement.textContent = 'Delete';
 	deleteButtonElement.addEventListener('click', () => deleteButtonElement.parentElement.remove());
 
 	return deleteButtonElement;

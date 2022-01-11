@@ -29,7 +29,7 @@ async function updateSetting (guildID, setting, data) {
 }
 
 async function saveSetting (guildID, setting, data) {
-	if (!Array.isArray(data) || !Array.isArray(await db.get(`${guildID}.${setting}`))) return { 'error': 'Cannot use this endpoint for anything other than an Array.' };
+	if ((!Array.isArray(data) || !Array.isArray(await db.get(`${guildID}.${setting}`))) && (typeof data !== 'object' || typeof await db.get(`${guildID}.${setting}`) !== 'object')) return { 'error': 'Cannot use this endpoint for anything other than Array or Object types.' };
 
 	await db.set(`${guildID}.${setting}`, data);
 	return await db.get(`${guildID}.${setting}`);

@@ -45,7 +45,26 @@
 }
 
 .settingEntry > label > * {
-	margin: 0% 0% 0% 5%;
+	margin: 0% 0% 0% 3%;
+}
+
+.deleteListEntryButton {
+	margin: 1% 0% 1% 2%;
+}
+
+#messages {
+	margin: 0;
+	padding: 0;
+}
+
+.reactionRoleRoles > li {
+	margin: 0% 0% 0% 10%;
+}
+
+.addReactionRoleButton {
+	list-style: none;
+	margin: 1% 0% 1% 0%;
+	color: #161616;
 }
 
 button {

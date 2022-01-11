@@ -16,7 +16,7 @@
 
 	"reactionRole": {
 		"enabled": "boolean",
-		"messages": "hidden"
+		"messages": "ReactionRoleMessages"
 	},
 
 	"streamStatus": {

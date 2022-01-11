@@ -12,6 +12,7 @@
 		"requiredRole": "Content Creator Role",
 		"streamingRole": "Currently Livestreaming Role",
 		"username": "Username",
-		"message": "Message"
+		"message": "Message",
+		"messages": "Reaction Roles"
 	}
 }
