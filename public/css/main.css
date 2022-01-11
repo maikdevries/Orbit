@@ -46,3 +46,11 @@ header {
 #userAvatar {
 	padding: 0% 15% 0% 0%;
 }
+
+footer {
+	width: 100%;
+	bottom: 0;
+	text-align: center;
+	font: normal normal bold 75% 'Open Sans', sans-serif;
+	color: #f0f0f0cc;
+}

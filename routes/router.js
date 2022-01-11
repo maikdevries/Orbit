@@ -6,6 +6,11 @@ const router = Express.Router();
 
 module.exports = router;
 
+router.use('/', async (req, res, next) => {
+	res.locals.version = require('./../package.json').version;
+	next();
+});
+
 router.get('/', async (req, res, next) => {
 	res.render('index', {
 		user: await getUser(req.session.tokenType, req.session.token)
