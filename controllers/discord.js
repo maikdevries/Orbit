@@ -24,7 +24,8 @@ async function getGuildChannels (guildID, tokenType, token) {
 }
 
 async function getGuildRoles (guildID, tokenType, token) {
-	return await getFetch(`guilds/${guildID}/roles`, tokenType, token);
+	const roles = await getFetch(`guilds/${guildID}/roles`, tokenType, token);
+	return roles.filter((role) => !role.managed);
 }
 
 async function getFetch (url, tokenType, token) {
