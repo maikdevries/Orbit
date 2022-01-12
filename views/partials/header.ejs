@@ -1,30 +1,36 @@
-<img id='logo' src='/resources/logo.svg' draggable='false' alt='Orbit logo'>
+<div id='header'>
+	<img id='logo' src='/resources/logo.svg' draggable='false' alt='Orbit logo'>
 
-<ul id='navLinks'>
+	<ul id='navLinks'>
 
-	<li><a href='/'>Home</a></li>
-	<li><a href='/dashboard'>Dashboard</a></li>
-	<li><a href='/support'>Support</a></li>
-	<li><a href='/auth/logout'>Logout</a></li>
+		<li><a href='/'>Home</a></li>
+		<li><a href='/dashboard'>Dashboard</a></li>
+		<li><a href='/support'>Support</a></li>
+		<li><a href='/auth/logout'>Logout</a></li>
 
-</ul>
+	</ul>
 
-<% if (user.id) { %>
-	<div id='loginButton'>
+	<% if (user.id) { %>
+		<div id='loginButton'>
 
-		<img id='userAvatar' src='https://cdn.discordapp.com/avatars/<%= user.id %>/<%= user.avatar %>.png?size=32' draggable='false' alt='User avatar'>
-		<%= user.username %>
+			<img id='userAvatar' src='https://cdn.discordapp.com/avatars/<%= user.id %>/<%= user.avatar %>.png?size=32' draggable='false' alt='User avatar'>
+			<%= user.username %>
 
-	</div>
+		</div>
 
-	<script>
-		document.getElementById('loginButton').addEventListener('click', () => document.location.replace('/dashboard'));
-	</script>
+		<script>
+			document.getElementById('loginButton').addEventListener('click', () => document.location.replace('/dashboard'));
+		</script>
 
-<% } else { %>
-	<div id='loginButton'>Login</div>
+	<% } else { %>
+		<div id='loginButton'>Login</div>
 
-	<script>
-		document.getElementById('loginButton').addEventListener('click', () => document.location.replace('/auth'));
-	</script>
-<% } %>
+		<script>
+			document.getElementById('loginButton').addEventListener('click', () => document.location.replace('/auth'));
+		</script>
+	<% } %>
+</div>
+
+<div id='subHeader'>
+	<p>There are going to be bugs, please report them through support channels. Thanks a lot!</p>
+</div>

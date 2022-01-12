@@ -10,12 +10,13 @@ async function getUser (tokenType, token) {
 }
 
 async function hasGuildAccess (guildID, tokenType, token) {
-	return (await getFetch('users/@me/guilds', tokenType, token)).filter((guild) => guild.owner || (guild.permissions & 0x20) === 0x20 || (guild.permissions & 0x8) === 0x8).some((guild) => guild.id === guildID);
+	const guilds = await getFetch('users/@me/guilds', tokenType, token);
+	return guilds.filter((guild) => guild.owner || (guild.permissions & 0x20) === 0x20 || (guild.permissions & 0x8) === 0x8).some((guild) => guild.id === guildID);
 }
 
 async function getGuilds (tokenType, token) {
-	const guilds = (await getFetch('users/@me/guilds', tokenType, token)).filter((guild) => guild.owner || (guild.permissions & 0x20) === 0x20 || (guild.permissions & 0x8) === 0x8);
-	return await Promise.all(guilds.map(async (guild) => ({ ...guild, joined: await hasGuildSettings(guild.id) })));
+	const guilds = await getFetch('users/@me/guilds', tokenType, token);
+	return await Promise.all(guilds.filter((guild) => guild.owner || (guild.permissions & 0x20) === 0x20 || (guild.permissions & 0x8) === 0x8).map(async (guild) => ({ ...guild, joined: await hasGuildSettings(guild.id) })));
 }
 
 async function getGuildChannels (guildID, tokenType, token) {

@@ -1,0 +1,14 @@
+#mainHeader {
+	display: flex;
+	justify-content: center;
+	text-align: center;
+	margin: 20% 0% 0% 0%;
+}
+
+#subtext {
+	display: flex;
+	justify-content: center;
+	text-align: center;
+	margin: -1% 0% 10% 0%;
+	font-weight: normal;
+}
