@@ -1,5 +1,5 @@
 let settingTypes;
-(async () => settingTypes = await (await fetch('/resources/settingTypes.json')).json())();
+(async () => settingTypes = await (await fetch('/orbit/resources/settingTypes.json')).json())();
 
 function displaySettingData (featurePath) {
 	document.getElementById('settingData').dataset.feature = featurePath;

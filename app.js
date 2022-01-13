@@ -26,9 +26,9 @@ app.use(session({
 
 app.use(Express.json());
 app.use(Express.urlencoded({ extended: true }));
-app.use(Express.static(`${__dirname}/public`));
+app.use('/orbit', Express.static(`${__dirname}/public`));
 
-app.use('/', router);
-app.use('/auth', authRouter);
+app.use('/orbit', router);
+app.use('/orbit/auth', authRouter);
 
 server.listen(3001, () => console.log('HTTP backend server successfully launched!'));

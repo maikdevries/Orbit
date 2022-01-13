@@ -18,7 +18,7 @@ router.get('/', async (req, res, next) => {
 });
 
 router.use('/dashboard', (req, res, next) => {
-	if (!req.session.tokenType || !req.session.token) return res.redirect('/auth');
+	if (!req.session.tokenType || !req.session.token) return res.redirect('/orbit/auth');
 	next();
 });
 
@@ -30,7 +30,7 @@ router.get('/dashboard', async (req, res, next) => {
 });
 
 router.use('/dashboard/:guildID', async (req, res, next) => {
-	if (!await hasGuildSettings(req.params.guildID) || !await hasGuildAccess(req.params.guildID, req.session.tokenType, req.session.token)) return res.redirect('/dashboard');
+	if (!await hasGuildSettings(req.params.guildID) || !await hasGuildAccess(req.params.guildID, req.session.tokenType, req.session.token)) return res.redirect('/orbit/dashboard');
 	next();
 });
 

@@ -1,12 +1,12 @@
 <div id='header'>
-	<img id='logo' src='/resources/logo.svg' draggable='false' alt='Orbit logo'>
+	<img id='logo' src='/orbit/resources/logo.svg' draggable='false' alt='Orbit logo'>
 
 	<ul id='navLinks'>
 
-		<li><a href='/'>Home</a></li>
-		<li><a href='/dashboard'>Dashboard</a></li>
-		<li><a href='/support'>Support</a></li>
-		<li><a href='/auth/logout'>Logout</a></li>
+		<li><a href='/orbit/'>Home</a></li>
+		<li><a href='/orbit/dashboard'>Dashboard</a></li>
+		<li><a href='/orbit/support'>Support</a></li>
+		<li><a href='/orbit/auth/logout'>Logout</a></li>
 
 	</ul>
 
@@ -19,14 +19,14 @@
 		</div>
 
 		<script>
-			document.getElementById('loginButton').addEventListener('click', () => document.location.replace('/dashboard'));
+			document.getElementById('loginButton').addEventListener('click', () => document.location.replace('/orbit/dashboard'));
 		</script>
 
 	<% } else { %>
 		<div id='loginButton'>Login</div>
 
 		<script>
-			document.getElementById('loginButton').addEventListener('click', () => document.location.replace('/auth'));
+			document.getElementById('loginButton').addEventListener('click', () => document.location.replace('/orbit/auth'));
 		</script>
 	<% } %>
 </div>

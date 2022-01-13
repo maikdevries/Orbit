@@ -6,7 +6,7 @@
 
 		<%- include('./partials/head.ejs') %>
 
-		<link rel='stylesheet' href='/css/guildSelect.css'>
+		<link rel='stylesheet' href='/orbit/css/guildSelect.css'>
 
 	</head>
 
@@ -31,8 +31,8 @@
 						<div class='cardBody'>
 							<p class='guildName'><%= guild.name %></p>
 
-							<% if (guild.joined) { %> <a class='guildButton' href='/dashboard/<%= guild.id %>'>Manage server</a> <% }
-							else { %> <a class='guildButton' href='/auth/server/<%= guild.id %>'>Invite Lunar</a> <% } %>
+							<% if (guild.joined) { %> <a class='guildButton' href='/orbit/dashboard/<%= guild.id %>'>Manage server</a> <% }
+							else { %> <a class='guildButton' href='/orbit/auth/server/<%= guild.id %>'>Invite Lunar</a> <% } %>
 
 						</div>
 

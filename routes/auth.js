@@ -10,19 +10,19 @@ router.get('/', (req, res, next) => {
 });
 
 router.get('/login', async (req, res, next) => {
-	if (!req.query.code) return res.redirect('/auth');
+	if (!req.query.code) return res.redirect('/orbit/auth');
 
 	Object.assign(req.session, await getAuthentication(req.query.code));
 
-	req.session.save(() => res.redirect('/dashboard'));
+	req.session.save(() => res.redirect('/orbit/dashboard'));
 });
 
 router.get('/logout', (req, res, next) => {
-	req.session.destroy(() => res.redirect('/'));
+	req.session.destroy(() => res.redirect('/orbit/'));
 });
 
 router.get('/server', (req, res, next) => {
-	res.redirect(`/dashboard/${req.query.guild_id}`);
+	res.redirect(`/orbit/dashboard/${req.query.guild_id}`);
 });
 
 router.get('/server/:guildID', (req, res, next) => {

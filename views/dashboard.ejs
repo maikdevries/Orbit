@@ -6,9 +6,9 @@
 
 		<%- include('./partials/head.ejs') %>
 
-		<link rel='stylesheet' href='/css/dashboard.css'>
+		<link rel='stylesheet' href='/orbit/css/dashboard.css'>
 
-		<script src='/js/manageData.js' defer></script>
+		<script src='/orbit/js/manageData.js' defer></script>
 
 	</head>
 
@@ -43,7 +43,7 @@
 			const channels = <%- JSON.stringify(channels) %>;
 			const roles = <%- JSON.stringify(roles) %>;
 
-			fetch('/resources/translations.json').then((json) => json.json().then((data) => {
+			fetch('/orbit/resources/translations.json').then((json) => json.json().then((data) => {
 				translations = data;
 				for (const element of document.getElementsByClassName('featureLink')) element.textContent = translateJSON(element.textContent);
 			}));
