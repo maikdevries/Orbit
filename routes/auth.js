@@ -1,5 +1,6 @@
 const Express = require('express');
 const { getAuthentication } = require('../controllers/auth.js');
+const { getData } = require('../controllers/discord.js');
 
 const router = Express.Router();
 
@@ -12,7 +13,8 @@ router.get('/', (req, res, next) => {
 router.get('/login', async (req, res, next) => {
 	if (!req.query.code) return res.redirect('/orbit/auth');
 
-	Object.assign(req.session, await getAuthentication(req.query.code));
+	const authData = await getAuthentication(req.query.code);
+	Object.assign(req.session, authData, await getData(authData));
 
 	req.session.save(() => res.redirect('/orbit/dashboard'));
 });

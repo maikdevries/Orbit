@@ -15,7 +15,7 @@ app.set('views', `${__dirname}/views`);
 app.set('view engine', 'ejs');
 
 app.use(session({
-	cookie: { secure: true, maxAge: 86400000 },
+	cookie: { secure: false, maxAge: 86400000 },
 	store: new MemoryStore({
 		checkPeriod: 86400000
 	}),
