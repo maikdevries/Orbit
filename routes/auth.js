@@ -16,7 +16,7 @@ router.get('/login', async (req, res, next) => {
 	const authData = await getAuthentication(req.query.code);
 	Object.assign(req.session, authData, await getData(authData));
 
-	req.session.save(() => res.redirect('/orbit/dashboard'));
+	res.redirect('/orbit/dashboard');
 });
 
 router.get('/logout', (req, res, next) => {

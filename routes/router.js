@@ -1,5 +1,5 @@
 const Express = require('express');
-const { hasGuildAccess, getGuildChannels, getGuildRoles } = require('../controllers/discord.js');
+const { updateGuildsData, hasGuildAccess, getGuildChannels, getGuildRoles } = require('../controllers/discord.js');
 const { hasGuildSettings, getGuildSettings, updateSetting, saveSetting } = require('../controllers/data.js');
 
 const router = Express.Router();
@@ -25,7 +25,7 @@ router.use('/dashboard', (req, res, next) => {
 router.get('/dashboard', async (req, res, next) => {
 	res.render('guildSelect', {
 		user: req.session.user,
-		guilds: req.session.guilds
+		guilds:	(Date.now() > req.session.expires ? await updateGuildsData(req.session) : req.session.guilds)
 	});
 });
 

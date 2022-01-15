@@ -2,14 +2,22 @@ const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fet
 const { hasGuildSettings } = require('../controllers/data.js');
 
 module.exports = {
-	getData, hasGuildAccess, getGuildChannels, getGuildRoles
+	getData, updateGuildsData, hasGuildAccess, getGuildChannels, getGuildRoles
 }
 
 async function getData (authData) {
 	return {
 		user: await getUser(authData.tokenType, authData.token),
-		guilds: await getGuilds(authData.tokenType, authData.token)
+		guilds: await getGuilds(authData.tokenType, authData.token),
+		expires: Date.now() + 5000
 	}
+}
+
+async function updateGuildsData (session) {
+	const guilds = await getGuilds(session.tokenType, session.token);
+	Object.assign(session, { guilds: guilds, expires: Date.now() + 5000 });
+
+	return guilds;
 }
 
 function hasGuildAccess (guildID, guilds) {
