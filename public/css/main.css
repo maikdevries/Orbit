@@ -1,4 +1,7 @@
 body {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
 	background: #233a54;
 	font: normal normal bold 100% 'Open Sans', sans-serif;
 	color: #f0f0f0;
@@ -59,9 +62,7 @@ a, a:visited {
 }
 
 footer {
-	position: absolute;
-	width: 100%;
-	bottom: 0;
+	margin: auto 0 0 0;
 	text-align: center;
 	font: normal normal bold 75% 'Open Sans', sans-serif;
 	color: #f0f0f0cc;

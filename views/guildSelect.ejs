@@ -18,31 +18,36 @@
 
 		</header>
 
-		<div id='guildContainer'>
-			<div id='row'>
+		<main>
+			
+			<div id='guildContainer'>
+				<div id='row'>
 
-				<% for (const guild of guilds) { %>
-					<div class='card'>
+					<% for (const guild of guilds) { %>
+						<div class='card'>
 
-						<div class='guildIcon'>
-							<% if (guild.icon) { %> <img src='https://cdn.discordapp.com/icons/<%= guild.id %>/<%= guild.icon %>.png' draggable='false' alt='Guild icon'> <% }
-							else { %> <div> <%= guild.name.split(' ').slice(0, 3).map((word) => word[0]).join('') %> </div> <% } %>
+							<div class='guildIcon'>
+								<% if (guild.icon) { %> <img src='https://cdn.discordapp.com/icons/<%= guild.id %>/<%= guild.icon %>.png' draggable='false' alt='Guild icon'> <% }
+								else { %> <div> <%= guild.name.split(' ').slice(0, 3).map((word) => word[0]).join('') %> </div> <% } %>
+
+							</div>
+
+							<div class='cardBody'>
+								<p class='guildName'><%= guild.name %></p>
+
+								<% if (guild.joined) { %> <a class='guildButton' href='/orbit/dashboard/<%= guild.id %>'>Manage server</a> <% }
+								else { %> <a class='guildButton' href='/orbit/auth/server/<%= guild.id %>'>Invite Lunar</a> <% } %>
+
+							</div>
 
 						</div>
+					<% } %>
 
-						<div class='cardBody'>
-							<p class='guildName'><%= guild.name %></p>
-
-							<% if (guild.joined) { %> <a class='guildButton' href='/orbit/dashboard/<%= guild.id %>'>Manage server</a> <% }
-							else { %> <a class='guildButton' href='/orbit/auth/server/<%= guild.id %>'>Invite Lunar</a> <% } %>
-
-						</div>
-
-					</div>
-				<% } %>
-
+				</div>
 			</div>
-		</div>
+
+		</main>
+
 
 		<footer>
 

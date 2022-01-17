@@ -20,23 +20,33 @@
 
 		</header>
 
-		<div id='featureContainer'>
+		<main>
 
-			<ul id='featureNav'>
+			<div id='featureContainer'>
 
-				<% for (const featureName in guildSettings) { %>
-					<li id='<%= featureName %>' class='featureLink' onclick="displaySettingData('<%= featureName %>')"><%= featureName %></li>
-				<% } %>
+				<ul id='featureNav'>
 
-			</ul>
+					<% for (const featureName in guildSettings) { %>
+						<li id='<%= featureName %>' class='featureLink' onclick="displaySettingData('<%= featureName %>')"><%= featureName %></li>
+					<% } %>
 
-		</div>
+				</ul>
 
-		<div id='settingData' data-feature=''>
-			<ul id='settingList'>
+			</div>
 
-			</ul>
-		</div>
+			<div id='settingData' data-feature=''>
+				<ul id='settingList'>
+
+				</ul>
+			</div>
+
+		</main>
+
+		<footer>
+
+			<%- include('./partials/footer.ejs') %>
+
+		</footer>
 
 		<script>
 			const guildSettings = <%- JSON.stringify(guildSettings) %>;
@@ -48,12 +58,6 @@
 				for (const element of document.getElementsByClassName('featureLink')) element.textContent = translateJSON(element.textContent);
 			}));
 		</script>
-
-		<footer>
-
-			<%- include('./partials/footer.ejs') %>
-
-		</footer>
 
 	</body>
 
