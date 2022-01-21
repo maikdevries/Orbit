@@ -1,36 +1,30 @@
+<div id='subHeader'>
+	<p>There are going to be bugs, please report them through support channels. Thanks a lot!</p>
+</div>
+
 <div id='header'>
-	<img id='logo' src='/orbit/resources/logo.svg' draggable='false' alt='Orbit logo'>
+	<a href='/orbit'><img id='logo' src='/orbit/resources/logo.svg' draggable='false' alt='Orbit logo'></a>
 
-	<ul id='navLinks'>
+	<div id='navigation'>
 
-		<li><a href='/orbit/'>Home</a></li>
-		<li><a href='/orbit/dashboard'>Dashboard</a></li>
-		<li><a href='/orbit/support'>Support</a></li>
-		<li><a href='/orbit/auth/logout'>Logout</a></li>
+		<div id='navLinks'>
 
-	</ul>
-
-	<% if (user) { %>
-		<div id='loginButton'>
-
-			<img id='userAvatar' src='https://cdn.discordapp.com/avatars/<%= user.id %>/<%= user.avatar %>.png?size=32' draggable='false' alt='User avatar'>
-			<%= user.username %>
+			<a href='/orbit/dashboard'>Dashboard</a>
+			<a href='/orbit/support'>Guide</a>
+			<a href='/orbit/support/server'>Support server</a>
 
 		</div>
 
-		<script>
-			document.getElementById('loginButton').addEventListener('click', () => document.location.replace('/orbit/dashboard'));
-		</script>
+		<% if (user) { %>
+			<div id='userData'>
 
-	<% } else { %>
-		<div id='loginButton'>Login</div>
+				<img id='userAvatar' src='https://cdn.discordapp.com/avatars/<%= user.id %>/<%= user.avatar %>.png?size=32' draggable='false' alt='User avatar'>
+				<%= user.username %>
 
-		<script>
-			document.getElementById('loginButton').addEventListener('click', () => document.location.replace('/orbit/auth'));
-		</script>
-	<% } %>
-</div>
+			</div>
+		<% } else { %>
+			<button id='loginButton' type='button' onclick="location.href = '/orbit/auth'">Login</button>
+		<% } %>
 
-<div id='subHeader'>
-	<p>There are going to be bugs, please report them through support channels. Thanks a lot!</p>
+	</div>
 </div>

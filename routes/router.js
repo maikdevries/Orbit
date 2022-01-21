@@ -52,5 +52,9 @@ router.post('/dashboard/:guildID/:settingName/save', async (req, res, next) => {
 });
 
 router.get('/support', (req, res, next) => {
+	res.redirect('/orbit/support/server');
+});
+
+router.get('/support/server', (req, res, next) => {
 	res.redirect(process.env.SUPPORT_INVITE_URL);
 });
