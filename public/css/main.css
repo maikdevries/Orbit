@@ -19,7 +19,7 @@ a, a:visited {
 
 #subHeader {
 	padding: 0.5% 0 0.5% 0;
-	background: red;
+	background: #ff0000;
 	text-align: center;
 }
 
@@ -51,18 +51,49 @@ a, a:visited {
 	padding: 10px 15px 10px 15px;
 	cursor: pointer;
 	border: none;
-	background: #23282d;
+	background: #1a1e21;
+}
+
+#userProfile {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	cursor: pointer;
+	background: #1a1e21;
 }
 
 #userData {
 	display: flex;
 	align-items: center;
 	padding: 5px 15px 5px 15px;
-	background: #23282d;
 }
 
 #userAvatar {
 	padding: 0 15px 0 0;
+}
+
+#userDropdown {
+	min-width: 150px;
+	z-index: 1;
+	position: absolute;
+	top: 125%;
+	visibility: hidden;
+	opacity: 0;
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+	background: #1a1e21;
+	list-style: none;
+	transition: all 0.25s linear 0s;
+}
+
+.userDropdownEntry {
+	margin: 5% 5% 5% 5%;
+	padding: 7.5% 7.5% 7.5% 7.5%;
+	font-size: 85%;
+}
+
+.userDropdownEntry:hover {
+	background: #23282d;
 }
 
 footer {

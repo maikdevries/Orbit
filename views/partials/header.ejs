@@ -16,10 +16,17 @@
 		</div>
 
 		<% if (user) { %>
-			<div id='userData'>
+			<div id='userProfile'>
 
-				<img id='userAvatar' src='https://cdn.discordapp.com/avatars/<%= user.id %>/<%= user.avatar %>.png?size=32' draggable='false' alt='User avatar'>
-				<%= user.username %>
+				<div id='userData'>
+					<img id='userAvatar' src='https://cdn.discordapp.com/avatars/<%= user.id %>/<%= user.avatar %>.png?size=32' draggable='false' alt='User avatar'>
+					<%= user.username %> 
+				</div>
+
+				<ul id='userDropdown'>
+					<li class='userDropdownEntry' onclick="location.href = '/orbit/dashboard'">My servers</li>
+					<li class='userDropdownEntry' onclick="location.href = '/orbit/auth/logout'" style='color: #ff0000;'>Logout</li>
+				</ul>
 
 			</div>
 		<% } else { %>
