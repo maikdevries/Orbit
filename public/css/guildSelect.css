@@ -28,10 +28,16 @@
 .guildIcon {
 	width: 128px;
 	height: 128px;
+	margin: 10% auto 10% auto;
+}
+
+.guildIconText {
+	width: inherit;
+	height: inherit;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	margin: 10% auto 10% auto;
+	background: #36393f;
 }
 
 .cardBody {
