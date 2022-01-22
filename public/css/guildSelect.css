@@ -22,6 +22,7 @@
 .card:hover {
 	transform: scale(1.05);
 	box-shadow: 0 0 40px -10px rgba(0, 0, 0, 0.25);
+	cursor: pointer;
 }
 
 .guildIcon {
@@ -45,7 +46,7 @@
 }
 
 .guildButton {
-	display: block;
+	margin: 0 0 0 0;
 	padding: 5% 0 5% 0;
 	background: #233a54;
 }
