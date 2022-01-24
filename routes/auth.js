@@ -20,7 +20,7 @@ router.get('/login', async (req, res, next) => {
 });
 
 router.get('/logout', (req, res, next) => {
-	req.session.destroy(() => res.redirect('/orbit/'));
+	req.session.destroy(() => res.redirect('/orbit'));
 });
 
 router.get('/server', (req, res, next) => {
