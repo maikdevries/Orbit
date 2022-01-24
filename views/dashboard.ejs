@@ -7,8 +7,10 @@
 		<%- include('./partials/head.ejs') %>
 
 		<link rel='stylesheet' href='/orbit/css/dashboard.css'>
+		<link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
 
 		<script src='/orbit/js/manageData.js' defer></script>
+		<script src='/orbit/js/dashboard.js' defer></script>
 
 	</head>
 
@@ -21,25 +23,21 @@
 		</header>
 
 		<main>
+			<div id='dashboard'>
 
-			<div id='featureContainer'>
+				<div id='featureSidebar'>
 
-				<ul id='featureNav'>
+					<%- include('./partials/sidebar.ejs') %>
 
-					<% for (const featureName in guildSettings) { %>
-						<li id='<%= featureName %>' class='featureLink' onclick="displaySettingData('<%= featureName %>')"><%= featureName %></li>
-					<% } %>
+				</div>
 
-				</ul>
+				<div id='settingData' data-feature=''>
+					<ul id='settingList'>
+
+					</ul>
+				</div>
 
 			</div>
-
-			<div id='settingData' data-feature=''>
-				<ul id='settingList'>
-
-				</ul>
-			</div>
-
 		</main>
 
 		<footer>
@@ -47,17 +45,6 @@
 			<%- include('./partials/footer.ejs') %>
 
 		</footer>
-
-		<script>
-			const guildSettings = <%- JSON.stringify(guildSettings) %>;
-			const channels = <%- JSON.stringify(channels) %>;
-			const roles = <%- JSON.stringify(roles) %>;
-
-			fetch('/orbit/resources/translations.json').then((json) => json.json().then((data) => {
-				translations = data;
-				for (const element of document.getElementsByClassName('featureLink')) element.textContent = translateJSON(element.textContent);
-			}));
-		</script>
 
 	</body>
 

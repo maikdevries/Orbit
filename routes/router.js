@@ -37,6 +37,7 @@ router.use('/dashboard/:guildID', async (req, res, next) => {
 router.get('/dashboard/:guildID', async (req, res, next) => {
 	res.render('dashboard', {
 		user: req.session.user,
+		guildID: req.params.guildID,
 		guildSettings: await getGuildSettings(req.params.guildID),
 		channels: await getGuildChannels(req.params.guildID, process.env.TOKEN_TYPE, process.env.TOKEN),
 		roles: await getGuildRoles(req.params.guildID, process.env.TOKEN_TYPE, process.env.TOKEN)

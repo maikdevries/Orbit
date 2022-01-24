@@ -1,43 +1,24 @@
-#featureContainer {
-	width: 70%;
-	margin: 0% 15% 0% 15%;
-}
-
-#featureNav {
+main {
 	display: flex;
-	justify-content: center;
-	padding: 0;
-	margin: 0;
-	border-bottom: 1px solid #f0f0f0;
-	list-style: none;
+	overflow: hidden;
 }
 
-.featureLink {
-	margin: 1% 0.5% 1% 0.5%;
-	padding: 0.5% 1.5% 0.5% 1.5%;
-	cursor: pointer;
-	border-radius: 25px;
+#dashboard {
+	display: flex;
+	flex: 1 1 auto;
+	margin: 2% 12.5% 2% 12.5%;
+	background: var(--colour-dark-grey);
+	box-shadow: var(--shadow-default);
 }
 
-.featureLink:hover {
-	background: #f0f0f0;
-	color: #161616;
-}
-
-.featureLink:target {
-	background: #f0f0f0;
-	color: #161616;
-}
-
-#settingData {
-	width: 50%;
-	margin: 1% 25% 0% 25%;
+/* #settingData {
+	background: #23282d;
+	margin: 0 auto 0 auto;
 }
 
 #settingList {
 	padding: 0;
 	margin: 0;
-	list-style: none;
 }
 
 .settingEntry {
@@ -62,7 +43,6 @@
 }
 
 .addReactionRoleButton {
-	list-style: none;
 	margin: 1% 0% 1% 0%;
 	color: #161616;
 }
@@ -79,4 +59,4 @@ button {
 
 button:hover {
 	background: #9b9b9b;
-}
+} */

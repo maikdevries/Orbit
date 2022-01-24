@@ -22,4 +22,6 @@ const closeDropDownEventListener = ((event) => {
 	document.getElementById('userProfile').onclick = openDropDownEventListener;
 });
 
-document.getElementById('userProfile').onclick = openDropDownEventListener;
+(() => {
+	if (document.getElementById('userProfile')) document.getElementById('userProfile').onclick = openDropDownEventListener;
+})();
