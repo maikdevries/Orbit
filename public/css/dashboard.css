@@ -11,52 +11,155 @@ main {
 	box-shadow: var(--shadow-default);
 }
 
-/* #settingData {
-	background: #23282d;
-	margin: 0 auto 0 auto;
+#featureSidebar {
+	min-width: 250px;
+	overflow: auto;
+	padding: 15px 20px 15px 20px;
+	background: var(--colour-black);
+	user-select: none;
+	scrollbar-width: none;
+	transition: var(--transition-collapse);
 }
 
-#settingList {
-	padding: 0;
-	margin: 0;
+#featureSidebar::-webkit-scrollbar {
+	width: 0;
 }
 
-.settingEntry {
-	padding: 2.5% 0% 2.5% 0%;
+.categoryName {
+	height: 40px;
+	display: flex;
+	align-items: center;
+	font-size: 67.5%;
 }
 
-.settingEntry > label > * {
-	margin: 0% 0% 0% 3%;
+.categoryLink, .categoryLink:visited {
+	height: 40px;
+	display: flex;
+	align-items: center;
+	font-size: 85%;
+	color: var(--colour-light-grey);
+	transition: var(--transition-hover);
 }
 
-.deleteListEntryButton {
-	margin: 1% 0% 1% 2%;
+.categoryLink:hover {
+	color: var(--colour-white);
 }
 
-#messages {
-	margin: 0;
-	padding: 0;
+.icon {
+	width: 24px;
+	height: 24px;
+	margin: 12.5px 12.5px 12.5px 12.5px;
 }
 
-.reactionRoleRoles > li {
-	margin: 0% 0% 0% 10%;
+.currentPage, .currentPage:visited {
+	background: var(--colour-blue);
+	color: var(--colour-white);
+	pointer-events: none;
 }
 
-.addReactionRoleButton {
-	margin: 1% 0% 1% 0%;
-	color: #161616;
+#collapseSidebar {
+	height: 40px;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
 }
 
-button {
-	margin: 1% 0.5% 1% 0.5%;
-	padding: 0.5% 1.5% 0.5% 1.5%;
-	color: #161616;
+#collapseSidebarButton {
+	background: inherit;
+	color: var(--colour-light-grey);
+	transition: var(--transition-hover);
+}
+
+#collapseSidebarButton:hover {
 	cursor: pointer;
-	border: none;
-	border-radius: 25px;
-	transition: all 0.3s ease 0s;
+	color: var(--colour-white);
 }
 
-button:hover {
-	background: #9b9b9b;
-} */
+#featureSidebar.collapsedSidebar {
+	min-width: 50px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 15px 7.5px 15px 7.5px;
+}
+
+#featureSidebar.collapsedSidebar #collapseSidebarButton {
+	transform: rotate(180deg);
+}
+
+#featureSidebar.collapsedSidebar .featureCategory {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+#featureSidebar.collapsedSidebar .categoryLinkText {
+	display: none;
+}
+
+#featureSettings {
+	flex: 1 1 auto;
+	overflow: auto;
+	padding: 35px 35px 35px 35px;
+	scrollbar-width: none;
+}
+
+#featureSettings::-webkit-scrollbar {
+	width: 0;
+}
+
+#featureHeader {
+	display: flex;
+	flex-direction: column;
+}
+
+#featureHeader div {
+	display: flex;
+	align-items: center;
+}
+
+#featureName {
+	font-size: 125%;
+}
+
+#featureDescription {
+	margin: 20px 0 20px 0;
+	font-size: 75%;
+	color: var(--colour-light-grey);
+}
+
+.settingEnabled {
+	display: flex;
+	align-items: center;
+	margin: 0 0 0 auto;
+}
+
+.settingEnabledSwitch {
+	width: 50px;
+	height: 25px;
+	position: relative;
+	display: flex;
+	align-items: center;
+	background: var(--colour-red);
+	appearance: none;
+	transition: var(--transition-hover);
+}
+
+.settingEnabledSwitch:checked {
+	background: var(--colour-green);
+}
+
+.settingEnabledSwitch::after {
+	width: 15px;
+	height: 15px;
+	position: absolute;
+	left: 0;
+	margin: 5px 5px 5px 5px;
+	content: '';
+	background: var(--colour-white);
+}
+
+.settingEnabledSwitch:checked::after {
+	left: unset;
+	right: 0;
+}

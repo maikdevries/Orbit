@@ -5,6 +5,8 @@
 	--colour-dark-grey: #23282d;
 	--colour-grey: #36393f;
 	--colour-light-grey: #969696;
+	--colour-green: #3ba55c;
+	--colour-red: #ed4245;
 	--transition-hover: all 0.35s linear 0s;
 	--transition-collapse: all 0.35s linear 0s;
 	--shadow-default: 0 0 40px -10px #00000040;
@@ -89,7 +91,6 @@ p {
 #loginButton {
 	padding: 10px 15px 10px 15px;
 	cursor: pointer;
-	border: none;
 	background: var(--colour-black);
 }
 
@@ -133,90 +134,4 @@ p {
 
 .userDropdownEntry:hover {
 	background: var(--colour-dark-grey);
-}
-
-#featureSidebar {
-	min-width: 250px;
-	overflow: auto;
-	padding: 15px 20px 15px 20px;
-	background: var(--colour-black);
-	user-select: none;
-	scrollbar-width: none;
-	transition: var(--transition-collapse);
-}
-
-#featureSidebar::-webkit-scrollbar {
-	width: 0;
-}
-
-.categoryName {
-	height: 40px;
-	display: flex;
-	align-items: center;
-	font-size: 67.5%;
-}
-
-.categoryLink, .categoryLink:visited {
-	height: 40px;
-	display: flex;
-	align-items: center;
-	font-size: 85%;
-	color: var(--colour-light-grey);
-	transition: var(--transition-hover);
-}
-
-.categoryLink:hover {
-	color: var(--colour-white);
-}
-
-.icon {
-	width: 24px;
-	height: 24px;
-	margin: 12.5px 12.5px 12.5px 12.5px;
-}
-
-.currentPage, .currentPage:visited {
-	background: var(--colour-blue);
-	color: var(--colour-white);
-	pointer-events: none;
-}
-
-#collapseSidebar {
-	height: 40px;
-	display: flex;
-	justify-content: flex-end;
-	align-items: center;
-}
-
-#collapseSidebarButton {
-	background: inherit;
-	color: var(--colour-light-grey);
-	transition: var(--transition-hover);
-}
-
-#collapseSidebarButton:hover {
-	cursor: pointer;
-	color: var(--colour-white);
-}
-
-#featureSidebar.collapsedSidebar {
-	min-width: unset;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	padding: 15px 7.5px 15px 7.5px;
-}
-
-#featureSidebar.collapsedSidebar #collapseSidebarButton {
-	transform: rotate(180deg);
-}
-
-#featureSidebar.collapsedSidebar .featureCategory {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
-
-#featureSidebar.collapsedSidebar .categoryLinkText {
-	display: none;
 }
