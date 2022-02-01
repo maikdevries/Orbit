@@ -12,7 +12,7 @@ const openDropDownEventListener = ((event) => {
 const closeDropDownEventListener = ((event) => {
 	event.stopPropagation();
 
-	if (event.target.matches('#userDropdown')) return;
+	if (event.target.closest('#userDropdown')) return;
 
 	const dropDownElementStyle = document.getElementById('userDropdown').style;
 	dropDownElementStyle.visibility = 'hidden';
@@ -23,5 +23,13 @@ const closeDropDownEventListener = ((event) => {
 });
 
 (() => {
+	window.localStorage.setItem('theme', window.localStorage.getItem('theme') ?? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'colour'));
+	if (window.localStorage.getItem('theme') === 'dark') { document.documentElement.classList.add('dark'); document.getElementById('themeSwitchToggle').checked = true }
+
 	if (document.getElementById('userProfile')) document.getElementById('userProfile').onclick = openDropDownEventListener;
 })();
+
+function toggleTheme () {
+	document.documentElement.classList.toggle('dark');
+	window.localStorage.setItem('theme', window.localStorage.getItem('theme') === 'colour' ? 'dark' : 'colour');
+}

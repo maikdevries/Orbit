@@ -7,16 +7,23 @@
 	--colour-light-grey: #969696;
 	--colour-green: #3ba55c;
 	--colour-red: #ed4245;
+	--colour-background: #233a54;
+	--colour-sidebar-current-page: #233a54;
 	--transition-hover: all 0.35s linear 0s;
 	--transition-collapse: all 0.35s linear 0s;
 	--shadow-default: 0 0 40px -10px #00000040;
+}
+
+:root.dark {
+	--colour-background: #14151b;
+	--colour-sidebar-current-page: #f0f0f019;
 }
 
 body {
 	height: 100vh;
 	display: flex;
 	flex-direction: column;
-	background: var(--colour-blue);
+	background: var(--colour-background);
 	font: normal normal bold 100% 'Open Sans', sans-serif;
 	color: var(--colour-white);
 }
@@ -99,6 +106,7 @@ p {
 	display: flex;
 	justify-content: center;
 	cursor: pointer;
+	user-select: none;
 	background: var(--colour-black);
 }
 
@@ -113,7 +121,7 @@ p {
 }
 
 #userDropdown {
-	min-width: 150px;
+	width: 200px;
 	z-index: 1;
 	position: absolute;
 	top: 125%;
@@ -121,6 +129,7 @@ p {
 	padding: 0 0 0 0;
 	visibility: hidden;
 	opacity: 0;
+	cursor: default;
 	background: var(--colour-black);
 	box-shadow: var(--shadow-default);
 	transition: var(--transition-collapse);
@@ -129,9 +138,54 @@ p {
 .userDropdownEntry {
 	margin: 5% 5% 5% 5%;
 	padding: 7.5% 7.5% 7.5% 7.5%;
+	cursor: pointer;
 	font-size: 85%;
 }
 
 .userDropdownEntry:hover {
 	background: var(--colour-dark-grey);
+}
+
+#themeSwitch {
+	justify-content: space-between;
+}
+
+#themeSwitchToggle {
+	pointer-events: none;
+}
+
+.settingEnabled {
+	display: flex;
+	align-items: center;
+	margin: 0 0 0 auto;
+}
+
+.settingEnabledSwitch {
+	width: 50px;
+	height: 25px;
+	position: relative;
+	display: flex;
+	align-items: center;
+	background: var(--colour-red);
+	appearance: none;
+	transition: var(--transition-hover);
+}
+
+.settingEnabledSwitch:checked {
+	background: var(--colour-green);
+}
+
+.settingEnabledSwitch::after {
+	width: 15px;
+	height: 15px;
+	position: absolute;
+	left: 0;
+	margin: 5px 5px 5px 5px;
+	content: '';
+	background: var(--colour-white);
+}
+
+.settingEnabledSwitch:checked::after {
+	left: unset;
+	right: 0;
 }

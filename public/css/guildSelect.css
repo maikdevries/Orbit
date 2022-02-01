@@ -54,7 +54,7 @@
 .guildButton {
 	margin: 0 0 0 0;
 	padding: 5% 0 5% 0;
-	background: var(--colour-blue);
+	background: var(--colour-background);
 }
 
 @media screen and (max-width: 1200px) {
