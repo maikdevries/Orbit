@@ -1,47 +1,41 @@
-<div id='subHeader'>
-	<p>There are going to be bugs, please report them through support channels. Thanks a lot!</p>
-</div>
+<a href='/orbit'><img id='logo' src='/orbit/resources/logo.svg' draggable='false' alt='Orbit logo'></a>
 
-<div id='header'>
-	<a href='/orbit'><img id='logo' src='/orbit/resources/logo.svg' draggable='false' alt='Orbit logo'></a>
+<div id='navigation'>
 
-	<div id='navigation'>
+	<div id='navLinks'>
 
-		<div id='navLinks'>
-
-			<a href='/orbit/dashboard'>Dashboard</a>
-			<a href='/orbit/support'>Guide</a>
-			<a href='/orbit/support/server'>Support server</a>
-
-		</div>
-
-		<% if (user) { %>
-			<div id='userProfile'>
-
-				<div id='userData'>
-					<img id='userAvatar' src='https://cdn.discordapp.com/avatars/<%= user.id %>/<%= user.avatar %>.png?size=32' draggable='false' alt='User avatar'>
-					<%= user.username %>
-				</div>
-
-				<ul id='userDropdown'>
-
-					<li class='userDropdownEntry' onclick="location.href = '/orbit/dashboard'">My servers</li>
-
-					<li class='userDropdownEntry' onclick="event.stopPropagation(); toggleTheme(); document.getElementById('themeSwitchToggle').checked = !document.getElementById('themeSwitchToggle').checked">
-						<div id='themeSwitch' class='settingEnabled'>
-							<p id='themeSwitchText'>Dark mode</p>
-							<input id='themeSwitchToggle' class='settingEnabledSwitch' type='checkbox'>
-						</div>
-					</li>
-
-					<li class='userDropdownEntry' onclick="location.href = '/orbit/auth/logout'" style='color: #ff0000;'>Logout</li>
-
-				</ul>
-
-			</div>
-		<% } else { %>
-			<button id='loginButton' type='button' onclick="location.href = '/orbit/auth'">Login</button>
-		<% } %>
+		<a href='/orbit/dashboard'>Dashboard</a>
+		<a href='/orbit/support'>Guide</a>
+		<a href='/orbit/support/server'>Support server</a>
 
 	</div>
+
+	<% if (user) { %>
+		<div id='userProfile'>
+
+			<div id='userData'>
+				<img id='userAvatar' src='https://cdn.discordapp.com/avatars/<%= user.id %>/<%= user.avatar %>.png?size=32' draggable='false' alt='User avatar'>
+				<%= user.username %>
+			</div>
+
+			<ul id='userDropdown'>
+
+				<li class='userDropdownEntry' onclick="location.href = '/orbit/dashboard'">My servers</li>
+
+				<li class='userDropdownEntry' onclick="event.stopPropagation(); toggleTheme(); document.getElementById('themeSwitchToggle').checked = !document.getElementById('themeSwitchToggle').checked">
+					<div id='themeSwitch' class='settingEnabled'>
+						<p id='themeSwitchText'>Dark mode</p>
+						<input id='themeSwitchToggle' class='settingEnabledSwitch' type='checkbox'>
+					</div>
+				</li>
+
+				<li class='userDropdownEntry' onclick="location.href = '/orbit/auth/logout'" style='color: #ff0000;'>Logout</li>
+
+			</ul>
+
+		</div>
+	<% } else { %>
+		<button id='loginButton' type='button' onclick="location.href = '/orbit/auth'">Login</button>
+	<% } %>
+
 </div>
