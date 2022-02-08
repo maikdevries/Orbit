@@ -98,6 +98,8 @@ main {
 }
 
 #featureSettings {
+	display: flex;
+	flex-direction: column;
 	flex: 1 1 auto;
 	overflow: auto;
 	padding: 35px 35px 35px 35px;
@@ -126,4 +128,54 @@ main {
 	margin: 20px 0 20px 0;
 	font-size: 75%;
 	color: var(--colour-light-grey);
+}
+
+#saveChanges {
+	position: sticky;
+	bottom: -20px;
+	display: flex;
+	align-items: center;
+	margin: auto 0 0 0;
+	padding: 15px 15px 15px 15px;
+	visibility: hidden;
+	opacity: 0;
+	background: var(--colour-black);
+	box-shadow: var(--shadow-default);
+	transition: var(--transition-collapse);
+	font-size: 85%;
+}
+
+#saveChanges.visible {
+	visibility: visible;
+	opacity: 1;
+}
+
+#saveChanges p {
+	flex: 1 1 auto;
+	margin: 0 0 0 10px;
+}
+
+#revertChangesButton {
+	padding: 10px 15px 10px 15px;
+	background: var(--colour-red);
+	transition: var(--transition-hover);
+	color: var(--colour-black);
+}
+
+#revertChangesButton:hover {
+	cursor: pointer;
+	background: var(--colour-red-hover);
+}
+
+#saveChangesButton {
+	margin: 0 0 0 15px;
+	padding: 10px 15px 10px 15px;
+	background: var(--colour-green);
+	transition: var(--transition-hover);
+	color: var(--colour-white);
+}
+
+#saveChangesButton:hover {
+	cursor: pointer;
+	background: var(--colour-green-hover);
 }

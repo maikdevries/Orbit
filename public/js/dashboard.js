@@ -10,3 +10,11 @@ function toggleCollapseSidebar () {
 	document.getElementById('featureSidebar').classList.toggle('collapsedSidebar');
 	window.localStorage.setItem('sidebarCollapsed', window.localStorage.getItem('sidebarCollapsed') === 'false' ? 'true' : 'false');
 }
+
+function revertChanges () {
+
+}
+
+function saveChanges () {
+
+}

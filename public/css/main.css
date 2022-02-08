@@ -6,7 +6,9 @@
 	--colour-grey: #36393f;
 	--colour-light-grey: #969696;
 	--colour-green: #3ba55c;
+	--colour-green-hover: #0ba52c;
 	--colour-red: #ed4245;
+	--colour-red-hover: #ed2225;
 	--colour-background: #233a54;
 	--colour-sidebar-current-page: #233a54;
 	--transition-hover: all 0.35s linear 0s;
@@ -158,6 +160,10 @@ p {
 	transition: var(--transition-hover);
 }
 
+.settingEnabledSwitch:hover {
+	cursor: pointer;
+}
+
 .settingEnabledSwitch:checked {
 	background: var(--colour-green);
 }
@@ -169,10 +175,11 @@ p {
 	left: 0;
 	margin: 5px 5px 5px 5px;
 	content: '';
-	background: var(--colour-white);
+	background: var(--colour-black);
 }
 
 .settingEnabledSwitch:checked::after {
 	left: unset;
 	right: 0;
+	background: var(--colour-white);
 }
