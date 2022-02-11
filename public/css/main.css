@@ -13,6 +13,7 @@
 	--colour-sidebar-current-page: #233a54;
 	--transition-hover: all 0.35s linear 0s;
 	--transition-collapse: all 0.35s linear 0s;
+	--transition-collapse-fast: all 0.15s linear 0s;
 	--shadow-default: 0 0 40px -10px #00000040;
 }
 
@@ -50,6 +51,7 @@ footer {
 
 button {
 	padding: 0 0 0 0;
+	cursor: pointer;
 	font: inherit;
 	border: none;
 	color: inherit;
@@ -68,6 +70,9 @@ ul {
 
 p {
 	margin: 0 0 0 0;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 
 #navigation {
@@ -86,7 +91,6 @@ p {
 
 #loginButton {
 	padding: 10px 15px 10px 15px;
-	cursor: pointer;
 	background: var(--colour-black);
 }
 

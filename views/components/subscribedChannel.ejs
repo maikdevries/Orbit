@@ -1,0 +1,62 @@
+<div class='subscribedChannel' onclick='expandSubscribedChannelSettings()'>
+
+	<div class='channelHeader'>
+
+		<div class='channelData'>
+			<img class='channelImage' src=''>
+			<p class='channelName'></p>
+		</div>
+
+		<div class='channelHeaderSideContainer'>
+			<p class='headerDiscordChannelName'></p>
+			<button class='deleteChannelButton' type='button' onclick='deleteSubscribedChannel()'>DELETE</button>
+		</div>
+
+	</div>
+
+	<div class='channelSettings'>
+		<form class='channelSettingsForm'>
+
+			<div class='channelSettingsMessageContainer'>
+				<p class='channelSettingsHeader'>Message</p>
+				<textarea class='channelSettingsMessage' maxlength='2000' placeholder='An optional message attached to each announcement.'></textarea>
+			</div>
+
+			<div class='channelSettingsSideContainer'>
+
+				<div>
+					<p class='channelSettingsHeader'>Discord channel</p>
+					<div class='selectDiscordChannel' onclick='expandSelectDiscordChannel()'>
+
+						<div class='selectDiscordChannelHeader'>
+							<p class='discordChannelName'></p>
+							<span class='material-icons'>expand_more</span>
+						</div>
+
+						<ul class='selectDiscordChannelList'>
+
+							<li class='selectListEntry' onclick='changeDiscordChannel()'><p></p></li>
+
+							<div class='selectListCategory'>
+								<p class='selectListCategoryName'></p>
+								<ul>
+									<li class='selectListEntry' onclick='changeDiscordChannel()'><p></p></li>
+								</ul>
+							</div>
+
+						</ul>
+
+					</div>
+				</div>
+
+				<div class='formButtonsContainer'>
+					<button class='cancelFormChangesButton' type='button' onclick='cancelSubscribedChannelFormChanges()'>CANCEL</button>
+					<button class='saveFormChangesButton' type='button' onclick='saveSubscribedChannelFormChanges()'>SAVE</button>
+				</div>
+
+			</div>
+
+		</form>
+	</div>
+
+</div>

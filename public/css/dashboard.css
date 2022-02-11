@@ -4,6 +4,7 @@ main {
 }
 
 #dashboard {
+	max-width: 75%;
 	display: flex;
 	flex: 1 1 auto;
 	margin: 2% 12.5% 2% 12.5%;
@@ -71,7 +72,6 @@ main {
 }
 
 #collapseSidebarButton:hover {
-	cursor: pointer;
 	color: var(--colour-white);
 }
 
@@ -163,7 +163,6 @@ main {
 }
 
 #revertChangesButton:hover {
-	cursor: pointer;
 	background: var(--colour-red-hover);
 }
 
@@ -176,6 +175,245 @@ main {
 }
 
 #saveChangesButton:hover {
+	background: var(--colour-green-hover);
+}
+
+.subscribedChannel {
+	margin: 15px 0 15px 0;
+	padding: 15px 15px 15px 15px;
+	background: var(--colour-black);
+	transition: var(--transition-hover);
+}
+
+.subscribedChannel:hover {
 	cursor: pointer;
+	transform: scale(1.0125);
+	box-shadow: var(--shadow-default);
+}
+
+.subscribedChannel.expanded:hover {
+	cursor: default;
+	transform: unset;
+	box-shadow: unset;
+}
+
+.channelHeader {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	user-select: none;
+}
+
+.channelData {
+	max-width: 50%;
+	display: flex;
+	align-items: center;
+	flex: 1 1 auto;
+}
+
+.channelImage {
+	width: 50px;
+	height: 50px;
+}
+
+.channelName {
+	max-width: 67%;
+	margin: 0 0 0 15px;
+}
+
+.channelHeaderSideContainer {
+	max-width: 50%;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	align-items: center;
+}
+
+.headerDiscordChannelName {
+	max-width: 67%;
+	font-size: 90%;
+	color: var(--colour-light-grey);
+}
+
+.subscribedChannel.expanded .headerDiscordChannelName {
+	display: none;
+}
+
+.deleteChannelButton {
+	margin: 0 0 0 35px;
+	padding: 7.5px 7.5px 7.5px 7.5px;
+	background: var(--colour-red);
+	transition: var(--transition-hover);
+	font-size: 85%;
+	color: var(--colour-black);
+}
+
+.deleteChannelButton:hover {
+	background: var(--colour-red-hover);
+}
+
+.channelSettings {
+	display: none;
+	margin: 15px 0 0 0;
+}
+
+.subscribedChannel.expanded .channelSettings {
+	display: block;
+}
+
+.channelSettingsForm {
+	display: flex;
+}
+
+.channelSettingsMessageContainer {
+	display: flex;
+	flex-direction: column;
+	flex: 3	1 auto;
+	margin: 0 15px 0 0;
+}
+
+.channelSettingsHeader {
+	margin: 0 0 5px 0;
+	font-size: 80%;
+	color: var(--colour-light-grey);
+}
+
+.channelSettingsMessage {
+	min-height: 100px;
+	padding: 15px 15px 15px 15px;
+	background: var(--colour-dark-grey);
+	border: none;
+	outline: none;
+	font: inherit;
+	font-size: 85%;
+	color: var(--colour-white);
+	box-sizing: border-box;
+	resize: none;
+	scrollbar-width: thin;
+}
+
+.channelSettingsMessage::-webkit-scrollbar {
+	width: 7.5px;
+	height: 7.5px;
+}
+
+.channelSettingsMessage::-webkit-scrollbar-thumb {
+	background: var(--colour-light-grey);
+}
+
+.channelSettingsSideContainer {
+	max-width: 30%;
+	display: flex;
+	flex-direction: column;
+	flex: 1 1 auto;
+	justify-content: space-between;
+}
+
+.selectDiscordChannel {
+	position: relative;
+	padding: 10px 10px 10px 10px;
+	background: var(--colour-dark-grey);
+	user-select: none;
+	cursor: pointer;
+	font-size: 80%;
+}
+
+.selectDiscordChannelHeader {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.selectDiscordChannel span {
+	transition: var(--transition-collapse-fast);
+}
+
+.selectDiscordChannel.expanded span {
+	transform: rotate(180deg);
+}
+
+.selectDiscordChannelList {
+	width: 100%;
+	max-height: 175px;
+	z-index: 1;
+	position: absolute;
+	top: 125%;
+	left: 0;
+	display: flex;
+	flex-direction: column;
+	overflow: auto;
+	padding: 10px 10px 10px 10px;
+	visibility: hidden;
+	opacity: 0;
+	background: var(--colour-dark-grey);
+	box-shadow: var(--shadow-default);
+	transition: var(--transition-collapse-fast);
+	box-sizing: border-box;
+	cursor: default;
+	scrollbar-width: thin;
+}
+
+.selectDiscordChannelList::-webkit-scrollbar {
+	width: 7.5px;
+	height: 7.5px;
+}
+
+.selectDiscordChannelList::-webkit-scrollbar-thumb {
+	background: var(--colour-light-grey);
+}
+
+.selectDiscordChannel.expanded .selectDiscordChannelList {
+	visibility: visible;
+	opacity: 1;
+}
+
+.selectListCategoryName {
+	height: 30px;
+	display: flex;
+	align-items: center;
+	font-size: 85%;
+}
+
+.selectListEntry {
+	min-height: 30px;
+	display: flex;
+	align-items: center;
+	padding: 0 10px 0 10px;
+	transition: var(--transition-hover);
+	color: var(--colour-light-grey);
+}
+
+.selectListEntry:hover {
+	color: var(--colour-white);
+	cursor: pointer;
+}
+
+.formButtonsContainer {
+	display: flex;
+	font-size: 85%;
+}
+
+.cancelFormChangesButton {
+	flex: 1	1 auto;
+	padding: 10px 15px 10px 15px;
+	background: var(--colour-red);
+	transition: var(--transition-hover);
+	color: var(--colour-black);
+}
+
+.cancelFormChangesButton:hover {
+	background: var(--colour-red-hover);
+}
+
+.saveFormChangesButton {
+	flex: 1	1 auto;
+	margin: 0 0 0 15px;
+	padding: 10px 15px 10px 15px;
+	background: var(--colour-green);
+	transition: var(--transition-hover);
+	color: var(--colour-white);
+}
+
+.saveFormChangesButton:hover {
 	background: var(--colour-green-hover);
 }
