@@ -29,7 +29,7 @@
 						else { %> <div class='card' onclick="location.href = '/orbit/auth/server/<%= guild.id %>'"> <% } %>
 
 							<div class='guildIcon'>
-								<% if (guild.icon) { %> <img src='https://cdn.discordapp.com/icons/<%= guild.id %>/<%= guild.icon %>.png' draggable='false' alt='Guild icon'> <% }
+								<% if (guild.icon) { %> <img src='https://cdn.discordapp.com/icons/<%= guild.id %>/<%= guild.icon %>.png' draggable='false'> <% }
 								else { %> <div class='guildIconText'> <%= guild.name.split(' ').slice(0, 3).map((word) => word[0]).join('') %> </div> <% } %>
 							</div>
 

@@ -1,7 +1,16 @@
-<div id='collapseSidebar'>
-	<button id='collapseSidebarButton' type='button' onclick='toggleCollapseSidebar()'>
-		<div class='icon'><span class='material-icons'>keyboard_double_arrow_left</span></div>
-	</button>
+<div id='currentServer'>
+	<div id='currentServerData'>
+		<img id='currentServerDataIcon' src='' draggable='false'>
+		<p id='currentServerDataName'></p>
+	</div>
+	<div id='sidebarButtonContainer'>
+		<button id='changeCurrentServerButton' type='button' onclick="location.href = '/orbit/dashboard'">
+			<div class='icon'><span class='material-icons'>switch_account</span></div>
+		</button>
+		<button id='collapseSidebarButton' type='button' onclick='toggleCollapseSidebar()'>
+			<div class='icon'><span class='material-icons'>keyboard_double_arrow_left</span></div>
+		</button>
+	</div>
 </div>
 
 <a id='<%= guildID %>' class='categoryLink' href='/orbit/dashboard/<%= guildID %>' draggable='false'>
