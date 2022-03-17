@@ -35,7 +35,7 @@
 					<div id='featureHeader'>
 						<div>
 							<p id='featureName'>STREAMER SHOUTOUT</p>
-							<%- include('../components/settingEnabled.ejs') %>
+							<%- include('../components/settingEnabled.ejs', { enabled: settings.enabled ? 'checked' : '' }) %>
 						</div>
 						<p id='featureDescription'>Give out a role to streamers so that they are more visible in your server.</p>
 					</div>

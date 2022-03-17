@@ -3,12 +3,12 @@
 	<div class='channelHeader'>
 
 		<div class='channelData'>
-			<img class='channelImage' src=''>
-			<p class='channelName'></p>
+			<img class='channelImage' src='<%= channel.resources.profile_image_url || channel.resources.thumbnails.default.url %>'>
+			<p class='channelName'><%= channel.resources.display_name || channel.resources.title %></p>
 		</div>
 
 		<div class='channelHeaderSideContainer'>
-			<p class='headerDiscordChannelName'></p>
+			<p class='headerDiscordChannelName'>#<%= (guildChannels.find((guildChannel) => guildChannel.id === channel.settings.channel)).name %></p>
 			<button class='deleteChannelButton' type='button' onclick='deleteSubscribedChannel()'>DELETE</button>
 		</div>
 
@@ -19,7 +19,7 @@
 
 			<div class='channelSettingsMessageContainer'>
 				<p class='channelSettingsHeader'>Message</p>
-				<textarea class='channelSettingsMessage' maxlength='2000' placeholder='An optional message attached to each announcement.'></textarea>
+				<textarea class='channelSettingsMessage' maxlength='2000' placeholder='An optional message attached to each announcement.'><%= channel.settings.message %></textarea>
 			</div>
 
 			<div class='channelSettingsSideContainer'>
@@ -29,20 +29,26 @@
 					<div class='selectDiscordChannel' onclick='expandSelectDiscordChannel()'>
 
 						<div class='selectDiscordChannelHeader'>
-							<p class='discordChannelName'></p>
+							<p class='discordChannelName'>#<%= (guildChannels.find((guildChannel) => guildChannel.id === channel.settings.channel)).name %></p>
 							<span class='material-icons'>expand_more</span>
 						</div>
 
 						<ul class='selectDiscordChannelList'>
 
-							<li class='selectListEntry' onclick='changeDiscordChannel()'><p></p></li>
+							<% for (const guildChannel of guildChannels.filter((guildChannel) => !guildChannel.parent_id)) { %>
+								<li class='selectListEntry' onclick='changeDiscordChannel()'><p>#<%= guildChannel.name %></p></li>
+							<% } %>
 
-							<div class='selectListCategory'>
-								<p class='selectListCategoryName'></p>
-								<ul>
-									<li class='selectListEntry' onclick='changeDiscordChannel()'><p></p></li>
-								</ul>
-							</div>
+							<% for (const guildCategory of guildCategories) { %>
+								<div class='selectListCategory'>
+									<p class='selectListCategoryName'><%= guildCategory.name %></p>
+									<ul>
+										<% for (const guildChannel of guildChannels.filter((guildChannel) => guildCategory.id === guildChannel.parent_id)) {%>
+											<li class='selectListEntry' onclick='changeDiscordChannel()'><p>#<%= guildChannel.name %></p></li>
+										<% } %>
+									</ul>
+								</div>
+							<% } %>
 
 						</ul>
 

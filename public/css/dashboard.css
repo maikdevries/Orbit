@@ -421,6 +421,7 @@ main {
 	display: flex;
 	align-items: center;
 	font-size: 85%;
+	text-transform: uppercase;
 }
 
 .selectListEntry {

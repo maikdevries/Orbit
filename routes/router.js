@@ -10,7 +10,8 @@ module.exports = router;
 router.use((req, res, next) => {
 	res.locals.version = require('./../package.json').version;
 	res.locals.user = req.session.user;
-	next();
+
+	return next();
 });
 
 router.get('/', (req, res, next) => {
@@ -19,7 +20,8 @@ router.get('/', (req, res, next) => {
 
 router.use('/dashboard', (req, res, next) => {
 	if (!req.session.tokenType || !req.session.token) return res.redirect('/orbit/auth');
-	next();
+
+	return next();
 });
 
 router.get('/dashboard', async (req, res, next) => {
@@ -30,7 +32,8 @@ router.get('/dashboard', async (req, res, next) => {
 
 router.use('/dashboard/:guildID', async (req, res, next) => {
 	if (!await hasGuildSettings(req.params.guildID) || !hasGuildAccess(req.params.guildID, req.session.guilds)) return res.redirect('/orbit/dashboard');
-	next();
+
+	return next();
 });
 
 router.use('/dashboard/:guildID', settingsRouter);

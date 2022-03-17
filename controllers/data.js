@@ -19,8 +19,8 @@ async function hasGuildSettings (guildID) {
 	return await db.has(guildID);
 }
 
-async function getGuildSettings (guildID) {
-	return await db.get(guildID);
+async function getGuildSettings (path) {
+	return await db.get(path);
 }
 
 async function updateSetting (guildID, setting, data) {

@@ -35,10 +35,16 @@
 					<div id='featureHeader'>
 						<div>
 							<p id='featureName'>TWITCH</p>
-							<%- include('../components/settingEnabled.ejs') %>
+							<%- include('../components/settingEnabled.ejs', { enabled: settings.enabled ? 'checked' : '' }) %>
 						</div>
 						<p id='featureDescription'>Send out an announcement every time your favourite Twitch streamer goes live.</p>
 					</div>
+
+					<% for (const channel of settings.channels) { %>
+
+						<%- include('../components/subscribedChannel.ejs', { channel: channel }) %>
+
+					<% } %>
 
 					<%- include('../components/saveChanges.ejs') %>
 

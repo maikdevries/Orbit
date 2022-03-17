@@ -2,7 +2,7 @@ const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fet
 const { hasGuildSettings } = require('../controllers/data.js');
 
 module.exports = {
-	getData, updateGuildsData, hasGuildAccess, getGuildChannels, getGuildRoles
+	getData, updateGuildsData, hasGuildAccess, getGuildData, getGuildChannels, getGuildCategories, getGuildRoles
 }
 
 async function getData (authData) {
@@ -34,9 +34,18 @@ async function getGuilds (tokenType, token) {
 	return await Promise.all(guilds.filter((guild) => guild.owner || (guild.permissions & 0x20) === 0x20 || (guild.permissions & 0x8) === 0x8).map(async (guild) => ({ ...guild, joined: await hasGuildSettings(guild.id) })));
 }
 
+async function getGuildData (guildID, tokenType, token) {
+	return await getFetch(`guilds/${guildID}`, tokenType, token);
+}
+
 async function getGuildChannels (guildID, tokenType, token) {
 	const channels = await getFetch(`guilds/${guildID}/channels`, tokenType, token);
-	return channels.filter((channel) => channel.type === 0);
+	return channels.filter((channel) => [0, 5].includes(channel.type));
+}
+
+async function getGuildCategories (guildID, tokenType, token) {
+	const channels = await getFetch(`guilds/${guildID}/channels`, tokenType, token);
+	return channels.filter((channel) => channel.type === 4);
 }
 
 async function getGuildRoles (guildID, tokenType, token) {
@@ -46,7 +55,7 @@ async function getGuildRoles (guildID, tokenType, token) {
 
 async function getFetch (url, tokenType, token) {
 	try {
-		const response = await fetch(`https://discord.com/api/${url}`, { headers: { Authorization: `${tokenType} ${token}`, 'Content-Type': 'application/json' } });
+		const response = await fetch(`https://discord.com/api/${url}`, { headers: { 'Authorization': `${tokenType} ${token}`, 'Content-Type': 'application/json' } });
 		return await response.json();
 	} catch (error) { console.error(error) }
 }
