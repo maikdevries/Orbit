@@ -13,7 +13,7 @@ main {
 }
 
 #featureSidebar {
-	width: 250px;
+	min-width: 250px;
 	overflow: auto;
 	padding: 15px 20px 15px 20px;
 	background: var(--colour-black);
@@ -72,56 +72,56 @@ main {
 }
 
 #changeCurrentServerButton div, #collapseSidebarButton div {
-	margin: 5px;
+	margin: 5px 5px 5px 5px;
 }
 
-#featureSidebar.collapsedSidebar {
-	width: 50px;
+#featureSidebar.collapsed {
+	min-width: 50px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	padding: 15px 7.5px 15px 7.5px;
 }
 
-#featureSidebar.collapsedSidebar #currentServer {
+#featureSidebar.collapsed #currentServer {
 	flex-direction: column-reverse;
 }
 
-#featureSidebar.collapsedSidebar #currentServerData {
+#featureSidebar.collapsed #currentServerData {
 	justify-content: center;
 	margin: 12.5px 0 12.5px 0;
 }
 
-#featureSidebar.collapsedSidebar #currentServerDataName {
+#featureSidebar.collapsed #currentServerDataName {
 	display: none;
 }
 
-#featureSidebar.collapsedSidebar #changeCurrentServerButton {
+#featureSidebar.collapsed #changeCurrentServerButton {
 	display: none;
 }
 
-#featureSidebar.collapsedSidebar #collapseSidebarButton {
+#featureSidebar.collapsed #collapseSidebarButton {
 	transform: rotate(180deg);
 }
 
-#featureSidebar.collapsedSidebar .featureCategory {
+#featureSidebar.collapsed .featureSidebarCategory {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 }
 
-#featureSidebar.collapsedSidebar .categoryLinkText {
+#featureSidebar.collapsed .featureSidebarCategoryLinkText {
 	display: none;
 }
 
-.categoryName {
+.featureSidebarCategoryName {
 	height: 40px;
 	display: flex;
 	align-items: center;
 	font-size: 67.5%;
 }
 
-.categoryLink, .categoryLink:visited {
+.featureSidebarCategoryLink, .featureSidebarCategoryLink:visited {
 	height: 40px;
 	display: flex;
 	align-items: center;
@@ -130,11 +130,11 @@ main {
 	transition: var(--transition-hover);
 }
 
-.categoryLink:hover {
+.featureSidebarCategoryLink:hover {
 	color: var(--colour-white);
 }
 
-.icon {
+.featureSidebarIcon {
 	width: 24px;
 	height: 24px;
 	margin: 12.5px 12.5px 12.5px 12.5px;
@@ -177,6 +177,7 @@ main {
 	margin: 20px 0 20px 0;
 	font-size: 75%;
 	color: var(--colour-light-grey);
+	white-space: unset;
 }
 
 #saveChanges {
@@ -227,6 +228,19 @@ main {
 	background: var(--colour-green-hover);
 }
 
+.deleteElementButton {
+	margin: 0 0 0 35px;
+	padding: 7.5px 7.5px 7.5px 7.5px;
+	background: var(--colour-red);
+	transition: var(--transition-hover);
+	font-size: 85%;
+	color: var(--colour-black);
+}
+
+.deleteElementButton:hover {
+	background: var(--colour-red-hover);
+}
+
 .subscribedChannel {
 	margin: 15px 0 15px 0;
 	padding: 15px 15px 15px 15px;
@@ -246,31 +260,31 @@ main {
 	box-shadow: unset;
 }
 
-.channelHeader {
+.subscribedChannelHeader {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	user-select: none;
 }
 
-.channelData {
+.subscribedChannelData {
 	max-width: 50%;
 	display: flex;
 	align-items: center;
 	flex: 1 1 auto;
 }
 
-.channelImage {
+.subscribedChannelImage {
 	width: 50px;
 	height: 50px;
 }
 
-.channelName {
+.subscribedChannelName {
 	max-width: 67%;
 	margin: 0 0 0 15px;
 }
 
-.channelHeaderSideContainer {
+.subscribedChannelHeaderSideContainer {
 	max-width: 50%;
 	display: flex;
 	flex-direction: row;
@@ -288,46 +302,33 @@ main {
 	display: none;
 }
 
-.deleteChannelButton {
-	margin: 0 0 0 35px;
-	padding: 7.5px 7.5px 7.5px 7.5px;
-	background: var(--colour-red);
-	transition: var(--transition-hover);
-	font-size: 85%;
-	color: var(--colour-black);
-}
-
-.deleteChannelButton:hover {
-	background: var(--colour-red-hover);
-}
-
-.channelSettings {
+.subscribedChannelSettings {
 	display: none;
 	margin: 15px 0 0 0;
 }
 
-.subscribedChannel.expanded .channelSettings {
+.subscribedChannel.expanded .subscribedChannelSettings {
 	display: block;
 }
 
-.channelSettingsForm {
+.subscribedChannelSettingsForm {
 	display: flex;
 }
 
-.channelSettingsMessageContainer {
+.subscribedChannelSettingsHeader {
+	margin: 0 0 5px 0;
+	font-size: 80%;
+	color: var(--colour-light-grey);
+}
+
+.subscribedChannelSettingsMessageContainer {
 	display: flex;
 	flex-direction: column;
 	flex: 3	1 auto;
 	margin: 0 15px 0 0;
 }
 
-.channelSettingsHeader {
-	margin: 0 0 5px 0;
-	font-size: 80%;
-	color: var(--colour-light-grey);
-}
-
-.channelSettingsMessage {
+.subscribedChannelSettingsMessage {
 	min-height: 100px;
 	padding: 15px 15px 15px 15px;
 	background: var(--colour-dark-grey);
@@ -341,16 +342,16 @@ main {
 	scrollbar-width: thin;
 }
 
-.channelSettingsMessage::-webkit-scrollbar {
+.subscribedChannelSettingsMessage::-webkit-scrollbar {
 	width: 7.5px;
 	height: 7.5px;
 }
 
-.channelSettingsMessage::-webkit-scrollbar-thumb {
+.subscribedChannelSettingsMessage::-webkit-scrollbar-thumb {
 	background: var(--colour-light-grey);
 }
 
-.channelSettingsSideContainer {
+.subscribedChannelSettingsSideContainer {
 	max-width: 30%;
 	display: flex;
 	flex-direction: column;
@@ -358,7 +359,7 @@ main {
 	justify-content: space-between;
 }
 
-.selectDiscordChannel {
+.discordChannelListContainer {
 	position: relative;
 	padding: 10px 10px 10px 10px;
 	background: var(--colour-dark-grey);
@@ -367,21 +368,21 @@ main {
 	font-size: 80%;
 }
 
-.selectDiscordChannelHeader {
+.discordChannelListHeader {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 }
 
-.selectDiscordChannel span {
+.discordChannelListContainer span {
 	transition: var(--transition-collapse-fast);
 }
 
-.selectDiscordChannel.expanded span {
+.discordChannelListContainer.expanded span {
 	transform: rotate(180deg);
 }
 
-.selectDiscordChannelList {
+.discordChannelList {
 	width: 100%;
 	max-height: 175px;
 	z-index: 1;
@@ -402,21 +403,21 @@ main {
 	scrollbar-width: thin;
 }
 
-.selectDiscordChannelList::-webkit-scrollbar {
+.discordChannelList::-webkit-scrollbar {
 	width: 7.5px;
 	height: 7.5px;
 }
 
-.selectDiscordChannelList::-webkit-scrollbar-thumb {
+.discordChannelList::-webkit-scrollbar-thumb {
 	background: var(--colour-light-grey);
 }
 
-.selectDiscordChannel.expanded .selectDiscordChannelList {
+.discordChannelListContainer.expanded .discordChannelList {
 	visibility: visible;
 	opacity: 1;
 }
 
-.selectListCategoryName {
+.discordChannelListCategoryName {
 	height: 30px;
 	display: flex;
 	align-items: center;
@@ -424,7 +425,7 @@ main {
 	text-transform: uppercase;
 }
 
-.selectListEntry {
+.discordChannelListEntry {
 	min-height: 30px;
 	display: flex;
 	align-items: center;
@@ -433,7 +434,7 @@ main {
 	color: var(--colour-light-grey);
 }
 
-.selectListEntry:hover {
+.discordChannelListEntry:hover {
 	color: var(--colour-white);
 	cursor: pointer;
 }
@@ -443,7 +444,7 @@ main {
 	font-size: 85%;
 }
 
-.cancelFormChangesButton {
+.cancelChangesButton {
 	flex: 1	1 auto;
 	padding: 10px 15px 10px 15px;
 	background: var(--colour-red);
@@ -451,11 +452,11 @@ main {
 	color: var(--colour-black);
 }
 
-.cancelFormChangesButton:hover {
+.cancelChangesButton:hover {
 	background: var(--colour-red-hover);
 }
 
-.saveFormChangesButton {
+.saveChangesButton {
 	flex: 1	1 auto;
 	margin: 0 0 0 15px;
 	padding: 10px 15px 10px 15px;
@@ -464,6 +465,223 @@ main {
 	color: var(--colour-white);
 }
 
-.saveFormChangesButton:hover {
+.saveChangesButton:hover {
 	background: var(--colour-green-hover);
+}
+
+.reactionRole {
+	margin: 15px 0 15px 0;
+	padding: 15px 15px 15px 15px;
+	background: var(--colour-black);
+	transition: var(--transition-hover);
+}
+
+.reactionRole:hover {
+	cursor: pointer;
+	transform: scale(1.0125);
+	box-shadow: var(--shadow-default);
+}
+
+.reactionRole.expanded:hover {
+	cursor: default;
+	transform: unset;
+	box-shadow: unset;
+}
+
+.reactionRoleHeader {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	user-select: none;
+}
+
+.reactionRoleData {
+	max-width: 80%;
+}
+
+.reactionRoleChannelName {
+	font-size: 90%;
+	color: var(--colour-light-grey);
+}
+
+.reactionRoleMessage {
+	font-size: 90%;
+}
+
+.reactionRoleSettings {
+	display: none;
+	margin: 10px 0 0 0;
+}
+
+.reactionRole.expanded .reactionRoleSettings {
+	display: block;
+}
+
+.reactionRoleSettingsHeader {
+	font-size: 80%;
+	color: var(--colour-light-grey);
+}
+
+.reactionRoleReaction {
+	display: flex;
+	align-items: center;
+	padding: 5px 7.5px 5px 7.5px;
+}
+
+.deleteReactionRoleReaction {
+	margin: 0 5px 0 -15px;
+	padding: 5px 5px 5px 5px;
+	font-size: 95%;
+	color: var(--colour-red);
+	user-select: none;
+	transition: var(--transition-hover);
+}
+
+.deleteReactionRoleReaction:hover {
+	color: var(--colour-red-hover);
+	cursor: pointer;
+}
+
+.reactionRoleEmoji {
+	width: 24px;
+	user-select: none;
+}
+
+.reactionRoleRoles {
+	display: flex;
+	flex-wrap: wrap;
+	margin: 0 0 0 10px;
+	font-size: 80%;
+}
+
+.discordRole {
+	height: 15px;
+	display: flex;
+	align-items: center;
+	background: var(--colour-dark-grey);
+	margin: 5px 5px 5px 5px;
+	padding: 5px 7.5px 5px 7.5px;
+}
+
+.discordRoleColour {
+	width: 10px;
+	height: 10px;
+	margin: 0 7.5px 0 0;
+}
+
+.deleteDiscordRole {
+	margin: 0 0 0 7.5px;
+	font-size: 120%;
+	color: var(--colour-red);
+	user-select: none;
+	transition: var(--transition-hover);
+}
+
+.deleteDiscordRole:hover {
+	color: var(--colour-red-hover);
+	cursor: pointer;
+}
+
+.addDiscordRole {
+	height: 15px;
+	position: relative;
+	display: flex;
+	justify-content: center;
+	margin: 5px 5px 5px 5px;
+	padding: 5px 7.5px 5px 7.5px;
+	background: var(--colour-dark-grey);
+}
+
+.addDiscordRole:hover {
+	cursor: pointer;
+}
+
+.addDiscordRole span {
+	font-size: 120%;
+	color: var(--colour-green);
+	user-select: none;
+	transition: var(--transition-hover);
+}
+
+.addDiscordRole:hover span {
+	color: var(--colour-green-hover);
+}
+
+.discordRoleList {
+	width: 175px;
+	max-height: 175px;
+	z-index: 1;
+	position: absolute;
+	top: 125%;
+	display: flex;
+	flex-direction: column;
+	padding: 10px 10px 10px 10px;
+	visibility: hidden;
+	opacity: 0;
+	background: var(--colour-dark-grey);
+	box-shadow: var(--shadow-default);
+	transition: var(--transition-collapse-fast);
+	cursor: default;
+	overflow: auto;
+	scrollbar-width: thin;
+}
+
+.discordRoleList::-webkit-scrollbar {
+	width: 7.5px;
+	height: 7.5px;
+}
+
+.discordRoleList::-webkit-scrollbar-thumb {
+	background: var(--colour-light-grey);
+}
+
+.addDiscordRole.expanded .discordRoleList {
+	visibility: visible;
+	opacity: 1;
+}
+
+.discordRoleListEntry {
+	min-height: 30px;
+	display: flex;
+	align-items: center;
+	padding: 0 10px 0 10px;
+	opacity: 0.9;
+	transition: var(--transition-hover-fast);
+}
+
+.discordRoleListEntry:hover {
+	opacity: 1;
+	transform: scale(1.0125);
+	cursor: pointer;
+}
+
+.reactionRoleSettingsContainerFooter {
+	display: flex;
+	justify-content: space-between;
+	margin: 10px 0 0 0;
+}
+
+.addReactionRoleReaction {
+	height: 25px;
+	padding: 5px 5px 5px 5px;
+	color: var(--colour-light-grey);
+	transition: var(--transition-hover);
+}
+
+.addReactionRoleReaction:hover {
+	color: var(--colour-white);
+	cursor: pointer;
+}
+
+.emoji-picker__emojis, .emoji-picker__container {
+	scrollbar-width: thin;
+}
+
+.emoji-picker__emojis::-webkit-scrollbar, .emoji-picker__container::-webkit-scrollbar {
+	width: 7.5px;
+	height: 7.5px;
+}
+
+.emoji-picker__emojis::-webkit-scrollbar-thumb, .emoji-picker__container::-webkit-scrollbar-thumb {
+	background: var(--colour-light-grey);
 }

@@ -3,9 +3,14 @@ const { updateGuildsData, hasGuildAccess } = require('../controllers/discord.js'
 const { hasGuildSettings } = require('../controllers/data.js');
 
 const router = Express.Router();
+const authRouter = require('./auth.js');
+const apiRouter = require('./api.js');
 const settingsRouter = require('./settings.js');
 
 module.exports = router;
+
+router.use('/auth', authRouter);
+router.use('/api', apiRouter);
 
 router.use((req, res, next) => {
 	res.locals.version = require('./../package.json').version;

@@ -23,9 +23,9 @@
 			<div id='guildContainer'>
 				<div id='row'>
 
-					<% for (const guild of guilds) { %>
+					<% for (const guild of guilds) {
 
-						<% if (guild.joined) { %> <div class='card' onclick="location.href = '/orbit/dashboard/<%= guild.id %>'"> <% }
+						if (guild.joined) { %> <div class='card' onclick="location.href = '/orbit/dashboard/<%= guild.id %>'"> <% }
 						else { %> <div class='card' onclick="location.href = '/orbit/auth/server/<%= guild.id %>'"> <% } %>
 
 							<div class='guildIcon'>

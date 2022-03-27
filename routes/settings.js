@@ -1,6 +1,6 @@
 const Express = require('express');
 const { getGuildSettings } = require('../controllers/data.js');
-const { getGuildData, getGuildChannels, getGuildCategories } = require('../controllers/discord.js');
+const { getGuildData, getGuildChannels, getGuildCategories, getGuildRoles, getGuildEmojis, getMessageData } = require('../controllers/discord.js');
 const { getTwitchChannelData } = require('../controllers/twitch.js');
 const { getYouTubeChannelData } = require('../controllers/youtube.js');
 
@@ -15,7 +15,9 @@ router.use(async (req, res, next) => {
 		currentGuild: req.params.guildID,
 		guildData: await getGuildData(req.params.guildID, process.env.TOKEN_TYPE, process.env.TOKEN),
 		guildChannels: await getGuildChannels(req.params.guildID, process.env.TOKEN_TYPE, process.env.TOKEN),
-		guildCategories: await getGuildCategories(req.params.guildID, process.env.TOKEN_TYPE, process.env.TOKEN)
+		guildCategories: await getGuildCategories(req.params.guildID, process.env.TOKEN_TYPE, process.env.TOKEN),
+		guildRoles: await getGuildRoles(req.params.guildID, process.env.TOKEN_TYPE, process.env.TOKEN),
+		guildEmojis: await getGuildEmojis(req.params.guildID, process.env.TOKEN_TYPE, process.env.TOKEN)
 	});
 
 	return next();
@@ -25,6 +27,8 @@ router.use((req, res, next) => {
 	res.locals.guildData = req.session.guildData;
 	res.locals.guildChannels = req.session.guildChannels;
 	res.locals.guildCategories = req.session.guildCategories;
+	res.locals.guildRoles = req.session.guildRoles;
+	res.locals.guildEmojis = req.session.guildEmojis;
 
 	return next();
 });
@@ -68,7 +72,15 @@ router.get('/youtube', async (req, res, next) => {
 });
 
 router.get('/reactionRole', async (req, res, next) => {
+	const settings = await getGuildSettings(`${req.params.guildID}.reactionRole`);
+
+	for (const channelID in settings.channels) {
+		for (const messageID in settings.channels[channelID]) settings.channels[channelID][messageID].messageContent = (await getMessageData(channelID, messageID, process.env.TOKEN_TYPE, process.env.TOKEN))?.content;
+
+		settings.channels[channelID].channelName = res.locals.guildChannels.find((guildChannel) => guildChannel.id === channelID)?.name;
+	}
+
 	res.render('settings/reactionRole', {
-		settings: await getGuildSettings(`${req.params.guildID}.reactionRole`)
+		settings: settings
 	});
 });

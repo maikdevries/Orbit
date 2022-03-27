@@ -5,41 +5,41 @@
 	</div>
 	<div id='sidebarButtonContainer'>
 		<button id='changeCurrentServerButton' type='button' onclick="location.href = '/orbit/dashboard'">
-			<div class='icon'><span class='material-icons'>switch_account</span></div>
+			<div class='featureSidebarIcon'><span class='material-icons'>switch_account</span></div>
 		</button>
-		<button id='collapseSidebarButton' type='button' onclick='toggleCollapseSidebar()'>
-			<div class='icon'><span class='material-icons'>keyboard_double_arrow_left</span></div>
+		<button id='collapseSidebarButton' type='button' onclick='toggleSidebarCollapsed()'>
+			<div class='featureSidebarIcon'><span class='material-icons'>keyboard_double_arrow_left</span></div>
 		</button>
 	</div>
 </div>
 
-<a id='<%= guildData.id %>' class='categoryLink' href='/orbit/dashboard/<%= guildData.id %>' draggable='false'>
-	<div class='icon'><span class='material-icons'>dashboard</span></div>
-	<div class='categoryLinkText'>Dashboard</div>
+<a id='<%= guildData.id %>' class='featureSidebarCategoryLink' href='/orbit/dashboard/<%= guildData.id %>' draggable='false'>
+	<div class='featureSidebarIcon'><span class='material-icons'>dashboard</span></div>
+	<div class='featureSidebarCategoryLinkText'>Dashboard</div>
 </a>
 
-<a id='settings' class='categoryLink' href='/orbit/dashboard/<%= guildData.id %>/settings' draggable='false'>
-	<div class='icon'><span class='material-icons'>tune</span></div>
-	<div class='categoryLinkText'>Settings</div>
+<a id='settings' class='featureSidebarCategoryLink' href='/orbit/dashboard/<%= guildData.id %>/settings' draggable='false'>
+	<div class='featureSidebarIcon'><span class='material-icons'>tune</span></div>
+	<div class='featureSidebarCategoryLinkText'>Settings</div>
 </a>
 
-<div class='featureCategory'>
+<div class='featureSidebarCategory'>
 
-	<p class='categoryName'>SERVER</p>
+	<p class='featureSidebarCategoryName'>SERVER</p>
 
 	<ul class='categoryItems'>
 
 		<li>
-			<a id='welcomeMessage' class='categoryLink' href='/orbit/dashboard/<%= guildData.id %>/welcomeMessage' draggable='false'>
-				<div class='icon'><span class='material-icons'>person_add</span></div>
-				<div class='categoryLinkText'>Welcome Message</div>
+			<a id='welcomeMessage' class='featureSidebarCategoryLink' href='/orbit/dashboard/<%= guildData.id %>/welcomeMessage' draggable='false'>
+				<div class='featureSidebarIcon'><span class='material-icons'>person_add</span></div>
+				<div class='featureSidebarCategoryLinkText'>Welcome Message</div>
 			</a>
 		</li>
 
 		<li>
-			<a id='currentlyStreaming' class='categoryLink' href='/orbit/dashboard/<%= guildData.id %>/currentlyStreaming' draggable='false'>
-				<div class='icon'><span class='material-icons'>campaign</span></div>
-				<div class='categoryLinkText'>Streamer Shoutout</div>
+			<a id='currentlyStreaming' class='featureSidebarCategoryLink' href='/orbit/dashboard/<%= guildData.id %>/currentlyStreaming' draggable='false'>
+				<div class='featureSidebarIcon'><span class='material-icons'>campaign</span></div>
+				<div class='featureSidebarCategoryLinkText'>Streamer Shoutout</div>
 			</a>
 		</li>
 
@@ -47,23 +47,23 @@
 
 </div>
 
-<div class='featureCategory'>
+<div class='featureSidebarCategory'>
 
-	<p class='categoryName'>SOCIALS</p>
+	<p class='featureSidebarCategoryName'>SOCIALS</p>
 
 	<ul class='categoryItems'>
 
 		<li>
-			<a id='twitch' class='categoryLink' href='/orbit/dashboard/<%= guildData.id %>/twitch' draggable='false'>
-				<div class='icon'><svg width='24' height='24'><path fill='currentColor' d='M7.542 2L4 5.571V18.43h4.25V22l3.542-3.571h2.833L21 12V2H7.542zm12.041 9.286l-2.833 2.857h-2.833l-2.48 2.5v-2.5H8.25V3.429h11.333v7.857z'></path><path fill='currentColor' d='M17.458 5.929h-1.416v4.285h1.416V5.93zM13.563 5.929h-1.417v4.285h1.417V5.93z'></path></svg></div>
-				<div class='categoryLinkText'>Twitch</div>
+			<a id='twitch' class='featureSidebarCategoryLink' href='/orbit/dashboard/<%= guildData.id %>/twitch' draggable='false'>
+				<div class='featureSidebarIcon'><svg width='24' height='24'><path fill='currentColor' d='M7.542 2L4 5.571V18.43h4.25V22l3.542-3.571h2.833L21 12V2H7.542zm12.041 9.286l-2.833 2.857h-2.833l-2.48 2.5v-2.5H8.25V3.429h11.333v7.857z'></path><path fill='currentColor' d='M17.458 5.929h-1.416v4.285h1.416V5.93zM13.563 5.929h-1.417v4.285h1.417V5.93z'></path></svg></div>
+				<div class='featureSidebarCategoryLinkText'>Twitch</div>
 			</a>
 		</li>
 
 		<li>
-			<a id='youtube' class='categoryLink' href='/orbit/dashboard/<%= guildData.id %>/youtube' draggable='false'>
-				<div class='icon'><svg width='24' height='24'><path fill='currentColor' d='M23 9.71a8.499 8.499 0 00-.91-4.13 2.92 2.92 0 00-1.72-1A78.362 78.362 0 0012 4.27a78.45 78.45 0 00-8.34.3 2.87 2.87 0 00-1.46.74c-.9.83-1 2.25-1.1 3.45a48.29 48.29 0 000 6.48 9.55 9.55 0 00.3 2c.12.505.365.972.71 1.36a2.86 2.86 0 001.49.78c2.156.266 4.328.376 6.5.33 3.5.05 6.57 0 10.2-.28a2.88 2.88 0 001.53-.78c.28-.28.49-.623.61-1 .358-1.097.533-2.246.52-3.4.04-.56.04-3.94.04-4.54zM9.74 14.85V8.66l5.92 3.11c-1.66.92-3.85 1.96-5.92 3.08z'></path></svg></div>
-				<div class='categoryLinkText'>YouTube</div>
+			<a id='youtube' class='featureSidebarCategoryLink' href='/orbit/dashboard/<%= guildData.id %>/youtube' draggable='false'>
+				<div class='featureSidebarIcon'><svg width='24' height='24'><path fill='currentColor' d='M23 9.71a8.499 8.499 0 00-.91-4.13 2.92 2.92 0 00-1.72-1A78.362 78.362 0 0012 4.27a78.45 78.45 0 00-8.34.3 2.87 2.87 0 00-1.46.74c-.9.83-1 2.25-1.1 3.45a48.29 48.29 0 000 6.48 9.55 9.55 0 00.3 2c.12.505.365.972.71 1.36a2.86 2.86 0 001.49.78c2.156.266 4.328.376 6.5.33 3.5.05 6.57 0 10.2-.28a2.88 2.88 0 001.53-.78c.28-.28.49-.623.61-1 .358-1.097.533-2.246.52-3.4.04-.56.04-3.94.04-4.54zM9.74 14.85V8.66l5.92 3.11c-1.66.92-3.85 1.96-5.92 3.08z'></path></svg></div>
+				<div class='featureSidebarCategoryLinkText'>YouTube</div>
 			</a>
 		</li>
 
@@ -71,16 +71,16 @@
 
 </div>
 
-<div class='featureCategory'>
+<div class='featureSidebarCategory'>
 
-	<p class='categoryName'>OTHER</p>
+	<p class='featureSidebarCategoryName'>OTHER</p>
 
 	<ul class='categoryItems'>
 
 		<li>
-			<a id='reactionRole' class='categoryLink' href='/orbit/dashboard/<%= guildData.id %>/reactionRole' draggable='false'>
-				<div class='icon'><span class='material-icons'>add_reaction</span></div>
-				<div class='categoryLinkText'>Reaction Role</div>
+			<a id='reactionRole' class='featureSidebarCategoryLink' href='/orbit/dashboard/<%= guildData.id %>/reactionRole' draggable='false'>
+				<div class='featureSidebarIcon'><span class='material-icons'>add_reaction</span></div>
+				<div class='featureSidebarCategoryLinkText'>Reaction Role</div>
 			</a>
 		</li>
 

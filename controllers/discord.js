@@ -2,7 +2,7 @@ const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fet
 const { hasGuildSettings } = require('../controllers/data.js');
 
 module.exports = {
-	getData, updateGuildsData, hasGuildAccess, getGuildData, getGuildChannels, getGuildCategories, getGuildRoles
+	getData, updateGuildsData, hasGuildAccess, getGuildData, getGuildChannels, getGuildCategories, getGuildRoles, getGuildEmojis, getMessageData
 }
 
 async function getData (authData) {
@@ -45,12 +45,20 @@ async function getGuildChannels (guildID, tokenType, token) {
 
 async function getGuildCategories (guildID, tokenType, token) {
 	const channels = await getFetch(`guilds/${guildID}/channels`, tokenType, token);
-	return channels.filter((channel) => channel.type === 4);
+	return channels.filter((channel) => channel.type === 4).sort((a, b) => a.position - b.position);
 }
 
 async function getGuildRoles (guildID, tokenType, token) {
 	const roles = await getFetch(`guilds/${guildID}/roles`, tokenType, token);
-	return roles.filter((role) => !role.managed);
+	return roles.filter((role) => !role.managed).map((role) => ({ ...role, color: `#${role.color === 0 ? 'B9BBBE' : role.color.toString(16).padStart(6, '0')}` })).sort((a, b) => b.position - a.position);
+}
+
+async function getGuildEmojis (guildID, tokenType, token) {
+	return await getFetch(`guilds/${guildID}/emojis`, tokenType, token);
+}
+
+async function getMessageData (channelID, messageID, tokenType, token) {
+	return await getFetch(`channels/${channelID}/messages/${messageID}`, tokenType, token);
 }
 
 async function getFetch (url, tokenType, token) {

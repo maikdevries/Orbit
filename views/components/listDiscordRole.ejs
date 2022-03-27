@@ -1,0 +1,7 @@
+<ul class='discordRoleList'>
+
+	<% for (const guildRole of guildRoles) { %>
+		<li class='discordRoleListEntry' style="color: <%= guildRole.color %>;" onclick='addDiscordRole(event)'><p><%= guildRole.name %></p></li>
+	<% } %>
+
+</ul>

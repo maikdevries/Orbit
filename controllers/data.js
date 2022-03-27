@@ -12,7 +12,7 @@ const db = new Josh({
 });
 
 module.exports = {
-	hasGuildSettings, getGuildSettings, updateSetting, saveSetting
+	hasGuildSettings, getGuildSettings
 }
 
 async function hasGuildSettings (guildID) {
@@ -21,16 +21,4 @@ async function hasGuildSettings (guildID) {
 
 async function getGuildSettings (path) {
 	return await db.get(path);
-}
-
-async function updateSetting (guildID, setting, data) {
-	await db.update(`${guildID}.${setting}`, data);
-	return await db.get(`${guildID}.${setting}`);
-}
-
-async function saveSetting (guildID, setting, data) {
-	if ((!Array.isArray(data) || !Array.isArray(await db.get(`${guildID}.${setting}`))) && (typeof data !== 'object' || typeof await db.get(`${guildID}.${setting}`) !== 'object')) return { 'error': 'Cannot use this endpoint for anything other than Array or Object types.' };
-
-	await db.set(`${guildID}.${setting}`, data);
-	return await db.get(`${guildID}.${setting}`);
 }

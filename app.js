@@ -6,7 +6,6 @@ const session = require('express-session');
 const MemoryStore = require('memorystore')(session);
 
 const router = require('./routes/router.js');
-const authRouter = require('./routes/auth.js');
 
 const app = Express();
 const server = http.createServer(app);
@@ -29,6 +28,5 @@ app.use(Express.urlencoded({ extended: true }));
 app.use('/orbit', Express.static(`${__dirname}/public`));
 
 app.use('/orbit', router);
-app.use('/orbit/auth', authRouter);
 
 server.listen(3001, () => console.log('HTTP backend server successfully launched!'));

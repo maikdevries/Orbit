@@ -1,64 +1,37 @@
-<div class='subscribedChannel' onclick='expandSubscribedChannelSettings()'>
+<div class='subscribedChannel' onclick='expandSettings()'>
 
-	<div class='channelHeader'>
+	<div class='subscribedChannelHeader'>
 
-		<div class='channelData'>
-			<img class='channelImage' src='<%= channel.resources.profile_image_url || channel.resources.thumbnails.default.url %>'>
-			<p class='channelName'><%= channel.resources.display_name || channel.resources.title %></p>
+		<div class='subscribedChannelData'>
+			<img class='subscribedChannelImage' src='<%= channel.resources.profile_image_url || channel.resources.thumbnails.default.url %>'>
+			<p class='subscribedChannelName'><%= channel.resources.display_name || channel.resources.title %></p>
 		</div>
 
-		<div class='channelHeaderSideContainer'>
-			<p class='headerDiscordChannelName'>#<%= (guildChannels.find((guildChannel) => guildChannel.id === channel.settings.channel)).name %></p>
-			<button class='deleteChannelButton' type='button' onclick='deleteSubscribedChannel()'>DELETE</button>
+		<div class='subscribedChannelHeaderSideContainer'>
+			<p class='headerDiscordChannelName'>#<%= guildChannels.find((guildChannel) => guildChannel.id === channel.settings.channel)?.name %></p>
+			<button class='deleteElementButton' type='button' onclick='deleteSubscribedChannel(event)'>DELETE</button>
 		</div>
 
 	</div>
 
-	<div class='channelSettings'>
-		<form class='channelSettingsForm'>
+	<div class='subscribedChannelSettings'>
+		<form class='subscribedChannelSettingsForm'>
 
-			<div class='channelSettingsMessageContainer'>
-				<p class='channelSettingsHeader'>Message</p>
-				<textarea class='channelSettingsMessage' maxlength='2000' placeholder='An optional message attached to each announcement.'><%= channel.settings.message %></textarea>
+			<div class='subscribedChannelSettingsMessageContainer'>
+				<p class='subscribedChannelSettingsHeader'>Message</p>
+				<textarea class='subscribedChannelSettingsMessage' maxlength='2000' placeholder='An optional message attached to each announcement.'><%= channel.settings.message %></textarea>
 			</div>
 
-			<div class='channelSettingsSideContainer'>
+			<div class='subscribedChannelSettingsSideContainer'>
 
 				<div>
-					<p class='channelSettingsHeader'>Discord channel</p>
-					<div class='selectDiscordChannel' onclick='expandSelectDiscordChannel()'>
+					<p class='subscribedChannelSettingsHeader'>Discord channel</p>
 
-						<div class='selectDiscordChannelHeader'>
-							<p class='discordChannelName'>#<%= (guildChannels.find((guildChannel) => guildChannel.id === channel.settings.channel)).name %></p>
-							<span class='material-icons'>expand_more</span>
-						</div>
+					<%- include('../components/listDiscordChannel.ejs', { currentDiscordChannel: channel.settings.channel }) %>
 
-						<ul class='selectDiscordChannelList'>
-
-							<% for (const guildChannel of guildChannels.filter((guildChannel) => !guildChannel.parent_id)) { %>
-								<li class='selectListEntry' onclick='changeDiscordChannel()'><p>#<%= guildChannel.name %></p></li>
-							<% } %>
-
-							<% for (const guildCategory of guildCategories) { %>
-								<div class='selectListCategory'>
-									<p class='selectListCategoryName'><%= guildCategory.name %></p>
-									<ul>
-										<% for (const guildChannel of guildChannels.filter((guildChannel) => guildCategory.id === guildChannel.parent_id)) {%>
-											<li class='selectListEntry' onclick='changeDiscordChannel()'><p>#<%= guildChannel.name %></p></li>
-										<% } %>
-									</ul>
-								</div>
-							<% } %>
-
-						</ul>
-
-					</div>
 				</div>
 
-				<div class='formButtonsContainer'>
-					<button class='cancelFormChangesButton' type='button' onclick='cancelSubscribedChannelFormChanges()'>CANCEL</button>
-					<button class='saveFormChangesButton' type='button' onclick='saveSubscribedChannelFormChanges()'>SAVE</button>
-				</div>
+				<%- include('../components/formButtons.ejs', { cancelFunction: 'cancelSubscribedChannelChanges(event)', saveFunction: 'saveSubscribedChannelChanges(event)' }) %>
 
 			</div>
 
