@@ -23,10 +23,15 @@
 	--colour-sidebar-current-page: #f0f0f019;
 }
 
+html {
+	line-height: 1.15;
+}
+
 body {
 	height: 100vh;
 	display: flex;
 	flex-direction: column;
+	margin: 0 0 0 0;
 	background: var(--colour-background);
 	font: normal normal bold 100% 'Open Sans', sans-serif;
 	color: var(--colour-white);
@@ -50,10 +55,15 @@ footer {
 	opacity: 75%;
 }
 
-button {
-	padding: 0 0 0 0;
-	cursor: pointer;
+button, input, textarea {
 	font: inherit;
+	line-height: 1.15;
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+}
+
+button {
+	cursor: pointer;
 	border: none;
 	color: inherit;
 }
@@ -74,6 +84,11 @@ p {
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
+}
+
+pre {
+	font-family: monospace, monospace;
+	font-size: 100%;
 }
 
 #navigation {
