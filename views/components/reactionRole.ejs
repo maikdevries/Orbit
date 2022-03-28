@@ -27,25 +27,9 @@
 
 					<img class='reactionRoleEmoji' src="<%= guildEmoji ? `https://cdn.discordapp.com/emojis/${guildEmoji.id}.${guildEmoji.animated ? 'gif' : 'png'}?size=24` : `https://twemoji.maxcdn.com/v/12.1.2/svg/${emoji.codePointAt(0).toString(16)}.svg` %>">
 
-					<div class='reactionRoleRoles'>
+					<div class='discordRoles'>
 
-						<% for (const role of reactions[emoji]) { %>
-
-							<% const guildRole = guildRoles.find((guildRole) => guildRole.id === role) %>
-
-							<div class='discordRole'>
-								<div class='discordRoleColour' style='background: <%= guildRole?.color %>'></div>
-								<p class='discordRoleName'><%= guildRole?.name %></p>
-								<span class='deleteDiscordRole material-icons' onclick='deleteDiscordRole(event)'>clear</span>
-							</div>
-
-						<% } %>
-
-						<div class='addDiscordRole' onclick='expandDiscordRoleList(event)'>
-							<span class='material-icons'>add</span>
-
-							<%- include('../components/listDiscordRole.ejs') %>
-						</div>
+						<%- include('../components/manageDiscordRoles.ejs', { roles: reactions[emoji] }) %>
 
 					</div>
 

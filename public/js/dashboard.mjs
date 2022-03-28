@@ -1,4 +1,4 @@
-import { getEmojiPicker, createDiscordRoleElement, createReactionRoleReactionElement } from './helperFunctions.mjs';
+import { getEmojiPicker, createDiscordRoleElement, createReactionRoleReactionElement, createAddDiscordRoleElement } from './helperFunctions.mjs';
 
 (() => {
 	window.localStorage.setItem('sidebarCollapsed', window.localStorage.getItem('sidebarCollapsed') ?? 'false');
@@ -77,18 +77,25 @@ window.addReactionRoleReaction = async (event) => {
 	emojiPicker.togglePicker(addReactionButtonReference);
 }
 
-window.deleteDiscordRole = (event) => {
+window.deleteDiscordRole = async (event) => {
 	event.stopPropagation();
 
+	const discordRoleContainerReference = event.currentTarget.closest('.discordRoles');
+
 	event.currentTarget.closest('.discordRole').remove();
+
+	if ('singleRole' in discordRoleContainerReference.dataset) discordRoleContainerReference.append(await createAddDiscordRoleElement());
 }
 
 window.addDiscordRole = (event) => {
 	event.stopPropagation();
 
-	event.currentTarget.closest('.reactionRoleRoles').insertBefore(createDiscordRoleElement(event.currentTarget), event.currentTarget.closest('.addDiscordRole'));
+	const discordRoleContainerReference = event.currentTarget.closest('.discordRoles');
+	const addDiscordRoleButtonReference = event.currentTarget.closest('.addDiscordRole');
+	discordRoleContainerReference.insertBefore(createDiscordRoleElement(event.currentTarget), addDiscordRoleButtonReference);
 
-	event.currentTarget.closest('.addDiscordRole').classList.remove('expanded');
+	if ('singleRole' in discordRoleContainerReference.dataset) addDiscordRoleButtonReference.remove();
+	else addDiscordRoleButtonReference.classList.remove('expanded');
 
 	document.onclick = null;
 }

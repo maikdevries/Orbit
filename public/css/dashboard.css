@@ -146,7 +146,7 @@ main {
 	pointer-events: none;
 }
 
-#featureSettings {
+#featureSettingsContainer {
 	display: flex;
 	flex-direction: column;
 	flex: 1 1 auto;
@@ -155,7 +155,7 @@ main {
 	scrollbar-width: none;
 }
 
-#featureSettings::-webkit-scrollbar {
+#featureSettingsContainer::-webkit-scrollbar {
 	width: 0;
 }
 
@@ -175,6 +175,30 @@ main {
 
 #featureDescription {
 	margin: 20px 0 20px 0;
+	font-size: 75%;
+	color: var(--colour-light-grey);
+	white-space: unset;
+}
+
+#featureSettings {
+	margin: 15px 0 15px 0;
+	padding: 15px 15px 15px 15px;
+	background: var(--colour-black);
+}
+
+.settingsContainer {
+	display: flex;
+	flex-direction: column;
+	padding: 7.5px 0 7.5px 0;
+}
+
+.settingsHeaderName {
+	font-size: 90%;
+	color: var(--colour-white);
+}
+
+.settingsHeaderDescription {
+	margin: 5px 0 5px 0;
 	font-size: 75%;
 	color: var(--colour-light-grey);
 	white-space: unset;
@@ -529,7 +553,7 @@ main {
 }
 
 .deleteReactionRoleReaction {
-	margin: 0 5px 0 -15px;
+	margin: 0 0 0 -15px;
 	padding: 5px 5px 5px 5px;
 	font-size: 95%;
 	color: var(--colour-red);
@@ -544,13 +568,13 @@ main {
 
 .reactionRoleEmoji {
 	width: 24px;
+	margin: 0 10px 0 5px;
 	user-select: none;
 }
 
-.reactionRoleRoles {
+.discordRoles {
 	display: flex;
 	flex-wrap: wrap;
-	margin: 0 0 0 10px;
 	font-size: 80%;
 }
 

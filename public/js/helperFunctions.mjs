@@ -79,14 +79,14 @@ export async function createReactionRoleReactionElement (reactionData) {
 	reactionEmoji.src = reactionData.url;
 
 	const reactionRoles = document.createElement('div');
-	reactionRoles.classList.add('reactionRoleRoles');
+	reactionRoles.classList.add('discordRoles');
 	reactionRoles.append(await createAddDiscordRoleElement());
 
 	reactionContainerElement.append(deleteReactionButton, reactionEmoji, reactionRoles);
 	return reactionContainerElement;
 }
 
-async function createAddDiscordRoleElement () {
+export async function createAddDiscordRoleElement () {
 	const addRoleContainerElement = document.createElement('div');
 	addRoleContainerElement.classList.add('addDiscordRole');
 	addRoleContainerElement.onclick = expandDiscordRoleList;

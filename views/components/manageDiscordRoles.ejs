@@ -1,0 +1,16 @@
+<% for (const role of roles) { %>
+
+	<% const guildRole = guildRoles.find((guildRole) => guildRole.id === role) %>
+
+	<div class='discordRole'>
+		<div class='discordRoleColour' style='background: <%= guildRole?.color %>'></div>
+		<p class='discordRoleName'><%= guildRole?.name %></p>
+		<span class='deleteDiscordRole material-icons' onclick='deleteDiscordRole(event)'>clear</span>
+	</div>
+
+<% } %>
+
+<div class='addDiscordRole' onclick='expandDiscordRoleList(event)'>
+	<span class='material-icons'>add</span>
+	<%- include('../components/listDiscordRole.ejs') %>
+</div>
