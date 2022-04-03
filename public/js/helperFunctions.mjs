@@ -114,3 +114,20 @@ export async function createAddDiscordRoleElement () {
 	addRoleContainerElement.append(addRoleIcon, roleListContainer);
 	return addRoleContainerElement;
 }
+
+export function createMessageElement (messageData) {
+	const messageContainer = document.createElement('div');
+	messageContainer.classList.add('message');
+
+	const deleteMessageButton = document.createElement('span');
+	deleteMessageButton.classList.add('deleteMessage', 'material-icons');
+	deleteMessageButton.onclick = deleteMessage;
+	deleteMessageButton.textContent = 'clear';
+
+	const messageContent = document.createElement('p');
+	messageContent.classList.add('messageContent');
+	messageContent.textContent = messageData;
+
+	messageContainer.append(deleteMessageButton, messageContent);
+	return messageContainer;
+}

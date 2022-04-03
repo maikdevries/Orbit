@@ -22,7 +22,7 @@ main {
 	transition: var(--transition-collapse);
 }
 
-#featureSidebar::-webkit-scrollbar {
+#featureSidebar::-webkit-scrollbar, #featureSettingsContainer::-webkit-scrollbar {
 	width: 0;
 }
 
@@ -155,10 +155,6 @@ main {
 	scrollbar-width: none;
 }
 
-#featureSettingsContainer::-webkit-scrollbar {
-	width: 0;
-}
-
 #featureHeader {
 	display: flex;
 	flex-direction: column;
@@ -265,26 +261,26 @@ main {
 	background: var(--colour-red-hover);
 }
 
-.subscribedChannel {
+.subscribedChannel, .reactionRole, .welcomeMessageFeature {
 	margin: 15px 0 15px 0;
 	padding: 15px 15px 15px 15px;
 	background: var(--colour-black);
 	transition: var(--transition-hover);
 }
 
-.subscribedChannel:hover {
+.subscribedChannel:hover, .reactionRole:hover, .welcomeMessageFeature:hover {
 	cursor: pointer;
 	transform: scale(1.0125);
 	box-shadow: var(--shadow-default);
 }
 
-.subscribedChannel.expanded:hover {
+.subscribedChannel.expanded:hover, .reactionRole.expanded:hover, .welcomeMessageFeature.expanded:hover {
 	cursor: default;
 	transform: unset;
 	box-shadow: unset;
 }
 
-.subscribedChannelHeader {
+.subscribedChannelHeader, .reactionRoleHeader, .welcomeMessageHeader {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -326,12 +322,12 @@ main {
 	display: none;
 }
 
-.subscribedChannelSettings {
+.subscribedChannelSettings, .reactionRoleSettings, .welcomeMessageSettings {
 	display: none;
 	margin: 15px 0 0 0;
 }
 
-.subscribedChannel.expanded .subscribedChannelSettings {
+.subscribedChannel.expanded .subscribedChannelSettings, .reactionRole.expanded .reactionRoleSettings, .welcomeMessageFeature.expanded .welcomeMessageSettings {
 	display: block;
 }
 
@@ -366,12 +362,14 @@ main {
 	scrollbar-width: thin;
 }
 
-.subscribedChannelSettingsMessage::-webkit-scrollbar {
+.subscribedChannelSettingsMessage::-webkit-scrollbar, .discordChannelList::-webkit-scrollbar, .discordRoleList::-webkit-scrollbar,
+.emoji-picker__emojis::-webkit-scrollbar, .emoji-picker__container::-webkit-scrollbar, .addMessageInput::-webkit-scrollbar {
 	width: 7.5px;
 	height: 7.5px;
 }
 
-.subscribedChannelSettingsMessage::-webkit-scrollbar-thumb {
+.subscribedChannelSettingsMessage::-webkit-scrollbar-thumb, .discordChannelList::-webkit-scrollbar-thumb, .discordRoleList::-webkit-scrollbar-thumb,
+.emoji-picker__emojis::-webkit-scrollbar-thumb, .emoji-picker__container::-webkit-scrollbar-thumb, .addMessageInput::-webkit-scrollbar-thumb {
 	background: var(--colour-light-grey);
 }
 
@@ -425,15 +423,6 @@ main {
 	box-sizing: border-box;
 	cursor: default;
 	scrollbar-width: thin;
-}
-
-.discordChannelList::-webkit-scrollbar {
-	width: 7.5px;
-	height: 7.5px;
-}
-
-.discordChannelList::-webkit-scrollbar-thumb {
-	background: var(--colour-light-grey);
 }
 
 .discordChannelListContainer.expanded .discordChannelList {
@@ -493,32 +482,6 @@ main {
 	background: var(--colour-green-hover);
 }
 
-.reactionRole {
-	margin: 15px 0 15px 0;
-	padding: 15px 15px 15px 15px;
-	background: var(--colour-black);
-	transition: var(--transition-hover);
-}
-
-.reactionRole:hover {
-	cursor: pointer;
-	transform: scale(1.0125);
-	box-shadow: var(--shadow-default);
-}
-
-.reactionRole.expanded:hover {
-	cursor: default;
-	transform: unset;
-	box-shadow: unset;
-}
-
-.reactionRoleHeader {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	user-select: none;
-}
-
 .reactionRoleData {
 	max-width: 80%;
 }
@@ -532,15 +495,6 @@ main {
 	font-size: 90%;
 }
 
-.reactionRoleSettings {
-	display: none;
-	margin: 10px 0 0 0;
-}
-
-.reactionRole.expanded .reactionRoleSettings {
-	display: block;
-}
-
 .reactionRoleSettingsHeader {
 	font-size: 80%;
 	color: var(--colour-light-grey);
@@ -552,7 +506,7 @@ main {
 	padding: 5px 7.5px 5px 7.5px;
 }
 
-.deleteReactionRoleReaction {
+.deleteReactionRoleReaction, .deleteMessage {
 	margin: 0 0 0 -15px;
 	padding: 5px 5px 5px 5px;
 	font-size: 95%;
@@ -561,7 +515,7 @@ main {
 	transition: var(--transition-hover);
 }
 
-.deleteReactionRoleReaction:hover {
+.deleteReactionRoleReaction:hover, .deleteMessage:hover {
 	color: var(--colour-red-hover);
 	cursor: pointer;
 }
@@ -650,15 +604,6 @@ main {
 	scrollbar-width: thin;
 }
 
-.discordRoleList::-webkit-scrollbar {
-	width: 7.5px;
-	height: 7.5px;
-}
-
-.discordRoleList::-webkit-scrollbar-thumb {
-	background: var(--colour-light-grey);
-}
-
 .addDiscordRole.expanded .discordRoleList {
 	visibility: visible;
 	opacity: 1;
@@ -679,20 +624,21 @@ main {
 	cursor: pointer;
 }
 
-.reactionRoleSettingsContainerFooter {
+.reactionRoleSettingsContainerFooter, .messageListContainerFooter {
 	display: flex;
 	justify-content: space-between;
 	margin: 10px 0 0 0;
 }
 
-.addReactionRoleReaction {
+.addReactionRoleReaction, .addMessageContainer {
 	height: 25px;
 	padding: 5px 5px 5px 5px;
 	color: var(--colour-light-grey);
 	transition: var(--transition-hover);
+	user-select: none;
 }
 
-.addReactionRoleReaction:hover {
+.addReactionRoleReaction:hover, .addMessageContainer:hover {
 	color: var(--colour-white);
 	cursor: pointer;
 }
@@ -701,11 +647,62 @@ main {
 	scrollbar-width: thin;
 }
 
-.emoji-picker__emojis::-webkit-scrollbar, .emoji-picker__container::-webkit-scrollbar {
-	width: 7.5px;
-	height: 7.5px;
+.message {
+	display: flex;
+	align-items: center;
+	padding: 5px 7.5px 5px 7.5px;
 }
 
-.emoji-picker__emojis::-webkit-scrollbar-thumb, .emoji-picker__container::-webkit-scrollbar-thumb {
-	background: var(--colour-light-grey);
+.messageContent {
+	display: flex;
+	align-items: center;
+	margin: 0 0 0 5px;
+	line-height: 20px;
+	font-size: 90%;
+	white-space: unset;
+}
+
+.welcomeMessageFeatureName {
+	font-size: 95%;
+	text-transform: uppercase;
+}
+
+.addMessageContainer {
+	position: relative;
+	display: flex;
+	align-items: center;
+}
+
+.addMessage {
+	position: absolute;
+	left: 125%;
+	padding: 10px 10px 10px 10px;
+	background: var(--colour-dark-grey);
+	border: 1px solid var(--colour-black);
+	box-shadow: var(--shadow-default);
+	visibility: 0;
+	opacity: 0;
+	cursor: default;
+	transition: var(--transition-collapse-fast);
+}
+
+.addMessageContainer.expanded .addMessage {
+	visibility: 1;
+	opacity: 1;
+}
+
+.addMessageInput {
+	width: 300px;
+	height: 100px;
+	margin: 0 0 5px 0;
+	padding: 15px 15px 15px 15px;
+	background: var(--colour-grey);
+	border: none;
+	outline: none;
+	font: inherit;
+	font-size: 85%;
+	color: var(--colour-white);
+	box-sizing: border-box;
+	resize: none;
+	scrollbar-width: thin;
 }

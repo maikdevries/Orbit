@@ -1,0 +1,9 @@
+<% for (const message of messages) { %>
+
+	<div class='message'>
+		<span class='deleteMessage material-icons' onclick='deleteMessage(event)'>clear</span>
+
+		<p class='messageContent'><%= message %></p>
+	</div>
+
+<% } %>

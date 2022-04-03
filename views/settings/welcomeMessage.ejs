@@ -35,12 +35,15 @@
 					<div id='featureHeader'>
 						<div>
 							<p id='featureName'>WELCOME MESSAGE</p>
-							<%- include('../components/settingEnabled.ejs', { enabled: settings.enabled ? 'checked' : '' }) %>
 						</div>
 						<p id='featureDescription'>Send out a welcoming message when a new member joins your server or say farewell when they leave again.</p>
 					</div>
 
-					<%- include('../components/saveChanges.ejs') %>
+					<% for (const subFeature in settings) { %>
+
+						<%- include('../components/welcomeMessageFeature.ejs', { settings: settings[subFeature], featureName: subFeature }) %>
+
+					<% } %>
 
 				</div>
 

@@ -1,4 +1,4 @@
-import { getEmojiPicker, createDiscordRoleElement, createReactionRoleReactionElement, createAddDiscordRoleElement } from './helperFunctions.mjs';
+import { getEmojiPicker, createDiscordRoleElement, createReactionRoleReactionElement, createAddDiscordRoleElement, createMessageElement } from './helperFunctions.mjs';
 
 (() => {
 	window.localStorage.setItem('sidebarCollapsed', window.localStorage.getItem('sidebarCollapsed') ?? 'false');
@@ -13,8 +13,81 @@ window.toggleSidebarCollapsed = () => {
 	window.localStorage.setItem('sidebarCollapsed', window.localStorage.getItem('sidebarCollapsed') === 'false' ? 'true' : 'false');
 }
 
-window.expandSettings = () => {
+window.expandSettings = (event) => {
+	if (event.target.closest('.settingEnabled')) return;
+
 	event.currentTarget.classList.add('expanded');
+}
+
+window.deleteMessage = (event) => {
+	event.stopPropagation();
+
+	event.currentTarget.closest('.message').remove();
+}
+
+window.addMessage = (event) => {
+	event.stopPropagation();
+
+	if (event.target.closest('.addMessage')) return;
+
+	event.currentTarget.classList.toggle('expanded');
+
+	document.onclick = closeAddMessageContainer;
+}
+
+const closeAddMessageContainer = (event) => {
+	event.stopPropagation();
+
+	if (event.target.closest('.addMessage')) return;
+
+	for (const element of document.getElementsByClassName('addMessageContainer')) element.classList.remove('expanded');
+
+	document.onclick = null;
+}
+
+window.cancelWelcomeMessageAddMessage = (event) => {
+	event.stopPropagation();
+
+	event.currentTarget.closest('.addMessage').reset();
+	event.currentTarget.closest('.addMessageContainer').classList.remove('expanded');
+
+	document.onclick = null;
+}
+
+window.saveWelcomeMessageAddMessage = (event) => {
+	event.stopPropagation();
+
+	const addMessageReference = event.currentTarget.closest('.addMessage');
+	event.currentTarget.closest('.messageListContainer').insertBefore(createMessageElement(addMessageReference.querySelector('.addMessageInput').value), event.currentTarget.closest('.messageListContainerFooter'));
+
+	addMessageReference.reset();
+	event.currentTarget.closest('.addMessageContainer').classList.remove('expanded');
+
+	document.onclick = null;
+}
+
+window.cancelWelcomeMessageChanges = (event) => {
+	event.stopPropagation();
+
+	const welcomeMessageFeatureElement = event.currentTarget.closest('.welcomeMessageFeature');
+
+	// TODO: Reset any changes to channel and list of messages.
+
+	event.currentTarget.closest('.messageListContainerFooter').querySelector('.addMessage').reset();
+
+	welcomeMessageFeatureElement.classList.remove('expanded');
+}
+
+window.saveWelcomeMessageChanges = (event) => {
+	event.stopPropagation();
+
+	const welcomeMessageFeatureElement = event.currentTarget.closest('.welcomeMessageFeature');
+
+	// TODO: Create data object and save to back-end. If something goes wrong, don't continue.
+
+	event.currentTarget.closest('.messageListContainerFooter').querySelector('.addMessage').reset();
+
+	welcomeMessageFeatureElement.classList.remove('expanded');
 }
 
 window.deleteSubscribedChannel = (event) => {
