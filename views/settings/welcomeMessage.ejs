@@ -36,12 +36,13 @@
 						<div>
 							<p id='featureName'>WELCOME MESSAGE</p>
 						</div>
+
 						<p id='featureDescription'>Send out a welcoming message when a new member joins your server or say farewell when they leave again.</p>
 					</div>
 
 					<% for (const subFeature in settings) { %>
 
-						<%- include('../components/welcomeMessageFeature.ejs', { settings: settings[subFeature], featureName: subFeature }) %>
+						<%- include('../components/welcomeMessageFeature.ejs', { subFeature: subFeature, settings: settings[subFeature] }) %>
 
 					<% } %>
 

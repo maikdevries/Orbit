@@ -1,3 +1,4 @@
 <div class='settingEnabled'>
-	<input class='settingEnabledSwitch' type='checkbox' <%= enabled %>>
+	<span class='syncChanges material-icons'>sync</span>
+	<input class='settingEnabledSwitch' type='checkbox' onclick="saveSettingEnabled(event, '<%= subFeature %>')" <%= settings.enabled ? 'checked' : '' %>>
 </div>

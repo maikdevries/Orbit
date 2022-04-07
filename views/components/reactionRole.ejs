@@ -1,13 +1,16 @@
-<div class='reactionRole' onclick='expandSettings(event)'>
+<div class='reactionRole' data-id='<%= message %>' data-discord-channel='<%= channel %>' onclick="expandSettings(event, '.reactionRoleSettings')">
 
 	<div class='reactionRoleHeader'>
 
 		<div class='reactionRoleData'>
-			<p class='reactionRoleChannelName'>#<%= channelName %></p>
+			<p class='reactionRoleChannelName'>#<%= guildChannels.find((guildChannel) => guildChannel.id === channel)?.name %></p>
 			<p class='reactionRoleMessage'><%= messageContent %></p>
 		</div>
 
-		<button class='deleteElementButton' type='button' onclick='deleteReactionRole(event)'>DELETE</button>
+		<div class='reactionRoleHeaderSideContainer'>
+			<span class='syncChanges material-icons'>sync</span>
+			<button class='deleteElementButton' type='button' onclick='deleteReactionRole(event)'>DELETE</button>
+		</div>
 
 	</div>
 
@@ -17,22 +20,20 @@
 
 		<div class='reactionRoleSettingsContainer'>
 
-			<% for (const emoji in reactions) { %>
+			<% for (const emoji in reactions) {
 
-				<% const guildEmoji = guildEmojis.find((guildEmoji) => guildEmoji.id === emoji) %>
+				const guildEmoji = guildEmojis.find((guildEmoji) => guildEmoji.id === emoji) %>
 
 				<div class='reactionRoleReaction'>
-
 					<span class='deleteReactionRoleReaction material-icons' onclick='deleteReactionRoleReaction(event)'>clear</span>
 
-					<img class='reactionRoleEmoji' src="<%= guildEmoji ? `https://cdn.discordapp.com/emojis/${guildEmoji.id}.${guildEmoji.animated ? 'gif' : 'png'}?size=24` : `https://twemoji.maxcdn.com/v/12.1.2/svg/${emoji.codePointAt(0).toString(16)}.svg` %>">
+					<img class='reactionRoleEmoji' data-emoji='<%= emoji %>' src="<%= guildEmoji ? `https://cdn.discordapp.com/emojis/${guildEmoji.id}.${guildEmoji.animated ? 'gif' : 'png'}?size=24` : `https://twemoji.maxcdn.com/v/12.1.2/svg/${emoji.codePointAt(0).toString(16)}.svg` %>">
 
 					<div class='discordRoles'>
 
 						<%- include('../components/manageDiscordRoles.ejs', { roles: reactions[emoji] }) %>
 
 					</div>
-
 				</div>
 
 			<% } %>

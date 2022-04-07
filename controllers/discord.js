@@ -50,7 +50,7 @@ async function getGuildCategories (guildID, tokenType, token) {
 
 async function getGuildRoles (guildID, tokenType, token) {
 	const roles = await getFetch(`guilds/${guildID}/roles`, tokenType, token);
-	return roles.filter((role) => !role.managed).map((role) => ({ ...role, color: `#${role.color === 0 ? 'B9BBBE' : role.color.toString(16).padStart(6, '0')}` })).sort((a, b) => b.position - a.position);
+	return roles.filter((role) => !role.managed).map((role) => ({ ...role, color: `rgb(${(role.color === 0 ? 'b9bbbe' : role.color.toString(16).padStart(6, '0')).match(/[a-f\d]{2}/g).map((x) => parseInt(x, 16)).join(', ')})` })).sort((a, b) => b.position - a.position);
 }
 
 async function getGuildEmojis (guildID, tokenType, token) {

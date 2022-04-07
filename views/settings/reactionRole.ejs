@@ -35,20 +35,18 @@
 					<div id='featureHeader'>
 						<div>
 							<p id='featureName'>REACTION ROLE</p>
-							<%- include('../components/settingEnabled.ejs', { enabled: settings.enabled ? 'checked' : '' }) %>
+							<%- include('../components/settingEnabled.ejs', { subFeature: null }) %>
 						</div>
+
 						<p id='featureDescription'>Let members assign themselves roles by leaving reactions on certain messages.</p>
 					</div>
 
-					<% for (const channelID in settings.channels) {
+					<% for (const channel in settings.channels) {
+						for (const message in settings.channels[channel]) {
 
-						const { channelName, ...messages } = settings.channels[channelID]
+							const { messageContent, ...reactions } = settings.channels[channel][message] %>
 
-						for (const messageID in messages) {
-
-							const { messageContent, ...reactions } = settings.channels[channelID][messageID] %>
-
-							<%- include('../components/reactionRole.ejs', { channelName: channelName, messageContent: messageContent, reactions: reactions }) %>
+							<%- include('../components/reactionRole.ejs', { message: message, channel: channel, messageContent: messageContent, reactions: reactions }) %>
 
 						<% }
 

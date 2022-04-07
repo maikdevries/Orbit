@@ -35,14 +35,15 @@
 					<div id='featureHeader'>
 						<div>
 							<p id='featureName'>YOUTUBE</p>
-							<%- include('../components/settingEnabled.ejs', { enabled: settings.enabled ? 'checked' : '' }) %>
+							<%- include('../components/settingEnabled.ejs', { subFeature: null }) %>
 						</div>
+						
 						<p id='featureDescription'>Send out an announcement every time your favourite YouTuber uploads a new video.</p>
 					</div>
 
 					<% for (const channel of settings.channels) { %>
 
-						<%- include('../components/subscribedChannel.ejs', { channel: channel }) %>
+						<%- include('../components/subscribedChannel.ejs', { settings: channel.settings, resources: channel.resources }) %>
 
 					<% } %>
 

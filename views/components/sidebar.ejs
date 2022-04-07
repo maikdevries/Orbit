@@ -1,10 +1,10 @@
 <div id='currentServer'>
 	<div id='currentServerData'>
-		<img id='currentServerDataIcon' src='https://cdn.discordapp.com/icons/<%= guildData.id %>/<%= guildData.icon %>.png?size=24' draggable='false'>
+		<img id='currentServerDataIcon' src='<%= `https://cdn.discordapp.com/icons/${guildData.id}/${guildData.icon}.png?size=24` %>' draggable='false'>
 		<p id='currentServerDataName'><%= guildData.name %></p>
 	</div>
 	<div id='sidebarButtonContainer'>
-		<button id='changeCurrentServerButton' type='button' onclick="location.href = '/orbit/dashboard'">
+		<button id='changeCurrentServerButton' type='button' onclick='location.href = `/orbit/dashboard`'>
 			<div class='featureSidebarIcon'><span class='material-icons'>switch_account</span></div>
 		</button>
 		<button id='collapseSidebarButton' type='button' onclick='toggleSidebarCollapsed()'>
@@ -37,7 +37,7 @@
 		</li>
 
 		<li>
-			<a id='currentlyStreaming' class='featureSidebarCategoryLink' href='/orbit/dashboard/<%= guildData.id %>/currentlyStreaming' draggable='false'>
+			<a id='streamerShoutout' class='featureSidebarCategoryLink' href='/orbit/dashboard/<%= guildData.id %>/streamerShoutout' draggable='false'>
 				<div class='featureSidebarIcon'><span class='material-icons'>campaign</span></div>
 				<div class='featureSidebarCategoryLinkText'>Streamer Shoutout</div>
 			</a>

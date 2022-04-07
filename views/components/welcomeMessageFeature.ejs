@@ -1,30 +1,26 @@
-<div class='welcomeMessageFeature' onclick='expandSettings(event)'>
+<div class='welcomeMessageFeature' data-id='<%= subFeature %>' onclick="expandSettings(event, '.welcomeMessageSettings')">
 
 	<div class='welcomeMessageHeader'>
+		<p class='welcomeMessageFeatureName'><%= subFeature %> message</p>
 
-		<p class='welcomeMessageFeatureName'><%= featureName %> message</p>
-
-		<%- include('../components/settingEnabled.ejs', { enabled: settings.enabled ? 'checked' : '' }) %>
-
+		<%- include('../components/settingEnabled.ejs') %>
 	</div>
 
 	<div class='welcomeMessageSettings'>
 
 		<div class='settingsContainer'>
 			<p class='settingsHeaderName'>CHANNEL</p>
+			<p class='settingsHeaderDescription'>The channel in which the <%= subFeature %> message is sent.</p>
 
-			<p class='settingsHeaderDescription'>The channel in which the <%= featureName %> message is sent.</p>
-
-			<%- include('../components/listDiscordChannel.ejs', { currentDiscordChannel: settings.channel }) %>
+			<%- include('../components/listDiscordChannel.ejs') %>
 		</div>
 
 		<div class='settingsContainer'>
 			<p class='settingsHeaderName'>MESSAGES</p>
-
-			<p class='settingsHeaderDescription'>The list of messages from which one is randomly picked to be used in the <%= featureName %> message.</p>
+			<p class='settingsHeaderDescription'>The list of messages from which one is randomly picked to be used in the <%= subFeature %> message.</p>
 
 			<div class='messageListContainer'>
-				<%- include('../components/manageMessages.ejs', { messages: settings.messages }) %>
+				<%- include('../components/manageMessages.ejs') %>
 
 				<div class='messageListContainerFooter'>
 
@@ -32,11 +28,9 @@
 						<span class='material-icons'>add</span>
 
 						<form class='addMessage'>
-
 							<textarea class='addMessageInput' maxlength='2000' placeholder='To refer to the member in your message, use [MEMBER].'></textarea>
 
 							<%- include('../components/formButtons.ejs', { cancelFunction: 'cancelWelcomeMessageAddMessage(event)', saveFunction: 'saveWelcomeMessageAddMessage(event)' }) %>
-
 						</form>
 					</div>
 

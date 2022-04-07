@@ -1,5 +1,6 @@
 <div id='saveChanges'>
 	<p>Hold up! You have unsaved changes.</p>
-	<button id='revertChangesButton' type='button' onclick='revertChanges(event)'>REVERT</button>
-	<button id='saveChangesButton' type='button' onclick='saveChanges(event)'>SAVE CHANGES</button>
+	<span class='syncChanges material-icons'>sync</span>
+	<button id='revertChangesButton' type='button' onclick='<%= cancelFunction %>'>REVERT</button>
+	<button id='saveChangesButton' type='button' onclick='<%= saveFunction %>'>SAVE CHANGES</button>
 </div>

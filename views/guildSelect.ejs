@@ -19,36 +19,27 @@
 		</header>
 
 		<main>
-
 			<div id='guildContainer'>
-				<div id='row'>
 
-					<% for (const guild of guilds) {
+				<% for (const guild of guilds) { %>
 
-						if (guild.joined) { %> <div class='card' onclick="location.href = '/orbit/dashboard/<%= guild.id %>'"> <% }
-						else { %> <div class='card' onclick="location.href = '/orbit/auth/server/<%= guild.id %>'"> <% } %>
+					<div class='guild' onclick="location.href = '<%= (guild.joined ? `/orbit/dashboard/${guild.id}` : `/orbit/auth/server/${guild.id}`) %>'">
 
-							<div class='guildIcon'>
-								<% if (guild.icon) { %> <img src='https://cdn.discordapp.com/icons/<%= guild.id %>/<%= guild.icon %>.png' draggable='false'> <% }
-								else { %> <div class='guildIconText'> <%= guild.name.split(' ').slice(0, 3).map((word) => word[0]).join('') %> </div> <% } %>
-							</div>
-
-							<div class='cardBody'>
-								<p class='guildName'><%= guild.name %></p>
-
-								<p class='guildButton'>
-									<% if (guild.joined) { %> Manage server <% }
-									else { %> Invite Lunar <% } %>
-								</p>
-							</div>
-
+						<div class='guildIcon'>
+							<% if (guild.icon) { %> <img src='<%= `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=128` %>' draggable='false'> <% }
+							else { %> <div><%= guild.name.split(' ').slice(0, 3).map((word) => word[0]).join('') %></div> <% } %>
 						</div>
 
-					<% } %>
+						<p class='guildName'><%= guild.name %></p>
 
-				</div>
+						<% if (guild.joined) { %> <button class='manageButton' type='button'>MANAGE</button> <% }
+						else { %> <button class='inviteButton' type='button'>INVITE</button> <% } %>
+
+					</div>
+
+				<% } %>
+
 			</div>
-
 		</main>
 
 		<footer>

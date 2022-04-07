@@ -47,9 +47,9 @@ router.get('/welcomeMessage', async (req, res, next) => {
 	});
 });
 
-router.get('/currentlyStreaming', async (req, res, next) => {
-	res.render('settings/currentlyStreaming', {
-		settings: await getGuildSettings(`${req.params.guildID}.streamStatus`)
+router.get('/streamerShoutout', async (req, res, next) => {
+	res.render('settings/streamerShoutout', {
+		settings: await getGuildSettings(`${req.params.guildID}.streamerShoutout`)
 	});
 });
 
@@ -74,10 +74,8 @@ router.get('/youtube', async (req, res, next) => {
 router.get('/reactionRole', async (req, res, next) => {
 	const settings = await getGuildSettings(`${req.params.guildID}.reactionRole`);
 
-	for (const channelID in settings.channels) {
-		for (const messageID in settings.channels[channelID]) settings.channels[channelID][messageID].messageContent = (await getMessageData(channelID, messageID, process.env.TOKEN_TYPE, process.env.TOKEN))?.content;
-
-		settings.channels[channelID].channelName = res.locals.guildChannels.find((guildChannel) => guildChannel.id === channelID)?.name;
+	for (const channel in settings.channels) {
+		for (const message in settings.channels[channel]) settings.channels[channel][message].messageContent = (await getMessageData(channel, message, process.env.TOKEN_TYPE, process.env.TOKEN))?.content;
 	}
 
 	res.render('settings/reactionRole', {

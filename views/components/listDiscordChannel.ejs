@@ -1,22 +1,24 @@
 <div class='discordChannelListContainer' onclick='expandDiscordChannelList(event)'>
 
 	<div class='discordChannelListHeader'>
-		<p class='discordChannelName'>#<%= guildChannels.find((guildChannel) => guildChannel.id === currentDiscordChannel)?.name %></p>
+		<p class='discordChannelName' data-discord-channel='<%= settings.channel %>'>#<%= guildChannels.find((guildChannel) => guildChannel.id === settings.channel)?.name %></p>
 		<span class='material-icons'>expand_more</span>
 	</div>
 
 	<ul class='discordChannelList'>
 
 		<% for (const guildChannel of guildChannels.filter((guildChannel) => !guildChannel.parent_id)) { %>
-			<li class='discordChannelListEntry' onclick='changeSelectedDiscordChannel(event)'><p>#<%= guildChannel.name %></p></li>
+			<li class='discordChannelListEntry' data-discord-channel='<%= guildChannel.id %>' onclick='changeSelectedDiscordChannel(event)'>#<%= guildChannel.name %></li>
 		<% }
 
 		for (const guildCategory of guildCategories) { %>
 			<div class='discordChannelListCategory'>
+
 				<p class='discordChannelListCategoryName'><%= guildCategory.name %></p>
+
 				<ul>
 					<% for (const guildChannel of guildChannels.filter((guildChannel) => guildCategory.id === guildChannel.parent_id)) {%>
-						<li class='discordChannelListEntry' onclick='changeSelectedDiscordChannel(event)'><p>#<%= guildChannel.name %></p></li>
+						<li class='discordChannelListEntry' data-discord-channel='<%= guildChannel.id %>' onclick='changeSelectedDiscordChannel(event)'>#<%= guildChannel.name %></li>
 					<% } %>
 				</ul>
 

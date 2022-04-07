@@ -1,41 +1,41 @@
-<div class='subscribedChannel' onclick='expandSettings(event)'>
+<div class='subscribedChannel' data-id='<%= settings.username %>' onclick="expandSettings(event, '.subscribedChannelSettings')">
 
 	<div class='subscribedChannelHeader'>
 
 		<div class='subscribedChannelData'>
-			<img class='subscribedChannelImage' src='<%= channel.resources.profile_image_url || channel.resources.thumbnails.default.url %>'>
-			<p class='subscribedChannelName'><%= channel.resources.display_name || channel.resources.title %></p>
+			<img class='subscribedChannelImage' src='<%= resources.profile_image_url || resources.thumbnails.default.url %>'>
+			<p class='subscribedChannelName'><%= resources.display_name || resources.title %></p>
 		</div>
 
 		<div class='subscribedChannelHeaderSideContainer'>
-			<p class='headerDiscordChannelName'>#<%= guildChannels.find((guildChannel) => guildChannel.id === channel.settings.channel)?.name %></p>
+			<p class='headerDiscordChannelName'>#<%= guildChannels.find((guildChannel) => guildChannel.id === settings.channel)?.name %></p>
+			<span class='syncChanges material-icons'>sync</span>
+
 			<button class='deleteElementButton' type='button' onclick='deleteSubscribedChannel(event)'>DELETE</button>
 		</div>
 
 	</div>
 
 	<div class='subscribedChannelSettings'>
-		<form class='subscribedChannelSettingsForm'>
+		<div class='subscribedChannelSettingsContainer'>
 
-			<div class='subscribedChannelSettingsMessageContainer'>
+			<div class='subscribedChannelMessageContainer'>
 				<p class='subscribedChannelSettingsHeader'>Message</p>
-				<textarea class='subscribedChannelSettingsMessage' maxlength='2000' placeholder='An optional message attached to each announcement.'><%= channel.settings.message %></textarea>
+				<textarea class='subscribedChannelMessage' maxlength='2000' placeholder='An optional message attached to each announcement.'><%= settings.message %></textarea>
 			</div>
 
 			<div class='subscribedChannelSettingsSideContainer'>
 
 				<div>
 					<p class='subscribedChannelSettingsHeader'>Discord channel</p>
-
-					<%- include('../components/listDiscordChannel.ejs', { currentDiscordChannel: channel.settings.channel }) %>
-
+					<%- include('../components/listDiscordChannel.ejs') %>
 				</div>
 
 				<%- include('../components/formButtons.ejs', { cancelFunction: 'cancelSubscribedChannelChanges(event)', saveFunction: 'saveSubscribedChannelChanges(event)' }) %>
 
 			</div>
 
-		</form>
+		</div>
 	</div>
 
 </div>

@@ -12,7 +12,7 @@ const db = new Josh({
 });
 
 module.exports = {
-	hasGuildSettings, getGuildSettings
+	hasGuildSettings, getGuildSettings, updateGuildSetting, deleteGuildSetting
 }
 
 async function hasGuildSettings (guildID) {
@@ -20,5 +20,18 @@ async function hasGuildSettings (guildID) {
 }
 
 async function getGuildSettings (path) {
+	return await db.get(path);
+}
+
+async function updateGuildSetting (path, data, channelUsername = null) {
+	const currentSettings = await db.get(path);
+	await db.set(path, (channelUsername ? currentSettings.map((channel) => (channel.username === channelUsername ? { ...channel, ...data } : channel)) : { ...currentSettings, ...data }));
+
+	return await db.get(path);
+}
+
+async function deleteGuildSetting (path, channelUsername = null) {
+	channelUsername ? await db.remove(path, (channel) => channel.username === channelUsername) : await db.delete(path);
+
 	return await db.get(path);
 }

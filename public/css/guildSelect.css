@@ -1,37 +1,36 @@
 #guildContainer {
 	width: 80%;
-	margin: 0 auto 0 auto;
-}
-
-#row {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
+	margin: 0 auto 0 auto;
 }
 
-.card {
-	width: 20%;
+.guild {
+	width: 175px;
 	display: flex;
 	flex-direction: column;
-	margin: 2% 2% 2% 2%;
+	margin: 20px 20px 20px 20px;
+	padding: 30px 30px 30px 30px;
 	background: var(--colour-dark-grey);
+	box-shadow: var(--shadow-default);
 	text-align: center;
+	user-select: none;
 	transition: var(--transition-hover);
 }
 
-.card:hover {
+.guild:hover {
 	transform: scale(1.05);
-	box-shadow: var(--shadow-default);
 	cursor: pointer;
 }
 
 .guildIcon {
 	width: 128px;
 	height: 128px;
-	margin: 10% auto 10% auto;
+	margin: 0 auto 20px auto;
 }
 
-.guildIconText {
+.guildIcon div {
 	width: inherit;
 	height: inherit;
 	display: flex;
@@ -40,32 +39,16 @@
 	background: var(--colour-grey);
 }
 
-.cardBody {
-	padding: 0 10% 10% 10%;
-}
-
-.guildName {
-	margin: 0 0 10% 0;
-}
-
-.guildButton {
-	margin: 0 0 0 0;
-	padding: 5% 0 5% 0;
+.manageButton {
+	margin: 20px 0 0 0;
+	padding: 10px 0 10px 0;
 	background: var(--colour-background);
+	font-size: 85%;
 }
 
-@media screen and (max-width: 1200px) {
-	.card {
-		width: 40%;
-	}
-}
-
-@media screen and (max-width: 700px) {
-	#guildContainer {
-		width: 100%;
-	}
-
-	.card {
-		width: 80%;
-	}
+.inviteButton {
+	margin: 20px 0 0 0;
+	padding: 10px 0 10px 0;
+	background: var(--colour-dark-white);
+	font-size: 85%;
 }

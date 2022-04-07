@@ -35,16 +35,16 @@
 					<div id='featureHeader'>
 						<div>
 							<p id='featureName'>STREAMER SHOUTOUT</p>
-							<%- include('../components/settingEnabled.ejs', { enabled: settings.enabled ? 'checked' : '' }) %>
+							<%- include('../components/settingEnabled.ejs', { subFeature: null }) %>
 						</div>
+
 						<p id='featureDescription'>Give out a role to streamers when they are streaming so that they are more visible in your server.</p>
 					</div>
 
 					<div id='featureSettings'>
 
-						<div class='settingsContainer'>
+						<div id='requiredRole' class='settingsContainer'>
 							<p class='settingsHeaderName'>REQUIRED ROLE</p>
-
 							<p class='settingsHeaderDescription'>One or multiple roles of which a streaming member needs to have at least one to receive the shoutout role.</p>
 
 							<div class='discordRoles'>
@@ -52,19 +52,18 @@
 							</div>
 						</div>
 
-						<div class='settingsContainer'>
+						<div id='shoutoutRole' class='settingsContainer'>
 							<p class='settingsHeaderName'>SHOUTOUT ROLE</p>
-
 							<p class='settingsHeaderDescription'>The role a qualifying streaming member will receive whilst they are streaming.</p>
 
 							<div class='discordRoles' data-single-role='true'>
-								<%- include('../components/manageDiscordRole.ejs', { role: settings.streamingRole }) %>
+								<%- include('../components/manageDiscordRole.ejs', { role: settings.shoutoutRole }) %>
 							</div>
 						</div>
 
 					</div>
 
-					<%- include('../components/saveChanges.ejs') %>
+					<%- include('../components/saveChanges.ejs', { cancelFunction: 'cancelStreamerShoutoutChanges(event)', saveFunction: 'saveStreamerShoutoutChanges(event)' }) %>
 
 				</div>
 

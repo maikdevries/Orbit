@@ -226,6 +226,7 @@ main {
 }
 
 #revertChangesButton {
+	margin: 0 0 0 15px;
 	padding: 10px 15px 10px 15px;
 	background: var(--colour-red);
 	transition: var(--transition-hover);
@@ -249,7 +250,7 @@ main {
 }
 
 .deleteElementButton {
-	margin: 0 0 0 35px;
+	margin: 0 0 0 15px;
 	padding: 7.5px 7.5px 7.5px 7.5px;
 	background: var(--colour-red);
 	transition: var(--transition-hover);
@@ -314,12 +315,9 @@ main {
 
 .headerDiscordChannelName {
 	max-width: 67%;
+	margin: 0 15px 0 0;
 	font-size: 90%;
 	color: var(--colour-light-grey);
-}
-
-.subscribedChannel.expanded .headerDiscordChannelName {
-	display: none;
 }
 
 .subscribedChannelSettings, .reactionRoleSettings, .welcomeMessageSettings {
@@ -327,11 +325,15 @@ main {
 	margin: 15px 0 0 0;
 }
 
+.subscribedChannel.expanded .headerDiscordChannelName {
+	display: none;
+}
+
 .subscribedChannel.expanded .subscribedChannelSettings, .reactionRole.expanded .reactionRoleSettings, .welcomeMessageFeature.expanded .welcomeMessageSettings {
 	display: block;
 }
 
-.subscribedChannelSettingsForm {
+.subscribedChannelSettingsContainer {
 	display: flex;
 }
 
@@ -341,14 +343,14 @@ main {
 	color: var(--colour-light-grey);
 }
 
-.subscribedChannelSettingsMessageContainer {
+.subscribedChannelMessageContainer {
 	display: flex;
 	flex-direction: column;
 	flex: 3	1 auto;
 	margin: 0 15px 0 0;
 }
 
-.subscribedChannelSettingsMessage {
+.subscribedChannelMessage {
 	min-height: 100px;
 	padding: 15px 15px 15px 15px;
 	background: var(--colour-dark-grey);
@@ -362,13 +364,13 @@ main {
 	scrollbar-width: thin;
 }
 
-.subscribedChannelSettingsMessage::-webkit-scrollbar, .discordChannelList::-webkit-scrollbar, .discordRoleList::-webkit-scrollbar,
+.subscribedChannelMessage::-webkit-scrollbar, .discordChannelList::-webkit-scrollbar, .discordRoleList::-webkit-scrollbar,
 .emoji-picker__emojis::-webkit-scrollbar, .emoji-picker__container::-webkit-scrollbar, .addMessageInput::-webkit-scrollbar {
 	width: 7.5px;
 	height: 7.5px;
 }
 
-.subscribedChannelSettingsMessage::-webkit-scrollbar-thumb, .discordChannelList::-webkit-scrollbar-thumb, .discordRoleList::-webkit-scrollbar-thumb,
+.subscribedChannelMessage::-webkit-scrollbar-thumb, .discordChannelList::-webkit-scrollbar-thumb, .discordRoleList::-webkit-scrollbar-thumb,
 .emoji-picker__emojis::-webkit-scrollbar-thumb, .emoji-picker__container::-webkit-scrollbar-thumb, .addMessageInput::-webkit-scrollbar-thumb {
 	background: var(--colour-light-grey);
 }
@@ -407,7 +409,7 @@ main {
 .discordChannelList {
 	width: 100%;
 	max-height: 175px;
-	z-index: 1;
+	z-index: 2;
 	position: absolute;
 	top: 125%;
 	left: 0;
@@ -454,11 +456,13 @@ main {
 
 .formButtonsContainer {
 	display: flex;
+	align-items: center;
 	font-size: 85%;
 }
 
 .cancelChangesButton {
 	flex: 1	1 auto;
+	margin: 0 0 0 15px;
 	padding: 10px 15px 10px 15px;
 	background: var(--colour-red);
 	transition: var(--transition-hover);
@@ -484,6 +488,11 @@ main {
 
 .reactionRoleData {
 	max-width: 80%;
+}
+
+.reactionRoleHeaderSideContainer {
+	display: flex;
+	align-items: center;
 }
 
 .reactionRoleChannelName {
@@ -588,7 +597,7 @@ main {
 .discordRoleList {
 	width: 175px;
 	max-height: 175px;
-	z-index: 1;
+	z-index: 2;
 	position: absolute;
 	top: 125%;
 	display: flex;
@@ -676,6 +685,7 @@ main {
 .addMessage {
 	position: absolute;
 	left: 125%;
+	z-index: 1;
 	padding: 10px 10px 10px 10px;
 	background: var(--colour-dark-grey);
 	border: 1px solid var(--colour-black);
@@ -705,4 +715,25 @@ main {
 	box-sizing: border-box;
 	resize: none;
 	scrollbar-width: thin;
+}
+
+.syncChanges {
+	visibility: hidden;
+	opacity: 0;
+	color: var(--colour-orange);
+	transition: var(--transition-collapse-fast);
+	animation: var(--animation-rotate);
+}
+
+.settingEnabled.syncing .syncChanges, .formButtonsContainer.syncing .syncChanges, .subscribedChannel.syncing .syncChanges, .reactionRoleHeader.syncing .syncChanges, #saveChanges.syncing .syncChanges {
+	visibility: visible;
+	opacity: 1;
+}
+
+.addMessage .cancelChangesButton, .subscribedChannelSettingsSideContainer .cancelChangesButton {
+	margin: 0 0 0 0;
+}
+
+.addMessage .syncChanges, .subscribedChannelSettingsSideContainer .syncChanges {
+	display: none;
 }

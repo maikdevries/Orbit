@@ -36,10 +36,11 @@
 						<div>
 							<p id='featureName'>SETTINGS</p>
 						</div>
+
 						<p id='featureDescription'>Manage the more general behaviour for your server.</p>
 					</div>
 
-					<%- include('../components/saveChanges.ejs') %>
+					<%- include('../components/saveChanges.ejs', { cancelFunction: 'cancelGeneralSettingsChanges(event)', saveFunction: 'saveGeneralSettingsChanges(event)' }) %>
 
 				</div>
 
