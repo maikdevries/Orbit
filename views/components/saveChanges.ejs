@@ -1,6 +1,18 @@
-<div id='saveChanges'>
-	<p>Hold up! You have unsaved changes.</p>
-	<span class='syncChanges material-icons'>sync</span>
-	<button id='revertChangesButton' type='button' onclick='<%= cancelFunction %>'>REVERT</button>
-	<button id='saveChangesButton' type='button' onclick='<%= saveFunction %>'>SAVE CHANGES</button>
+<div id='saveChangesContainer'>
+
+	<div id='errorPopup'>
+		<p>Aii, something really did not go the way it should have gone. Try again.</p>
+	</div>
+
+	<% if (cancelFunction && saveFunction) { %>
+
+		<div id='saveChanges'>
+			<p>Hold up! You have unsaved changes.</p>
+			<span class='syncChanges material-icons'></span>
+			<button id='revertChangesButton' type='button' onclick='<%= cancelFunction %>'>REVERT</button>
+			<button id='saveChangesButton' type='button' onclick='<%= saveFunction %>'>SAVE CHANGES</button>
+		</div>
+
+	<% } %>
+
 </div>

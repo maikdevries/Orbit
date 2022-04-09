@@ -200,29 +200,84 @@ main {
 	white-space: unset;
 }
 
-#saveChanges {
+#saveChangesContainer {
 	position: sticky;
 	bottom: -20px;
-	display: flex;
-	align-items: center;
 	margin: auto 0 0 0;
-	padding: 15px 15px 15px 15px;
 	visibility: hidden;
 	opacity: 0;
-	background: var(--colour-black);
+	font-size: 85%;
 	box-shadow: var(--shadow-default);
 	transition: var(--transition-collapse);
-	font-size: 85%;
 }
 
-#saveChanges.visible {
+#errorPopup, #saveChanges {
+	display: none;
+	align-items: center;
+	padding: 15px 15px 15px 15px;
+}
+
+#errorPopup {
+	background: var(--colour-red);
+}
+
+#saveChanges {
+	background: var(--colour-black);
+}
+
+#saveChangesContainer p {
+	flex: 1 1 auto;
+	margin: 0 0 0 10px;
+}
+
+#featureSettingsContainer.error #saveChangesContainer, #saveChangesContainer.visible {
 	visibility: visible;
 	opacity: 1;
 }
 
-#saveChanges p {
-	flex: 1 1 auto;
-	margin: 0 0 0 10px;
+#featureSettingsContainer.error #errorPopup, #saveChangesContainer.visible #saveChanges {
+	display: flex;
+}
+
+.syncChanges {
+	width: 24px;
+	height: 24px;
+	visibility: hidden;
+	opacity: 0;
+	transition: var(--transition-collapse-fast);
+}
+
+.settingEnabled.syncing .syncChanges, .formButtonsContainer.syncing .syncChanges, .subscribedChannel.syncing .syncChanges,
+.reactionRoleHeader.syncing .syncChanges, #saveChangesContainer.syncing .syncChanges {
+	visibility: visible;
+	opacity: 1;
+	color: var(--colour-orange);
+	animation: var(--animation-rotate);
+}
+
+.settingEnabled.syncing .syncChanges::after, .formButtonsContainer.syncing .syncChanges::after, .subscribedChannel.syncing .syncChanges::after,
+.reactionRoleHeader.syncing .syncChanges::after, #saveChangesContainer.syncing .syncChanges::after {
+	content: 'sync'
+}
+
+.settingEnabled.error .syncChanges, .formButtonsContainer.error .syncChanges, .subscribedChannel.error .syncChanges,
+.reactionRoleHeader.error .syncChanges, #saveChangesContainer.error .syncChanges {
+	visibility: visible;
+	opacity: 1;
+	color: var(--colour-red);
+}
+
+.settingEnabled.error .syncChanges::after, .formButtonsContainer.error .syncChanges::after, .subscribedChannel.error .syncChanges::after,
+.reactionRoleHeader.error .syncChanges::after, #saveChangesContainer.error .syncChanges::after {
+	content: 'sync_problem';
+}
+
+.addMessage .cancelChangesButton, .subscribedChannelSettingsSideContainer .cancelChangesButton {
+	margin: 0 0 0 0;
+}
+
+.addMessage .syncChanges, .subscribedChannelSettingsSideContainer .syncChanges {
+	display: none;
 }
 
 #revertChangesButton {
@@ -715,25 +770,4 @@ main {
 	box-sizing: border-box;
 	resize: none;
 	scrollbar-width: thin;
-}
-
-.syncChanges {
-	visibility: hidden;
-	opacity: 0;
-	color: var(--colour-orange);
-	transition: var(--transition-collapse-fast);
-	animation: var(--animation-rotate);
-}
-
-.settingEnabled.syncing .syncChanges, .formButtonsContainer.syncing .syncChanges, .subscribedChannel.syncing .syncChanges, .reactionRoleHeader.syncing .syncChanges, #saveChanges.syncing .syncChanges {
-	visibility: visible;
-	opacity: 1;
-}
-
-.addMessage .cancelChangesButton, .subscribedChannelSettingsSideContainer .cancelChangesButton {
-	margin: 0 0 0 0;
-}
-
-.addMessage .syncChanges, .subscribedChannelSettingsSideContainer .syncChanges {
-	display: none;
 }

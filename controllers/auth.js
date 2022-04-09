@@ -20,6 +20,6 @@ async function getAuthentication (authCode) {
 async function authFetch (url, data) {
 	try {
 		const response = await fetch(`https://discord.com/api/${url}`, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(data) });
-		return await response.json();
-	} catch (error) { console.error(error) }
+		return response.ok ? await response.json() : (() => { throw new Error(`Fetching Discord Auth API failed with status ${response.status}. URL: ${response.url}`) })();
+	} catch (error) { throw error.toString() }
 }

@@ -11,14 +11,16 @@ module.exports = router;
 router.use(async (req, res, next) => {
 	if (req.session.currentGuild === req.params.guildID) return next();
 
-	Object.assign(req.session, {
-		currentGuild: req.params.guildID,
-		guildData: await getGuildData(req.params.guildID, process.env.TOKEN_TYPE, process.env.TOKEN),
-		guildChannels: await getGuildChannels(req.params.guildID, process.env.TOKEN_TYPE, process.env.TOKEN),
-		guildCategories: await getGuildCategories(req.params.guildID, process.env.TOKEN_TYPE, process.env.TOKEN),
-		guildRoles: await getGuildRoles(req.params.guildID, process.env.TOKEN_TYPE, process.env.TOKEN),
-		guildEmojis: await getGuildEmojis(req.params.guildID, process.env.TOKEN_TYPE, process.env.TOKEN)
-	});
+	try {
+		Object.assign(req.session, {
+			currentGuild: req.params.guildID,
+			guildData: await getGuildData(req.params.guildID, process.env.TOKEN_TYPE, process.env.TOKEN),
+			guildChannels: await getGuildChannels(req.params.guildID, process.env.TOKEN_TYPE, process.env.TOKEN),
+			guildCategories: await getGuildCategories(req.params.guildID, process.env.TOKEN_TYPE, process.env.TOKEN),
+			guildRoles: await getGuildRoles(req.params.guildID, process.env.TOKEN_TYPE, process.env.TOKEN),
+			guildEmojis: await getGuildEmojis(req.params.guildID, process.env.TOKEN_TYPE, process.env.TOKEN)
+		});
+	} catch (error) { return next(error) }
 
 	return next();
 });
@@ -42,43 +44,53 @@ router.get('/settings', (req, res, next) => {
 });
 
 router.get('/welcomeMessage', async (req, res, next) => {
-	res.render('settings/welcomeMessage', {
-		settings: await getGuildSettings(`${req.params.guildID}.welcomeMessage`)
-	});
+	try {
+		res.render('settings/welcomeMessage', {
+			settings: await getGuildSettings(`${req.params.guildID}.welcomeMessage`)
+		});
+	} catch (error) { return next(error) }
 });
 
 router.get('/streamerShoutout', async (req, res, next) => {
-	res.render('settings/streamerShoutout', {
-		settings: await getGuildSettings(`${req.params.guildID}.streamerShoutout`)
-	});
+	try {
+		res.render('settings/streamerShoutout', {
+			settings: await getGuildSettings(`${req.params.guildID}.streamerShoutout`)
+		});
+	} catch (error) { return next(error) }
 });
 
 router.get('/twitch', async (req, res, next) => {
-	const settings = await getGuildSettings(`${req.params.guildID}.twitch`);
-	settings.channels = await Promise.all(settings.channels.map(async (channel) => ({ settings: channel, resources: await getTwitchChannelData(channel.username) })));
+	try {
+		const settings = await getGuildSettings(`${req.params.guildID}.twitch`);
+		settings.channels = await Promise.all(settings.channels.map(async (channel) => ({ settings: channel, resources: await getTwitchChannelData(channel.username) })));
 
-	res.render('settings/twitch', {
-		settings: settings
-	});
+		res.render('settings/twitch', {
+			settings: settings
+		});
+	} catch (error) { return next(error) }
 });
 
 router.get('/youtube', async (req, res, next) => {
-	const settings = await getGuildSettings(`${req.params.guildID}.youtube`);
-	settings.channels = await Promise.all(settings.channels.map(async (channel) => ({ settings: channel, resources: await getYouTubeChannelData(channel.username) })));
+	try {
+		const settings = await getGuildSettings(`${req.params.guildID}.youtube`);
+		settings.channels = await Promise.all(settings.channels.map(async (channel) => ({ settings: channel, resources: await getYouTubeChannelData(channel.username) })));
 
-	res.render('settings/youtube', {
-		settings: settings
-	});
+		res.render('settings/youtube', {
+			settings: settings
+		});
+	} catch (error) { return next(error) }
 });
 
 router.get('/reactionRole', async (req, res, next) => {
-	const settings = await getGuildSettings(`${req.params.guildID}.reactionRole`);
+	try {
+		const settings = await getGuildSettings(`${req.params.guildID}.reactionRole`);
 
-	for (const channel in settings.channels) {
-		for (const message in settings.channels[channel]) settings.channels[channel][message].messageContent = (await getMessageData(channel, message, process.env.TOKEN_TYPE, process.env.TOKEN))?.content;
-	}
+		for (const channel in settings.channels) {
+			for (const message in settings.channels[channel]) settings.channels[channel][message].messageContent = (await getMessageData(channel, message, process.env.TOKEN_TYPE, process.env.TOKEN))?.content;
+		}
 
-	res.render('settings/reactionRole', {
-		settings: settings
-	});
+		res.render('settings/reactionRole', {
+			settings: settings
+		});
+	} catch (error) { return next(error) }
 });

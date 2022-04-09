@@ -11,6 +11,6 @@ async function getYouTubeChannelData (username) {
 async function getFetch (url) {
 	try {
 		const response = await fetch(`https://www.googleapis.com/youtube/v3/${url}&key=${process.env.YOUTUBE_KEY}`);
-		return await response.json();
-	} catch (error) { console.error(error) }
+		return response.ok ? await response.json() : (() => { throw new Error(`Fetching YouTube API failed with status ${response.status}. URL: ${response.url}`) })();
+	} catch (error) { throw error.toString() }
 }

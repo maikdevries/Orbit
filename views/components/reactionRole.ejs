@@ -4,11 +4,11 @@
 
 		<div class='reactionRoleData'>
 			<p class='reactionRoleChannelName'>#<%= guildChannels.find((guildChannel) => guildChannel.id === channel)?.name %></p>
-			<p class='reactionRoleMessage'><%= messageContent %></p>
+			<%- messageContent ? `<p class='reactionRoleMessage'>${messageContent}</p>` : `<p class='reactionRoleMessage' style='color: var(--colour-red);'>This message could not be retrieved and has likely been deleted.</p>` %>
 		</div>
 
 		<div class='reactionRoleHeaderSideContainer'>
-			<span class='syncChanges material-icons'>sync</span>
+			<span class='syncChanges material-icons'></span>
 			<button class='deleteElementButton' type='button' onclick='deleteReactionRole(event)'>DELETE</button>
 		</div>
 

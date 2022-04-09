@@ -36,6 +36,9 @@ window.saveSettingEnabled = async (event, subFeature = null) => {
 	const settingEnabledSwitch = event.currentTarget;
 	const settingEnabled = settingEnabledSwitch.closest('.settingEnabled');
 
+	settingEnabled.classList.remove('error');
+	document.getElementById('featureSettingsContainer').classList.remove('error');
+
 	settingEnabledSwitch.disabled = true;
 	settingEnabled.classList.add('syncing');
 
@@ -43,9 +46,13 @@ window.saveSettingEnabled = async (event, subFeature = null) => {
 		enabled: settingEnabledSwitch.checked
 	}
 
-	const response = await postAPIGuild((subFeature ? `${currentPage}.${subFeature}` : currentPage), data);
+	try { await postAPIGuild((subFeature ? `${currentPage}.${subFeature}` : currentPage), data) }
+	catch {
+		settingEnabled.classList.add('error');
+		document.getElementById('featureSettingsContainer').classList.add('error');
 
-	// TODO: If response not correct, reset to previous state and display error icon.
+		settingEnabledSwitch.checked = !settingEnabledSwitch.checked;
+	}
 
 	settingEnabled.classList.remove('syncing');
 	settingEnabledSwitch.disabled = false;
@@ -66,6 +73,8 @@ window.cancelWelcomeMessageChanges = (event) => {
 	const welcomeMessageFeature = welcomeMessageSettings.closest('.welcomeMessageFeature');
 
 	welcomeMessageSettings.replaceWith(getOriginalState(welcomeMessageFeature.dataset.id));
+
+	document.getElementById('featureSettingsContainer').classList.remove('error');
 	welcomeMessageFeature.classList.remove('expanded');
 }
 
@@ -73,58 +82,73 @@ window.saveWelcomeMessageChanges = async (event) => {
 	event.stopPropagation();
 
 	const saveChangesButton = event.currentTarget;
+	const formButtonsContainer = saveChangesButton.closest('.formButtonsContainer');
 	const welcomeMessageFeatureElement = saveChangesButton.closest('.welcomeMessageFeature');
 
+	formButtonsContainer.classList.remove('error');
+	document.getElementById('featureSettingsContainer').classList.remove('error');
+
 	saveChangesButton.disabled = true;
-	saveChangesButton.closest('.formButtonsContainer').classList.add('syncing');
+	formButtonsContainer.classList.add('syncing');
 
 	const data = {
 		channel: welcomeMessageFeatureElement.querySelector('.discordChannelName').dataset.discordChannel,
 		messages: [...welcomeMessageFeatureElement.querySelectorAll('.messageContent')].map((message) => message.textContent)
 	}
 
-	const response = await postAPIGuild(`${currentPage}.${welcomeMessageFeatureElement.dataset.id}`, data);
+	try {
+		await postAPIGuild(`${currentPage}.${welcomeMessageFeatureElement.dataset.id}`, data);
 
-	// TODO: If response not correct, reset to previous state and display error icon.
+		welcomeMessageFeatureElement.querySelector('.addMessage').reset();
+		welcomeMessageFeatureElement.classList.remove('expanded');
+	} catch {
+		formButtonsContainer.classList.add('error');
+		document.getElementById('featureSettingsContainer').classList.add('error');
+	}
 
-	welcomeMessageFeatureElement.querySelector('.addMessage').reset();
-
-	saveChangesButton.closest('.formButtonsContainer').classList.remove('syncing');
+	formButtonsContainer.classList.remove('syncing');
 	saveChangesButton.disabled = false;
-	welcomeMessageFeatureElement.classList.remove('expanded');
 }
 
 window.cancelStreamerShoutoutChanges = (event) => {
 	event.stopPropagation();
 
 	document.getElementById('featureSettings').replaceWith(getOriginalState('mutation'));
-	event.currentTarget.closest('#saveChanges').classList.remove('visible');
-
 	createMutationObserver(document.getElementById('featureSettings'));
+
+	document.getElementById('featureSettingsContainer').classList.remove('error');
+	event.currentTarget.closest('#saveChangesContainer').classList.remove('error', 'visible');
 }
 
 window.saveStreamerShoutoutChanges = async (event) => {
 	event.stopPropagation();
 
 	const saveButton = event.currentTarget;
-	const saveChanges = saveButton.closest('#saveChanges');
+	const saveChangesContainer = saveButton.closest('#saveChangesContainer');
+
+	saveChangesContainer.classList.remove('error');
+	document.getElementById('featureSettingsContainer').classList.remove('error');
 
 	saveButton.disabled = true;
-	saveChanges.classList.add('syncing');
+	saveChangesContainer.classList.add('syncing');
 
 	const data = {
 		requiredRole: [...document.getElementById('requiredRole').querySelectorAll('.discordRole')].map((role) => role.dataset.discordRole),
 		shoutoutRole: document.getElementById('shoutoutRole').querySelector('.discordRole')?.dataset.discordRole ?? ''
 	}
 
-	const response = await postAPIGuild(currentPage, data);
+	try {
+		await postAPIGuild(currentPage, data);
+		createMutationObserver(document.getElementById('featureSettings'));
 
-	// TODO: If response not correct, reset to previous state and display error icon.
+		saveChangesContainer.classList.remove('visible');
+	} catch {
+		saveChangesContainer.classList.add('error');
+		document.getElementById('featureSettingsContainer').classList.add('error');
+	}
 
-	saveChanges.classList.remove('syncing', 'visible');
+	saveChangesContainer.classList.remove('syncing');
 	saveButton.disabled = false;
-
-	createMutationObserver(document.getElementById('featureSettings'));
 }
 
 window.deleteSubscribedChannel = async (event) => {
@@ -133,14 +157,22 @@ window.deleteSubscribedChannel = async (event) => {
 	const deleteButton = event.currentTarget;
 	const subscribedChannel = deleteButton.closest('.subscribedChannel');
 
+	subscribedChannel.classList.remove('error');
+	document.getElementById('featureSettingsContainer').classList.remove('error');
+
 	deleteButton.disabled = true;
 	subscribedChannel.classList.add('syncing');
 
-	const response = await deleteAPIGuild(`${currentPage}.channels?channelUsername=${subscribedChannel.dataset.id}`);
+	try {
+		await deleteAPIGuild(`${currentPage}.channels?channelUsername=${subscribedChannel.dataset.id}`);
+		subscribedChannel.remove();
+	} catch {
+		subscribedChannel.classList.add('error');
+		document.getElementById('featureSettingsContainer').classList.add('error');
 
-	// TODO: If response not correct, reset to previous state and display error icon.
-
-	subscribedChannel.remove();
+		subscribedChannel.classList.remove('syncing');
+		deleteButton.disabled = false;
+	}
 }
 
 window.cancelSubscribedChannelChanges = (event) => {
@@ -150,6 +182,8 @@ window.cancelSubscribedChannelChanges = (event) => {
 	const subscribedChannel = subscribedChannelSettings.closest('.subscribedChannel');
 
 	subscribedChannelSettings.replaceWith(getOriginalState(subscribedChannel.dataset.id));
+
+	document.getElementById('featureSettingsContainer').classList.remove('error');
 	subscribedChannel.classList.remove('expanded');
 }
 
@@ -160,6 +194,9 @@ window.saveSubscribedChannelChanges = async (event) => {
 	const subscribedChannel = saveButton.closest('.subscribedChannel');
 	const selectedDiscordChannel = subscribedChannel.querySelector('.discordChannelName');
 
+	subscribedChannel.classList.remove('error');
+	document.getElementById('featureSettingsContainer').classList.remove('error');
+
 	saveButton.disabled = true;
 	subscribedChannel.classList.add('syncing');
 
@@ -169,13 +206,17 @@ window.saveSubscribedChannelChanges = async (event) => {
 		message: subscribedChannel.querySelector('.subscribedChannelMessage').value
 	}
 
-	const response = await postAPIGuild(`${currentPage}.channels?channelUsername=${subscribedChannel.dataset.id}`, data);
+	try {
+		await postAPIGuild(`${currentPage}.channels?channelUsername=${subscribedChannel.dataset.id}`, data);
 
-	// TODO: If response not correct, reset to previous state and display error icon.
+		subscribedChannel.querySelector('.headerDiscordChannelName').textContent = selectedDiscordChannel.textContent;
+		subscribedChannel.classList.remove('expanded');
+	} catch {
+		subscribedChannel.classList.add('error');
+		document.getElementById('featureSettingsContainer').classList.add('error');
+	}
 
-	subscribedChannel.querySelector('.headerDiscordChannelName').textContent = selectedDiscordChannel.textContent;
-
-	subscribedChannel.classList.remove('syncing', 'expanded');
+	subscribedChannel.classList.remove('syncing');
 	saveButton.disabled = false;
 }
 
@@ -183,16 +224,25 @@ window.deleteReactionRole = async (event) => {
 	event.stopPropagation();
 
 	const deleteButton = event.currentTarget;
+	const reactionRoleHeader = deleteButton.closest('.reactionRoleHeader');
 	const reactionRole = deleteButton.closest('.reactionRole');
 
+	reactionRoleHeader.classList.remove('error');
+	document.getElementById('featureSettingsContainer').classList.remove('error');
+
 	deleteButton.disabled = true;
-	deleteButton.closest('.reactionRoleHeader').classList.add('syncing');
+	reactionRoleHeader.classList.add('syncing');
 
-	const response = await deleteAPIGuild(`${currentPage}.channels.${reactionRole.dataset.discordChannel}.${reactionRole.dataset.id}`);
+	try {
+		await deleteAPIGuild(`${currentPage}.channels.${reactionRole.dataset.discordChannel}.${reactionRole.dataset.id}`);
+		reactionRole.remove();
+	} catch {
+		reactionRoleHeader.classList.add('error');
+		document.getElementById('featureSettingsContainer').classList.add('error');
 
-	// TODO: If response not correct, reset to previous state and display error icon.
-
-	reactionRole.remove();
+		reactionRoleHeader.classList.remove('syncing');
+		deleteButton.disabled = false;
+	}
 }
 
 window.cancelReactionRoleChanges = (event) => {
@@ -202,6 +252,8 @@ window.cancelReactionRoleChanges = (event) => {
 	const reactionRole = reactionRoleSettings.closest('.reactionRole');
 
 	reactionRoleSettings.replaceWith(getOriginalState(reactionRole.dataset.id));
+
+	document.getElementById('featureSettingsContainer').classList.remove('error');
 	reactionRole.classList.remove('expanded');
 }
 
@@ -212,19 +264,25 @@ window.saveReactionRoleChanges = async (event) => {
 	const formButtonsContainer = saveButton.closest('.formButtonsContainer');
 	const reactionRole = saveButton.closest('.reactionRole');
 
+	formButtonsContainer.classList.remove('error');
+	document.getElementById('featureSettingsContainer').classList.remove('error');
+
 	saveButton.disabled = true;
 	formButtonsContainer.classList.add('syncing');
 
 	const data = { };
 	[...reactionRole.querySelectorAll('.reactionRoleReaction')].forEach((reaction) => data[reactionRole.dataset.id] = { ...data[reactionRole.dataset.id], [reaction.querySelector('.reactionRoleEmoji').dataset.emoji]: [...reaction.querySelectorAll('.discordRole')].map((role) => role.dataset.discordRole) });
 
-	const response = await postAPIGuild(`${currentPage}.channels.${reactionRole.dataset.discordChannel}`, data);
-
-	// TODO: If response not correct, reset to previous state and display error icon.
+	try {
+		await postAPIGuild(`${currentPage}.channels.${reactionRole.dataset.discordChannel}`, data);
+		reactionRole.classList.remove('expanded');
+	} catch {
+		formButtonsContainer.classList.add('error');
+		document.getElementById('featureSettingsContainer').classList.add('error');
+	}
 
 	formButtonsContainer.classList.remove('syncing');
 	saveButton.disabled = false;
-	reactionRole.classList.remove('expanded');
 }
 
 window.cancelWelcomeMessageAddMessage = (event) => {
@@ -257,13 +315,22 @@ window.deleteReactionRoleReaction = (event) => {
 window.addReactionRoleReaction = async (event) => {
 	event.stopPropagation();
 
-	const addReactionButton = event.currentTarget;
-	const emojiPicker = await getEmojiPicker();
+	const featureSettingsContainer = document.getElementById('featureSettingsContainer');
+	featureSettingsContainer.classList.remove('error');
 
-	emojiPicker.on('hidden', () => emojiPicker.off('emoji'));
-	emojiPicker.on('emoji', async (emoji) => addReactionButton.closest('.reactionRoleSettingsContainer').insertBefore(await createReactionRoleReactionElement(emoji), addReactionButton.closest('.reactionRoleSettingsContainerFooter')));
+	try {
+		const addReactionButton = event.currentTarget;
+		const emojiPicker = await getEmojiPicker();
 
-	emojiPicker.togglePicker(addReactionButton);
+		emojiPicker.on('hidden', () => emojiPicker.off('emoji'));
+
+		emojiPicker.on('emoji', async (emoji) => {
+			try { addReactionButton.closest('.reactionRoleSettingsContainer').insertBefore(await createReactionRoleReactionElement(emoji), addReactionButton.closest('.reactionRoleSettingsContainerFooter')) }
+			catch { featureSettingsContainer.classList.add('error') }
+		});
+
+		emojiPicker.togglePicker(addReactionButton);
+	} catch { featureSettingsContainer.classList.add('error') }
 }
 
 window.deleteMessage = (event) => {
@@ -286,11 +353,17 @@ window.addMessage = (event) => {
 window.deleteDiscordRole = async (event) => {
 	event.stopPropagation();
 
-	const discordRole = event.currentTarget.closest('.discordRole');
-	const discordRoleContainer = discordRole.closest('.discordRoles');
-	if ('singleRole' in discordRoleContainer.dataset) discordRoleContainer.append(await createAddDiscordRoleElement());
+	const featureSettingsContainer = document.getElementById('featureSettingsContainer');
+	featureSettingsContainer.classList.remove('error');
 
-	discordRole.remove();
+	try {
+		const discordRole = event.currentTarget.closest('.discordRole');
+		const discordRoleContainer = discordRole.closest('.discordRoles');
+
+		if ('singleRole' in discordRoleContainer.dataset) discordRoleContainer.append(await createAddDiscordRoleElement());
+
+		discordRole.remove();
+	} catch { featureSettingsContainer.classList.add('error') }
 }
 
 window.addDiscordRole = (event) => {

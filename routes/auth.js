@@ -13,10 +13,12 @@ router.get('/', (req, res, next) => {
 router.get('/login', async (req, res, next) => {
 	if (!req.query.code) return res.redirect('/orbit/auth');
 
-	const authData = await getAuthentication(req.query.code);
-	Object.assign(req.session, authData, await getData(authData));
+	try {
+		const authData = await getAuthentication(req.query.code);
+		Object.assign(req.session, authData, await getData(authData));
 
-	res.redirect('/orbit/dashboard');
+		res.redirect('/orbit/dashboard');
+	} catch (error) { return next(error) }
 });
 
 router.get('/logout', (req, res, next) => {

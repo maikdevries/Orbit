@@ -16,22 +16,28 @@ module.exports = {
 }
 
 async function hasGuildSettings (guildID) {
-	return await db.has(guildID);
+	try { return await db.has(guildID) }
+	catch (error) { throw new Error(`Checking Josh failed for guild ID ${guildID}. Error: ${error.toString()}`) }
 }
 
 async function getGuildSettings (path) {
-	return await db.get(path);
+	try { return await db.get(path) }
+	catch (error) { throw new Error(`Getting Josh failed for path ${path}. Error: ${error.toString()}`) }
 }
 
 async function updateGuildSetting (path, data, channelUsername = null) {
-	const currentSettings = await db.get(path);
-	await db.set(path, (channelUsername ? currentSettings.map((channel) => (channel.username === channelUsername ? { ...channel, ...data } : channel)) : { ...currentSettings, ...data }));
+	try {
+		const currentSettings = await db.get(path);
+		await db.set(path, (channelUsername ? currentSettings.map((channel) => (channel.username === channelUsername ? { ...channel, ...data } : channel)) : { ...currentSettings, ...data }));
 
-	return await db.get(path);
+		return await db.get(path);
+	} catch (error) { throw new Error(`Updating Josh failed for path ${path} and channelUsername was ${channelUsername}. Error: ${error.toString()}`) }
 }
 
 async function deleteGuildSetting (path, channelUsername = null) {
-	channelUsername ? await db.remove(path, (channel) => channel.username === channelUsername) : await db.delete(path);
+	try {
+		channelUsername ? await db.remove(path, (channel) => channel.username === channelUsername) : await db.delete(path);
 
-	return await db.get(path);
+		return await db.get(path);
+	} catch (error) { throw new Error(`Deleting Josh failed for path ${path} and channelUsername was ${channelUsername}. Error: ${error.toString()}`) }
 }

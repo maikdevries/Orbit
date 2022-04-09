@@ -58,12 +58,32 @@ async function getGuildEmojis (guildID, tokenType, token) {
 }
 
 async function getMessageData (channelID, messageID, tokenType, token) {
-	return await getFetch(`channels/${channelID}/messages/${messageID}`, tokenType, token);
+	try {
+		return await getFetch(`channels/${channelID}/messages/${messageID}`, tokenType, token);
+	} catch (error) {
+		if (error instanceof FetchError && error.statusCode === 404) return { };
+		else throw error.toString();
+	}
 }
 
 async function getFetch (url, tokenType, token) {
 	try {
 		const response = await fetch(`https://discord.com/api/${url}`, { headers: { 'Authorization': `${tokenType} ${token}`, 'Content-Type': 'application/json' } });
-		return await response.json();
-	} catch (error) { console.error(error) }
+		return response.ok ? await response.json() : (() => { throw new FetchError(response.status, `Fetching Discord API failed with status ${response.status}. URL: ${response.url}`) })();
+	} catch (error) { throw error }
+}
+
+class FetchError extends Error {
+	constructor (statusCode, message) {
+		super(message);
+		this._statusCode = statusCode;
+	}
+
+	get statusCode () {
+		return this._statusCode;
+	}
+
+	set statusCode (statusCode) {
+		this._statusCode = statusCode;
+	}
 }

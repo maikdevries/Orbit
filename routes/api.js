@@ -18,9 +18,11 @@ router.get('/guilds/:guildID/emojis', (req, res, next) => {
 });
 
 router.post('/:guildID/:featurePath', async (req, res, next) => {
-	res.json(await updateGuildSetting(`${req.params.guildID}.${req.params.featurePath}`, req.body, req.query.channelUsername));
+	try { res.json(await updateGuildSetting(`${req.params.guildID}.${req.params.featurePath}`, req.body, req.query.channelUsername)) }
+	catch (error) { console.error(error); res.status(500).send('Something went terribly wrong on our side of the internet.') }
 });
 
 router.delete('/:guildID/:featurePath', async (req, res, next) => {
-	res.json(await deleteGuildSetting(`${req.params.guildID}.${req.params.featurePath}`, req.query.channelUsername));
+	try { res.json(await deleteGuildSetting(`${req.params.guildID}.${req.params.featurePath}`, req.query.channelUsername)) }
+	catch (error) { console.error(error); res.status(500).json('Something went terribly wrong on our side of the internet.') }
 });

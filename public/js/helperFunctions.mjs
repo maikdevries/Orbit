@@ -9,39 +9,41 @@ export async function getEmojiPicker () {
 }
 
 async function createEmojiPicker () {
-	emojiPicker = new EmojiButton({
-		zIndex: 1,
-		style: 'twemoji',
-		emojiSize: '24px',
-		rows: 5,
-		styleProperties: {
-			'--font': `normal normal bold 100% 'Open Sans', sans-serif`,
-			'--font-size': '90%',
-			'--background-color': '#23282d',
-			'--category-button-size': '16px',
-			'--category-button-color': '#969696',
-			'--category-button-active-color': '#f0f0f0',
-			'--text-color': '#f0f0f0',
-			'--secondary-text-color': '#969696',
-			'--hover-color': '#36393f'
-		},
-		icons: {
-			categories: {
-				'custom': `https://cdn.discordapp.com/icons/${guildID}/${(await fetchAPI(`guilds/${guildID}`)).icon}.png?size=16`
-			}
-		},
-		custom: (await fetchAPI(`guilds/${guildID}/emojis`)).map((emoji) => ({ name: emoji.name, emoji: `https://cdn.discordapp.com/emojis/${emoji.id}.${emoji.animated ? 'gif' : 'png'}?size=24` }))
-	});
+	try {
+		emojiPicker = new EmojiButton({
+			zIndex: 1,
+			style: 'twemoji',
+			emojiSize: '24px',
+			rows: 5,
+			styleProperties: {
+				'--font': `normal normal bold 100% 'Open Sans', sans-serif`,
+				'--font-size': '90%',
+				'--background-color': '#23282d',
+				'--category-button-size': '16px',
+				'--category-button-color': '#969696',
+				'--category-button-active-color': '#f0f0f0',
+				'--text-color': '#f0f0f0',
+				'--secondary-text-color': '#969696',
+				'--hover-color': '#36393f'
+			},
+			icons: {
+				categories: {
+					'custom': `https://cdn.discordapp.com/icons/${guildID}/${(await fetchAPI(`guilds/${guildID}`)).icon}.png?size=16`
+				}
+			},
+			custom: (await fetchAPI(`guilds/${guildID}/emojis`)).map((emoji) => ({ name: emoji.name, emoji: `https://cdn.discordapp.com/emojis/${emoji.id}.${emoji.animated ? 'gif' : 'png'}?size=24` }))
+		});
 
-	return emojiPicker;
+		return emojiPicker;
+	} catch (error) { throw error.toString() }
 }
 
 export function createMutationObserver (target) {
-	const saveChanges = document.getElementById('saveChanges');
+	const saveChangesContainer = document.getElementById('saveChangesContainer');
 
 	originalState = { ...originalState, 'mutation': target.cloneNode(true) };
 
-	observer = new MutationObserver(() => originalState['mutation'].isEqualNode(target) ? saveChanges.classList.remove('visible') : saveChanges.classList.add('visible'));
+	observer = new MutationObserver(() => originalState['mutation'].isEqualNode(target) ? saveChangesContainer.classList.remove('visible') : saveChangesContainer.classList.add('visible'));
 	observer.observe(target, { childList: true, subtree: true });
 }
 
@@ -56,22 +58,22 @@ export function getOriginalState (key) {
 export async function fetchAPI (url) {
 	try {
 		const response = await fetch(`${document.location.origin}/orbit/api/${url}`);
-		return await response.json();
-	} catch (error) { console.error(error) }
+		return response.ok ? await response.json() : (() => { throw new Error(`Fetching API failed with status ${response.status}. URL: ${response.url}`) })();
+	} catch (error) { throw error.toString() }
 }
 
 export async function postAPIGuild (url, data) {
 	try {
 		const response = await fetch(`${document.location.origin}/orbit/api/${guildID}/${url}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
-		return await response.json();
-	} catch (error) { console.error(error) }
+		return response.ok ? await response.json() : (() => { throw new Error(`Fetching API failed with status ${response.status}. URL: ${response.url}`) })();
+	} catch (error) { throw error.toString() }
 }
 
 export async function deleteAPIGuild (url) {
 	try {
 		const response = await fetch(`${document.location.origin}/orbit/api/${guildID}/${url}`, { method: 'DELETE' });
-		return await response.json();
-	} catch (error) { console.error(error) }
+		return response.ok ? await response.json() : (() => { throw new Error(`Fetching API failed with status ${response.status}. URL: ${response.url}`) })();
+	} catch (error) { throw error.toString() }
 }
 
 export function createDiscordRoleElement (roleData) {
@@ -112,6 +114,7 @@ export async function createReactionRoleReactionElement (reactionData) {
 
 	const reactionRoles = document.createElement('div');
 	reactionRoles.classList.add('discordRoles');
+
 	reactionRoles.append(await createAddDiscordRoleElement());
 
 	reactionContainerElement.append(deleteReactionButton, reactionEmoji, reactionRoles);

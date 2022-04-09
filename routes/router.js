@@ -30,15 +30,19 @@ router.use('/dashboard', (req, res, next) => {
 });
 
 router.get('/dashboard', async (req, res, next) => {
-	res.render('guildSelect', {
-		guilds:	(Date.now() > req.session.expires ? await updateGuildsData(req.session) : req.session.guilds)
-	});
+	try {
+		res.render('guildSelect', {
+			guilds:	(Date.now() > req.session.expires ? await updateGuildsData(req.session) : req.session.guilds)
+		});
+	} catch (error) { return next(error) }
 });
 
 router.use('/dashboard/:guildID', async (req, res, next) => {
-	if (!await hasGuildSettings(req.params.guildID) || !hasGuildAccess(req.params.guildID, req.session.guilds)) return res.redirect('/orbit/dashboard');
+	try {
+		if (!await hasGuildSettings(req.params.guildID) || !hasGuildAccess(req.params.guildID, req.session.guilds)) return res.redirect('/orbit/dashboard');
 
-	return next();
+		return next();
+	} catch (error) { return next(error) }
 });
 
 router.use('/dashboard/:guildID', settingsRouter);
@@ -50,3 +54,7 @@ router.get('/support', (req, res, next) => {
 router.get('/support/server', (req, res, next) => {
 	res.redirect(process.env.SUPPORT_INVITE_URL);
 });
+
+router.get('/error', (req, res, next) => {
+	res.render('error');
+})
