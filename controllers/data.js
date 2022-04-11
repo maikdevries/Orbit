@@ -12,7 +12,7 @@ const db = new Josh({
 });
 
 module.exports = {
-	hasGuildSettings, getGuildSettings, updateGuildSetting, deleteGuildSetting
+	hasGuildSettings, getGuildSettings, createGuildSetting, updateGuildSetting, deleteGuildSetting
 }
 
 async function hasGuildSettings (guildID) {
@@ -23,6 +23,15 @@ async function hasGuildSettings (guildID) {
 async function getGuildSettings (path) {
 	try { return await db.get(path) }
 	catch (error) { throw new Error(`Getting Josh failed for path ${path}. Error: ${error.toString()}`) }
+}
+
+async function createGuildSetting (path, data) {
+	try {
+		const currentSettings = await db.get(path);
+		Array.isArray(currentSettings) ? await db.push(path, data) : await db.set(path, { ...currentSettings, ...data });
+
+		return await db.get(path);
+	} catch (error) { throw new Error(`Creating Josh failed for path ${path}. Error: ${error.toString()}`) }
 }
 
 async function updateGuildSetting (path, data, channelUsername = null) {

@@ -7,7 +7,7 @@ const router = Express.Router();
 module.exports = router;
 
 router.get('/', (req, res, next) => {
-	res.redirect(process.env.INVITE_URL);
+	return res.redirect(process.env.INVITE_URL);
 });
 
 router.get('/login', async (req, res, next) => {
@@ -17,7 +17,7 @@ router.get('/login', async (req, res, next) => {
 		const authData = await getAuthentication(req.query.code);
 		Object.assign(req.session, authData, await getData(authData));
 
-		res.redirect('/orbit/dashboard');
+		return res.redirect('/orbit/dashboard');
 	} catch (error) { return next(error) }
 });
 
@@ -26,9 +26,9 @@ router.get('/logout', (req, res, next) => {
 });
 
 router.get('/server', (req, res, next) => {
-	res.redirect(`/orbit/dashboard/${req.query.guild_id}`);
+	return res.redirect(`/orbit/dashboard/${req.query.guild_id}`);
 });
 
 router.get('/server/:guildID', (req, res, next) => {
-	res.redirect(`${process.env.SERVER_INVITE_URL}&guild_id=${req.params.guildID}`);
+	return res.redirect(`${process.env.SERVER_INVITE_URL}&guild_id=${req.params.guildID}`);
 });

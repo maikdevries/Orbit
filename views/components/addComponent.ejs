@@ -1,0 +1,39 @@
+<div class='addComponentContainer' data-id='<%= featureName %>' onclick='addComponent(event)'>
+	<span class='syncChanges material-icons'></span>
+
+	<div class='addComponent'>
+		<p class='addComponentHeader'>To <span style='color: var(--colour-orange)'><%= action %></span>, we just need a few things from you - we will take care of the rest.</p>
+
+		<% if (channel) { %>
+
+			<div class='addComponentField'>
+				<p class='settingsHeaderName'><%= featureName.toUpperCase() %> CHANNEL URL</p>
+				<p class='settingsHeaderDescription'>The URL that leads to your <%= featureName %> channel.</p>
+				<input class='addComponentFieldChannel' type='url' placeholder='<%= channelURLPlaceholder %>'>
+			</div>
+
+		<% }
+
+		if (discordChannel) { %>
+
+			<div class='addComponentField'>
+				<p class='settingsHeaderName'>DISCORD CHANNEL</p>
+				<p class='settingsHeaderDescription'>The Discord channel in which <%= discordChannelAction %>.</p>
+				<%- include('../components/listDiscordChannel.ejs') %>
+			</div>
+
+		<% }
+
+		if (discordMessage) { %>
+
+			<div class='addComponentField'>
+				<p class='settingsHeaderName'>MESSAGE ID <span class='furtherHelp material-icons' onclick='window.open(`https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-`, `_blank`)'>info</span></p>
+				<p class='settingsHeaderDescription'>The ID of the Discord message you would like to <%= action %> for.</p>
+				<input class='addComponentFieldMessage' type='text'>
+			</div>
+
+		<% } %>
+
+		<%- include('../components/formButtons.ejs', { cancelFunction: 'cancelAddComponent(event)' }) %>
+	</div>
+</div>

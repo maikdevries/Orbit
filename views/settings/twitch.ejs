@@ -41,6 +41,17 @@
 						<p id='featureDescription'>Send out an announcement every time your favourite Twitch streamer goes live.</p>
 					</div>
 
+					<%- include('../components/addComponent.ejs', {
+						featureName: 'Twitch',
+						action: 'follow a new Twitch channel',
+						channel: true,
+						channelURLPlaceholder: 'https://www.twitch.tv/...',
+						discordChannel: true,
+						discordChannelAction: 'the announcements will be sent',
+						discordMessage: false,
+						saveFunction: 'createComponentSubscribedChannel(event)'
+					}) %>
+
 					<% for (const channel of settings.channels) { %>
 
 						<%- include('../components/subscribedChannel.ejs', { settings: channel.settings, resources: channel.resources }) %>

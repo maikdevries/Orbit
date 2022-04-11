@@ -41,6 +41,17 @@
 						<p id='featureDescription'>Let members assign themselves roles by leaving reactions on certain messages.</p>
 					</div>
 
+					<%- include('../components/addComponent.ejs', {
+						featureName: 'reactionRole',
+						action: 'create a new Reaction Role',
+						channel: false,
+						channelURLPlaceholder: '',
+						discordChannel: true,
+						discordChannelAction: 'the message can be found',
+						discordMessage: true,
+						saveFunction: 'createComponentReactionRole(event)'
+					}) %>
+
 					<% for (const channel in settings.channels) {
 						for (const message in settings.channels[channel]) {
 

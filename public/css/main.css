@@ -21,6 +21,7 @@
 	--transition-collapse-fast: all 0.15s linear 0s;
 	--animation-rotate: rotate 2s cubic-bezier(1, 0, 0.5, 1) infinite;
 	--shadow-default: 0 0 40px -10px #00000040;
+	--border-default: 1px solid var(--colour-black);
 }
 
 @keyframes rotate {

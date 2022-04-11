@@ -32,7 +32,7 @@ app.use('/orbit', router);
 app.use((error, req, res, next) => {
 	console.error(error.toString());
 
-	res.redirect('/orbit/error');
+	return res.redirect('/orbit/error');
 });
 
 server.listen(3001, () => console.log('HTTP backend server successfully launched!'));

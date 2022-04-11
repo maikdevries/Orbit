@@ -1,7 +1,7 @@
 import {
 	getEmojiPicker, createMutationObserver, setOriginalState, getOriginalState,
-	createDiscordRoleElement, createReactionRoleReactionElement, createAddDiscordRoleElement, createMessageElement,
-	postAPIGuild, deleteAPIGuild
+	createDiscordRoleElement, createReactionRoleReactionElement, createAddDiscordRoleElement, createMessageElement, createReactionRoleElement, createSubscribedChannelElement,
+	getAPIGuild, postAPIGuild, patchAPIGuild, deleteAPIGuild
 } from './helperFunctions.mjs';
 
 const currentPage = document.location.pathname.substring(document.location.pathname.lastIndexOf('/') + 1);
@@ -46,7 +46,7 @@ window.saveSettingEnabled = async (event, subFeature = null) => {
 		enabled: settingEnabledSwitch.checked
 	}
 
-	try { await postAPIGuild((subFeature ? `${currentPage}.${subFeature}` : currentPage), data) }
+	try { await patchAPIGuild((subFeature ? `${currentPage}.${subFeature}` : currentPage), data) }
 	catch {
 		settingEnabled.classList.add('error');
 		document.getElementById('featureSettingsContainer').classList.add('error');
@@ -97,7 +97,7 @@ window.saveWelcomeMessageChanges = async (event) => {
 	}
 
 	try {
-		await postAPIGuild(`${currentPage}.${welcomeMessageFeatureElement.dataset.id}`, data);
+		await patchAPIGuild(`${currentPage}.${welcomeMessageFeatureElement.dataset.id}`, data);
 
 		welcomeMessageFeatureElement.querySelector('.addMessage').reset();
 		welcomeMessageFeatureElement.classList.remove('expanded');
@@ -138,7 +138,7 @@ window.saveStreamerShoutoutChanges = async (event) => {
 	}
 
 	try {
-		await postAPIGuild(currentPage, data);
+		await patchAPIGuild(currentPage, data);
 		createMutationObserver(document.getElementById('featureSettings'));
 
 		saveChangesContainer.classList.remove('visible');
@@ -207,7 +207,7 @@ window.saveSubscribedChannelChanges = async (event) => {
 	}
 
 	try {
-		await postAPIGuild(`${currentPage}.channels?channelUsername=${subscribedChannel.dataset.id}`, data);
+		await patchAPIGuild(`${currentPage}.channels?channelUsername=${subscribedChannel.dataset.id}`, data);
 
 		subscribedChannel.querySelector('.headerDiscordChannelName').textContent = selectedDiscordChannel.textContent;
 		subscribedChannel.classList.remove('expanded');
@@ -274,7 +274,7 @@ window.saveReactionRoleChanges = async (event) => {
 	[...reactionRole.querySelectorAll('.reactionRoleReaction')].forEach((reaction) => data[reactionRole.dataset.id] = { ...data[reactionRole.dataset.id], [reaction.querySelector('.reactionRoleEmoji').dataset.emoji]: [...reaction.querySelectorAll('.discordRole')].map((role) => role.dataset.discordRole) });
 
 	try {
-		await postAPIGuild(`${currentPage}.channels.${reactionRole.dataset.discordChannel}`, data);
+		await patchAPIGuild(`${currentPage}.channels.${reactionRole.dataset.discordChannel}`, data);
 		reactionRole.classList.remove('expanded');
 	} catch {
 		formButtonsContainer.classList.add('error');
@@ -282,6 +282,106 @@ window.saveReactionRoleChanges = async (event) => {
 	}
 
 	formButtonsContainer.classList.remove('syncing');
+	saveButton.disabled = false;
+}
+
+window.addComponent = (event) => {
+	event.stopPropagation();
+
+	const addComponentContainer = event.currentTarget;
+
+	if (event.target.closest('.addComponent') || addComponentContainer.classList.contains('expanded')) return;
+
+	setOriginalState(addComponentContainer.dataset.id, addComponentContainer.querySelector('.addComponent'));
+	addComponentContainer.classList.add('expanded');
+}
+
+window.cancelAddComponent = (event) => {
+	event.stopPropagation();
+
+	const addComponentContainer = event.currentTarget.closest('.addComponentContainer');
+
+	addComponentContainer.querySelector('.addComponent').replaceWith(getOriginalState(addComponentContainer.dataset.id));
+
+	document.getElementById('featureSettingsContainer').classList.remove('error');
+	addComponentContainer.classList.remove('error', 'expanded');
+}
+
+window.createComponentSubscribedChannel = async (event) => {
+	event.stopPropagation();
+
+	const saveButton = event.currentTarget;
+	const addComponentContainer = saveButton.closest('.addComponentContainer');
+	const discordChannel = addComponentContainer.querySelector('.discordChannelName');
+	const featureSettingsContainer = document.getElementById('featureSettingsContainer');
+
+	addComponentContainer.classList.remove('error');
+	featureSettingsContainer.classList.remove('error');
+
+	saveButton.disabled = true;
+	addComponentContainer.classList.add('syncing');
+
+	const data = {
+		channelURL: addComponentContainer.querySelector('.addComponentFieldChannel').value,
+		discordChannel: discordChannel.dataset.discordChannel
+	}
+
+	try {
+		const response = await getAPIGuild(`${currentPage}/${encodeURIComponent(data.channelURL)}`);
+		if (currentPage === 'twitch' && (!response?.login || !response?.display_name || !response?.profile_image_url)) throw new Error('The Twitch channel with that URL could not be found.');
+		else if (currentPage === 'youtube' && (!response?.channelID || !response?.title || !response?.thumbnails?.default)) throw new Error('The YouTube channel with that URL could not be found.');
+
+		const discordChannel = await getAPIGuild(`/channels/${data.discordChannel}`);
+		if (!discordChannel?.id || !discordChannel?.name) throw new Error('This Discord channel is not part of the current guild.');
+
+		await postAPIGuild(`${currentPage}.channels`, { username: (response.login || response.channelID), channel: discordChannel.id, message: '' });
+		featureSettingsContainer.insertBefore(await createSubscribedChannelElement(discordChannel, response), document.getElementById('saveChangesContainer'));
+
+		addComponentContainer.querySelector('.addComponent').replaceWith(getOriginalState(addComponentContainer.dataset.id));
+		addComponentContainer.classList.remove('expanded');
+	} catch (error) {
+		addComponentContainer.classList.add('error');
+		featureSettingsContainer.classList.add('error');
+	}
+
+	addComponentContainer.classList.remove('syncing');
+	saveButton.disabled = false;
+}
+
+window.createComponentReactionRole = async (event) => {
+	event.stopPropagation();
+
+	const saveButton = event.currentTarget;
+	const addComponentContainer = saveButton.closest('.addComponentContainer');
+	const discordChannel = addComponentContainer.querySelector('.discordChannelName');
+	const featureSettingsContainer = document.getElementById('featureSettingsContainer');
+
+	addComponentContainer.classList.remove('error');
+	featureSettingsContainer.classList.remove('error');
+
+	saveButton.disabled = true;
+	addComponentContainer.classList.add('syncing');
+
+	const data = {
+		channelID: discordChannel.dataset.discordChannel,
+		messageID: addComponentContainer.querySelector('.addComponentFieldMessage').value
+	}
+
+	try {
+		const response = await getAPIGuild(`channels/${data.channelID}/messages/${data.messageID}`);
+		if (!response.id || !response.channel_id || !response.content) throw new Error('This Discord message is not part of the supplied Discord channel.');
+
+		await postAPIGuild(`${currentPage}.channels.${response.channel_id}`, { [response.id]: { } });
+		featureSettingsContainer.insertBefore(createReactionRoleElement(discordChannel.textContent, response), document.getElementById('saveChangesContainer'));
+
+		addComponentContainer.querySelector('.addComponent').replaceWith(getOriginalState(addComponentContainer.dataset.id));
+		addComponentContainer.classList.remove('expanded');
+	} catch {
+		addComponentContainer.classList.add('error');
+		featureSettingsContainer.classList.add('error');
+	}
+
+	addComponentContainer.classList.remove('syncing');
 	saveButton.disabled = false;
 }
 
@@ -345,7 +445,6 @@ window.addMessage = (event) => {
 	if (event.target.closest('.addMessage')) return;
 
 	event.currentTarget.classList.toggle('expanded');
-	event.currentTarget.querySelector('.addMessageInput').focus();
 
 	document.onclick = closeAddMessageContainer;
 }

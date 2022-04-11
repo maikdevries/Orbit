@@ -11,7 +11,7 @@ export async function getEmojiPicker () {
 async function createEmojiPicker () {
 	try {
 		emojiPicker = new EmojiButton({
-			zIndex: 1,
+			zIndex: 4,
 			style: 'twemoji',
 			emojiSize: '24px',
 			rows: 5,
@@ -28,10 +28,10 @@ async function createEmojiPicker () {
 			},
 			icons: {
 				categories: {
-					'custom': `https://cdn.discordapp.com/icons/${guildID}/${(await fetchAPI(`guilds/${guildID}`)).icon}.png?size=16`
+					'custom': `https://cdn.discordapp.com/icons/${guildID}/${(await getAPIGuild(`guilds/${guildID}`)).icon}.png?size=16`
 				}
 			},
-			custom: (await fetchAPI(`guilds/${guildID}/emojis`)).map((emoji) => ({ name: emoji.name, emoji: `https://cdn.discordapp.com/emojis/${emoji.id}.${emoji.animated ? 'gif' : 'png'}?size=24` }))
+			custom: (await getAPIGuild(`guilds/${guildID}/emojis`)).map((emoji) => ({ name: emoji.name, emoji: `https://cdn.discordapp.com/emojis/${emoji.id}.${emoji.animated ? 'gif' : 'png'}?size=24` }))
 		});
 
 		return emojiPicker;
@@ -55,24 +55,31 @@ export function getOriginalState (key) {
 	return originalState[key];
 }
 
-export async function fetchAPI (url) {
+export async function getAPIGuild (url) {
 	try {
-		const response = await fetch(`${document.location.origin}/orbit/api/${url}`);
-		return response.ok ? await response.json() : (() => { throw new Error(`Fetching API failed with status ${response.status}. URL: ${response.url}`) })();
+		const response = await fetch(`${document.location.origin}/orbit/api/${url}`, { method: 'GET' });
+		return response.ok ? await response.json() : (() => { throw new Error(`GET API failed with status ${response.status}. URL: ${response.url}`) })();
 	} catch (error) { throw error.toString() }
 }
 
 export async function postAPIGuild (url, data) {
 	try {
 		const response = await fetch(`${document.location.origin}/orbit/api/${guildID}/${url}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
-		return response.ok ? await response.json() : (() => { throw new Error(`Fetching API failed with status ${response.status}. URL: ${response.url}`) })();
+		return response.ok ? await response.json() : (() => { throw new Error(`POST API failed with status ${response.status}. URL: ${response.url}`) })();
+	} catch (error) { throw error.toString() }
+}
+
+export async function patchAPIGuild (url, data) {
+	try {
+		const response = await fetch(`${document.location.origin}/orbit/api/${guildID}/${url}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+		return response.ok ? await response.json() : (() => { throw new Error(`PATCH API failed with status ${response.status}. URL: ${response.url}`) })();
 	} catch (error) { throw error.toString() }
 }
 
 export async function deleteAPIGuild (url) {
 	try {
 		const response = await fetch(`${document.location.origin}/orbit/api/${guildID}/${url}`, { method: 'DELETE' });
-		return response.ok ? await response.json() : (() => { throw new Error(`Fetching API failed with status ${response.status}. URL: ${response.url}`) })();
+		return response.ok ? await response.json() : (() => { throw new Error(`DELETE API failed with status ${response.status}. URL: ${response.url}`) })();
 	} catch (error) { throw error.toString() }
 }
 
@@ -133,7 +140,7 @@ export async function createAddDiscordRoleElement () {
 	const roleListContainer = document.createElement('ul');
 	roleListContainer.classList.add('discordRoleList');
 
-	for (const role of await fetchAPI(`guilds/${guildID}/roles`)) {
+	for (const role of await getAPIGuild(`guilds/${guildID}/roles`)) {
 		const roleListEntry = document.createElement('li');
 		roleListEntry.classList.add('discordRoleListEntry');
 		roleListEntry.style.color = role.color;
@@ -163,4 +170,234 @@ export function createMessageElement (messageData) {
 
 	messageContainer.append(deleteMessageButton, messageContent);
 	return messageContainer;
+}
+
+function createSyncChangesElement () {
+	const syncChanges = document.createElement('span');
+	syncChanges.classList.add('syncChanges', 'material-icons');
+
+	return syncChanges;
+}
+
+function createDeleteElementButton (deleteFunction) {
+	const deleteElementButton = document.createElement('button');
+	deleteElementButton.classList.add('deleteElementButton');
+	deleteElementButton.type = 'button';
+	deleteElementButton.setAttribute('onclick', deleteFunction);
+	deleteElementButton.textContent = 'DELETE';
+
+	return deleteElementButton;
+}
+
+function createFormButtonsElement (cancelFunction, saveFunction) {
+	const formButtonsContainer = document.createElement('div');
+	formButtonsContainer.classList.add('formButtonsContainer');
+
+	const cancelChangesButton = document.createElement('button');
+	cancelChangesButton.classList.add('cancelChangesButton');
+	cancelChangesButton.type = 'button';
+	cancelChangesButton.setAttribute('onclick', cancelFunction);
+	cancelChangesButton.textContent = 'CANCEL';
+
+	const saveChangesButton = document.createElement('button');
+	saveChangesButton.classList.add('saveChangesButton');
+	saveChangesButton.type = 'button';
+	saveChangesButton.setAttribute('onclick', saveFunction);
+	saveChangesButton.textContent = 'SAVE';
+
+	formButtonsContainer.append(createSyncChangesElement(), cancelChangesButton, saveChangesButton);
+	return formButtonsContainer;
+}
+
+function createDiscordChannelListEntryElement (channel) {
+	const listEntry = document.createElement('li');
+	listEntry.classList.add('discordChannelListEntry');
+	listEntry.dataset.discordChannel = channel.id;
+	listEntry.setAttribute('onclick', 'changeSelectedDiscordChannel(event)');
+	listEntry.textContent = `#${channel.name}`;
+
+	return listEntry;
+}
+
+async function createListDiscordChannelElement (channelData) {
+	const discordChannelListContainer = document.createElement('div');
+	discordChannelListContainer.classList.add('discordChannelListContainer');
+	discordChannelListContainer.setAttribute('onclick', 'expandDiscordChannelList(event)');
+
+	const discordChannelListHeader = document.createElement('div');
+	discordChannelListHeader.classList.add('discordChannelListHeader');
+
+	const discordChannelName = document.createElement('p');
+	discordChannelName.classList.add('discordChannelName');
+	discordChannelName.dataset.discordChannel = channelData.id;
+	discordChannelName.textContent = `#${channelData.name}`;
+
+	const expandButton = document.createElement('span');
+	expandButton.classList.add('material-icons');
+	expandButton.textContent = 'expand_more';
+
+	discordChannelListHeader.append(discordChannelName, expandButton);
+
+	const discordChannelList = document.createElement('ul');
+	discordChannelList.classList.add('discordChannelList');
+
+	const channels = await getAPIGuild(`guilds/${guildID}/channels`);
+	for (const channel of channels.filter((guildChannel) => !guildChannel.parent_id)) discordChannelList.append(createDiscordChannelListEntryElement(channel));
+
+	for (const category of await getAPIGuild(`guilds/${guildID}/categories`)) {
+		const listCategory = document.createElement('div');
+		listCategory.classList.add('discordChannelListCategory');
+
+		const categoryName = document.createElement('p');
+		categoryName.classList.add('discordChannelListCategoryName');
+		categoryName.textContent = category.name;
+
+		const categoryList = document.createElement('ul');
+
+		for (const channel of channels.filter((guildChannel) => category.id === guildChannel.parent_id)) categoryList.append(createDiscordChannelListEntryElement(channel));
+
+		listCategory.append(categoryName, categoryList);
+
+		discordChannelList.append(listCategory);
+	}
+
+	discordChannelListContainer.append(discordChannelListHeader, discordChannelList);
+	return discordChannelListContainer;
+}
+
+export function createReactionRoleElement (channelName, messageData) {
+	const reactionRoleContainer = document.createElement('div');
+	reactionRoleContainer.classList.add('reactionRole');
+	reactionRoleContainer.dataset.id = messageData.id;
+	reactionRoleContainer.dataset.discordChannel = messageData.channel_id;
+	reactionRoleContainer.setAttribute('onclick', `expandSettings(event, '.reactionRoleSettings')`);
+
+	const reactionRoleHeader = document.createElement('div');
+	reactionRoleHeader.classList.add('reactionRoleHeader');
+
+	const reactionRoleData = document.createElement('div');
+	reactionRoleData.classList.add('reactionRoleData');
+
+	const discordChannelName = document.createElement('p');
+	discordChannelName.classList.add('reactionRoleChannelName');
+	discordChannelName.textContent = channelName;
+
+	const reactionRoleMessage = document.createElement('p');
+	reactionRoleMessage.classList.add('reactionRoleMessage');
+	reactionRoleMessage.textContent = messageData.content;
+
+	reactionRoleData.append(discordChannelName, reactionRoleMessage);
+
+	const reactionRoleHeaderSideContainer = document.createElement('div');
+	reactionRoleHeaderSideContainer.classList.add('reactionRoleHeaderSideContainer');
+
+	reactionRoleHeaderSideContainer.append(createSyncChangesElement(), createDeleteElementButton('deleteReactionRole(event)'));
+
+	reactionRoleHeader.append(reactionRoleData, reactionRoleHeaderSideContainer);
+
+	const reactionRoleSettings = document.createElement('div');
+	reactionRoleSettings.classList.add('reactionRoleSettings');
+
+	const settingsHeader = document.createElement('p');
+	settingsHeader.classList.add('reactionRoleSettingsHeader');
+	settingsHeader.textContent = 'Reactions';
+
+	const reactionsContainer = document.createElement('div');
+	reactionsContainer.classList.add('reactionRoleSettingsContainer');
+
+	const settingsFooter = document.createElement('div');
+	settingsFooter.classList.add('reactionRoleSettingsContainerFooter');
+
+	const addReactionButton = document.createElement('div');
+	addReactionButton.classList.add('addReactionRoleReaction');
+	addReactionButton.setAttribute('onclick', 'addReactionRoleReaction(event)');
+
+	const addReactionIcon = document.createElement('span');
+	addReactionIcon.classList.add('material-icons');
+	addReactionIcon.textContent = 'add_reaction';
+
+	addReactionButton.append(addReactionIcon);
+
+	settingsFooter.append(addReactionButton, createFormButtonsElement('cancelReactionRoleChanges(event)', 'saveReactionRoleChanges(event)'));
+
+	reactionsContainer.append(settingsFooter);
+
+	reactionRoleSettings.append(settingsHeader, reactionsContainer);
+
+	reactionRoleContainer.append(reactionRoleHeader, reactionRoleSettings);
+	return reactionRoleContainer;
+}
+
+export async function createSubscribedChannelElement (discordChannelData, channelData) {
+	const subscribedChannel = document.createElement('div');
+	subscribedChannel.classList.add('subscribedChannel');
+	subscribedChannel.dataset.id = (channelData.login || channelData.channelID);
+	subscribedChannel.setAttribute('onclick', `expandSettings(event, '.subscribedChannelSettings')`);
+
+	const subscribedChannelHeader = document.createElement('div');
+	subscribedChannelHeader.classList.add('subscribedChannelHeader');
+
+	const subscribedChannelData = document.createElement('div');
+	subscribedChannelData.classList.add('subscribedChannelData');
+
+	const subscribedChannelImage = document.createElement('img');
+	subscribedChannelImage.classList.add('subscribedChannelImage');
+	subscribedChannelImage.src = (channelData.profile_image_url || channelData.thumbnails.default.url);
+
+	const subscribedChannelName = document.createElement('p');
+	subscribedChannelName.classList.add('subscribedChannelName');
+	subscribedChannelName.textContent = (channelData.display_name || channelData.title);
+
+	subscribedChannelData.append(subscribedChannelImage, subscribedChannelName);
+
+	const subscribedChannelHeaderSideContainer = document.createElement('div');
+	subscribedChannelHeaderSideContainer.classList.add('subscribedChannelHeaderSideContainer');
+
+	const headerDiscordChannelName = document.createElement('p');
+	headerDiscordChannelName.classList.add('headerDiscordChannelName');
+	headerDiscordChannelName.textContent = `#${discordChannelData.name}`;
+
+	subscribedChannelHeaderSideContainer.append(headerDiscordChannelName, createSyncChangesElement(), createDeleteElementButton('deleteSubscribedChannel(event)'));
+
+	subscribedChannelHeader.append(subscribedChannelData, subscribedChannelHeaderSideContainer);
+
+	const subscribedChannelSettings = document.createElement('div');
+	subscribedChannelSettings.classList.add('subscribedChannelSettings');
+
+	const subscribedChannelSettingsContainer = document.createElement('div');
+	subscribedChannelSettingsContainer.classList.add('subscribedChannelSettingsContainer');
+
+	const messageContainer = document.createElement('div');
+	messageContainer.classList.add('subscribedChannelMessageContainer');
+
+	const messageSettingsHeader = document.createElement('p');
+	messageSettingsHeader.classList.add('subscribedChannelSettingsHeader');
+	messageSettingsHeader.textContent = 'Message';
+
+	const messageInput = document.createElement('textarea');
+	messageInput.classList.add('subscribedChannelMessage');
+	messageInput.maxLength = 2000;
+	messageInput.placeholder = 'An optional message attached to each announcement.';
+
+	messageContainer.append(messageSettingsHeader, messageInput);
+
+	const settingsSideContainer = document.createElement('div');
+	settingsSideContainer.classList.add('subscribedChannelSettingsSideContainer');
+
+	const settingsDiscordChannelContainer = document.createElement('div');
+
+	const discordChannelSettingsHeader = document.createElement('p');
+	discordChannelSettingsHeader.classList.add('subscribedChannelSettingsHeader');
+	discordChannelSettingsHeader.textContent = 'Discord channel';
+
+	settingsDiscordChannelContainer.append(discordChannelSettingsHeader, await createListDiscordChannelElement(discordChannelData));
+
+	settingsSideContainer.append(settingsDiscordChannelContainer, createFormButtonsElement('cancelSubscribedChannelChanges(event)', 'saveSubscribedChannelChanges(event)'));
+
+	subscribedChannelSettingsContainer.append(messageContainer, settingsSideContainer);
+
+	subscribedChannelSettings.append(subscribedChannelSettingsContainer);
+
+	subscribedChannel.append(subscribedChannelHeader, subscribedChannelSettings);
+	return subscribedChannel;
 }

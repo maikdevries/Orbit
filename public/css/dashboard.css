@@ -189,6 +189,8 @@ main {
 }
 
 .settingsHeaderName {
+	display: flex;
+	align-items: center;
 	font-size: 90%;
 	color: var(--colour-white);
 }
@@ -242,13 +244,25 @@ main {
 .syncChanges {
 	width: 24px;
 	height: 24px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	visibility: hidden;
 	opacity: 0;
 	transition: var(--transition-collapse-fast);
 }
 
+.addComponentContainer .syncChanges {
+	visibility: visible;
+	opacity: 1;
+}
+
+.addComponentContainer .syncChanges::after {
+	content: 'add';
+}
+
 .settingEnabled.syncing .syncChanges, .formButtonsContainer.syncing .syncChanges, .subscribedChannel.syncing .syncChanges,
-.reactionRoleHeader.syncing .syncChanges, #saveChangesContainer.syncing .syncChanges {
+.reactionRoleHeader.syncing .syncChanges, #saveChangesContainer.syncing .syncChanges, .addComponentContainer.syncing .syncChanges {
 	visibility: visible;
 	opacity: 1;
 	color: var(--colour-orange);
@@ -256,27 +270,27 @@ main {
 }
 
 .settingEnabled.syncing .syncChanges::after, .formButtonsContainer.syncing .syncChanges::after, .subscribedChannel.syncing .syncChanges::after,
-.reactionRoleHeader.syncing .syncChanges::after, #saveChangesContainer.syncing .syncChanges::after {
+.reactionRoleHeader.syncing .syncChanges::after, #saveChangesContainer.syncing .syncChanges::after, .addComponentContainer.syncing .syncChanges::after {
 	content: 'sync'
 }
 
 .settingEnabled.error .syncChanges, .formButtonsContainer.error .syncChanges, .subscribedChannel.error .syncChanges,
-.reactionRoleHeader.error .syncChanges, #saveChangesContainer.error .syncChanges {
+.reactionRoleHeader.error .syncChanges, #saveChangesContainer.error .syncChanges, .addComponentContainer.error .syncChanges {
 	visibility: visible;
 	opacity: 1;
 	color: var(--colour-red);
 }
 
 .settingEnabled.error .syncChanges::after, .formButtonsContainer.error .syncChanges::after, .subscribedChannel.error .syncChanges::after,
-.reactionRoleHeader.error .syncChanges::after, #saveChangesContainer.error .syncChanges::after {
+.reactionRoleHeader.error .syncChanges::after, #saveChangesContainer.error .syncChanges::after, .addComponentContainer.error .syncChanges::after {
 	content: 'sync_problem';
 }
 
-.addMessage .cancelChangesButton, .subscribedChannelSettingsSideContainer .cancelChangesButton {
+.addMessage .cancelChangesButton, .subscribedChannelSettingsSideContainer .cancelChangesButton, .addComponent .cancelChangesButton {
 	margin: 0 0 0 0;
 }
 
-.addMessage .syncChanges, .subscribedChannelSettingsSideContainer .syncChanges {
+.addMessage .syncChanges, .subscribedChannelSettingsSideContainer .syncChanges, .addComponent .syncChanges {
 	display: none;
 }
 
@@ -454,6 +468,7 @@ main {
 }
 
 .discordChannelListContainer span {
+	font-size: 20px;
 	transition: var(--transition-collapse-fast);
 }
 
@@ -475,6 +490,7 @@ main {
 	visibility: hidden;
 	opacity: 0;
 	background: var(--colour-dark-grey);
+	border: var(--border-default);
 	box-shadow: var(--shadow-default);
 	transition: var(--transition-collapse-fast);
 	box-sizing: border-box;
@@ -743,16 +759,16 @@ main {
 	z-index: 1;
 	padding: 10px 10px 10px 10px;
 	background: var(--colour-dark-grey);
-	border: 1px solid var(--colour-black);
+	border: var(--border-default);
 	box-shadow: var(--shadow-default);
-	visibility: 0;
+	visibility: hidden;
 	opacity: 0;
 	cursor: default;
 	transition: var(--transition-collapse-fast);
 }
 
 .addMessageContainer.expanded .addMessage {
-	visibility: 1;
+	visibility: visible;
 	opacity: 1;
 }
 
@@ -770,4 +786,97 @@ main {
 	box-sizing: border-box;
 	resize: none;
 	scrollbar-width: thin;
+}
+
+.addComponentContainer {
+	height: 15px;
+	position: relative;
+	z-index: 3;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 15px 0 15px 0;
+	padding: 15px 15px 15px 15px;
+	background: var(--colour-black);
+	color: var(--colour-light-grey);
+	transition: var(--transition-hover);
+	user-select: none;
+}
+
+.addComponentContainer:hover {
+	transform: scale(1.0125);
+	color: var(--colour-white);
+	cursor: pointer;
+	box-shadow: var(--shadow-default);
+}
+
+.addComponentContainer.expanded {
+	transform: unset;
+	box-shadow: unset;
+}
+
+.addComponentContainer .syncChanges {
+	font-size: 125%;
+}
+
+.addComponent {
+	width: 350px;
+	position: absolute;
+	top: 125%;
+	display: flex;
+	flex-direction: column;
+	padding: 10px 10px 10px 10px;
+	background: var(--colour-dark-grey);
+	border: var(--border-default);
+	box-shadow: var(--shadow-default);
+	color: var(--colour-white);
+	visibility: hidden;
+	opacity: 0;
+	cursor: default;
+	transition: var(--transition-collapse-fast);
+}
+
+.addComponentContainer.expanded .addComponent {
+	visibility: visible;
+	opacity: 1;
+}
+
+.addComponent > * {
+	margin: 5px 0 5px 0;
+}
+
+.addComponentHeader {
+	color: var(--colour-light-grey);
+	font-size: 80%;
+	white-space: unset;
+}
+
+.addComponent .discordChannelListContainer {
+	background: var(--colour-grey);
+}
+
+.addComponentFieldChannel, .addComponentFieldMessage {
+	width: 100%;
+	height: 40px;
+	padding: 10px 10px 10px 10px;
+	background: var(--colour-grey);
+	border: none;
+	outline: none;
+	font-size: 85%;
+	color: var(--colour-white);
+	box-sizing: border-box;
+}
+
+.furtherHelp {
+	width: 16px;
+	height: 16px;
+	margin: 0 0 0 5px;
+	color: var(--colour-light-grey);
+	font-size: 105%;
+	transition: var(--transition-hover);
+}
+
+.furtherHelp:hover {
+	cursor: pointer;
+	color: var(--colour-white);
 }
