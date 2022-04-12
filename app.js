@@ -25,14 +25,13 @@ app.use(session({
 
 app.use(Express.json());
 app.use(Express.urlencoded({ extended: true }));
-app.use('/orbit', Express.static(`${__dirname}/public`));
 
-app.use('/orbit', router);
+app.use('/', router);
 
 app.use((error, req, res, next) => {
 	console.error(error.toString());
 
-	return res.redirect('/orbit/error');
+	return res.redirect('/error');
 });
 
-server.listen(3001, () => console.log('HTTP backend server successfully launched!'));
+server.listen(process.env.PORT, () => console.log('HTTP backend server successfully launched!'));

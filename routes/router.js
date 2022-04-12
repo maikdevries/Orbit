@@ -24,7 +24,7 @@ router.get('/', (req, res, next) => {
 });
 
 router.use('/dashboard', (req, res, next) => {
-	if (!req.session.tokenType || !req.session.token) return res.redirect('/orbit/auth');
+	if (!req.session.tokenType || !req.session.token) return res.redirect('/auth');
 
 	return next();
 });
@@ -39,7 +39,7 @@ router.get('/dashboard', async (req, res, next) => {
 
 router.use('/dashboard/:guildID', async (req, res, next) => {
 	try {
-		if (!await hasGuildSettings(req.params.guildID) || !hasGuildAccess(req.params.guildID, req.session.guilds)) return res.redirect('/orbit/dashboard');
+		if (!await hasGuildSettings(req.params.guildID) || !hasGuildAccess(req.params.guildID, req.session.guilds)) return res.redirect('/auth');
 
 		return next();
 	} catch (error) { return next(error) }
@@ -48,7 +48,7 @@ router.use('/dashboard/:guildID', async (req, res, next) => {
 router.use('/dashboard/:guildID', settingsRouter);
 
 router.get('/support', (req, res, next) => {
-	return res.redirect('/orbit/support/server');
+	return res.redirect('/support/server');
 });
 
 router.get('/support/server', (req, res, next) => {

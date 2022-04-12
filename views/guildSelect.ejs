@@ -6,7 +6,7 @@
 
 		<%- include('./partials/head.ejs') %>
 
-		<link rel='stylesheet' href='/orbit/css/guildSelect.css'>
+		<link rel='stylesheet' href='/css/guildSelect.css'>
 
 	</head>
 
@@ -23,7 +23,7 @@
 
 				<% for (const guild of guilds) { %>
 
-					<div class='guild' onclick="location.href = '<%= (guild.joined ? `/orbit/dashboard/${guild.id}` : `/orbit/auth/server/${guild.id}`) %>'">
+					<div class='guild' onclick="location.href = '<%= (guild.joined ? `/dashboard/${guild.id}` : `/auth/server/${guild.id}`) %>'">
 
 						<div class='guildIcon'>
 							<% if (guild.icon) { %> <img src='<%= `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=128` %>' draggable='false'> <% }

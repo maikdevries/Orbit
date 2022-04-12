@@ -57,28 +57,28 @@ export function getOriginalState (key) {
 
 export async function getAPIGuild (url) {
 	try {
-		const response = await fetch(`${document.location.origin}/orbit/api/${url}`, { method: 'GET' });
+		const response = await fetch(`${document.location.origin}/api/${url}`, { method: 'GET' });
 		return response.ok ? await response.json() : (() => { throw new Error(`GET API failed with status ${response.status}. URL: ${response.url}`) })();
 	} catch (error) { throw error.toString() }
 }
 
 export async function postAPIGuild (url, data) {
 	try {
-		const response = await fetch(`${document.location.origin}/orbit/api/${guildID}/${url}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+		const response = await fetch(`${document.location.origin}/api/${guildID}/${url}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
 		return response.ok ? await response.json() : (() => { throw new Error(`POST API failed with status ${response.status}. URL: ${response.url}`) })();
 	} catch (error) { throw error.toString() }
 }
 
 export async function patchAPIGuild (url, data) {
 	try {
-		const response = await fetch(`${document.location.origin}/orbit/api/${guildID}/${url}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+		const response = await fetch(`${document.location.origin}/api/${guildID}/${url}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
 		return response.ok ? await response.json() : (() => { throw new Error(`PATCH API failed with status ${response.status}. URL: ${response.url}`) })();
 	} catch (error) { throw error.toString() }
 }
 
 export async function deleteAPIGuild (url) {
 	try {
-		const response = await fetch(`${document.location.origin}/orbit/api/${guildID}/${url}`, { method: 'DELETE' });
+		const response = await fetch(`${document.location.origin}/api/${guildID}/${url}`, { method: 'DELETE' });
 		return response.ok ? await response.json() : (() => { throw new Error(`DELETE API failed with status ${response.status}. URL: ${response.url}`) })();
 	} catch (error) { throw error.toString() }
 }

@@ -1,12 +1,12 @@
 <div id='headerContainer'>
 
-	<img id='logo' src='/orbit/resources/logo.svg' onclick='location.href = `/orbit`' draggable='false'>
+	<img id='logo' src='/resources/logo.svg' onclick='location.href = `/`' draggable='false'>
 
 	<div id='navigation'>
 
-		<a href='/orbit/dashboard'>DASHBOARD</a>
-		<a href='/orbit/support'>SUPPORT</a>
-		<a href='/orbit/support/server'>DISCORD SERVER</a>
+		<a href='/dashboard'>DASHBOARD</a>
+		<a href='/support'>SUPPORT</a>
+		<a href='/support/server'>DISCORD SERVER</a>
 
 		<% if (user) { %>
 			<div id='userProfile' onclick='expandUserProfileDropdown(event)'>
@@ -18,20 +18,20 @@
 
 				<ul id='userProfileDropdown'>
 
-					<li class='userProfileDropdownEntry' onclick='location.href = `/orbit/dashboard`'>MY SERVERS</li>
+					<li class='userProfileDropdownEntry' onclick='location.href = `/dashboard`'>MY SERVERS</li>
 
 					<li class='userProfileDropdownEntry' onclick='toggleTheme(event)'>
 						DARK MODE
 						<input id='themeSwitch' class='settingEnabledSwitch' type='checkbox'>
 					</li>
 
-					<li class='userProfileDropdownEntry' style='color: var(--colour-red)' onclick='location.href = `/orbit/auth/logout`'>LOGOUT</li>
+					<li class='userProfileDropdownEntry' style='color: var(--colour-red)' onclick='location.href = `/auth/logout`'>LOGOUT</li>
 
 				</ul>
 
 			</div>
 		<% } else { %>
-			<button id='loginButton' type='button' onclick='location.href = `/orbit/auth`'>LOGIN</button>
+			<button id='loginButton' type='button' onclick='location.href = `/auth`'>LOGIN</button>
 		<% } %>
 
 	</div>
