@@ -40,7 +40,18 @@ main {
 }
 
 #currentServerDataIcon {
+	width: 24px;
+	height: 24px;
 	margin: 0 12.5px 0 12.5px;
+}
+
+#currentServerDataIcon div {
+	width: inherit;
+	height: inherit;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: var(--colour-grey);
 }
 
 #currentServerDataName {

@@ -160,6 +160,11 @@ pre {
 	align-items: center;
 }
 
+#userAvatar {
+	width: 28px;
+	height: 28px;
+}
+
 #userName {
 	margin: 0 5px 0 10px;
 }

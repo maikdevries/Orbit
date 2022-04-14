@@ -12,7 +12,7 @@
 			<div id='userProfile' onclick='expandUserProfileDropdown(event)'>
 
 				<div id='userData'>
-					<img id='userAvatar' src='<%= `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=28` %>' draggable='false'>
+					<img id='userAvatar' src="<%= `https://cdn.discordapp.com/${ user.avatar ? `avatars/${user.id}/${user.avatar}.png?size=28` : `embed/avatars/${user.discriminator % 5}.png` }` %>" draggable='false'>
 					<p id='userName'><%= user.username %></p>
 				</div>
 

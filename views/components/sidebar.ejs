@@ -1,6 +1,9 @@
 <div id='currentServer'>
 	<div id='currentServerData'>
-		<img id='currentServerDataIcon' src='<%= `https://cdn.discordapp.com/icons/${guildData.id}/${guildData.icon}.png?size=24` %>' draggable='false'>
+		<div id='currentServerDataIcon'>
+			<% if (guildData.icon) { %> <img src='<%= `https://cdn.discordapp.com/icons/${guildData.id}/${guildData.icon}.png?size=24` %>' draggable='false'> <% }
+			 else { %> <div><%= guildData.name.at(0).toUpperCase() %></div> <% } %>
+		</div>
 		<p id='currentServerDataName'><%= guildData.name %></p>
 	</div>
 	<div id='sidebarButtonContainer'>
