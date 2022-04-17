@@ -35,8 +35,12 @@ router.use((req, res, next) => {
 	return next();
 });
 
-router.get('/', (req, res, next) => {
-	return res.render('dashboard');
+router.get('/', async (req, res, next) => {
+	try {
+		return res.render('dashboard', {
+			settings: await getGuildSettings(`${req.params.guildID}`)
+		});
+	} catch (error) { return next(error) }
 });
 
 router.get('/settings', (req, res, next) => {

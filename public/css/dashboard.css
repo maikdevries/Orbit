@@ -273,7 +273,8 @@ main {
 }
 
 .settingEnabled.syncing .syncChanges, .formButtonsContainer.syncing .syncChanges, .subscribedChannel.syncing .syncChanges,
-.reactionRoleHeader.syncing .syncChanges, #saveChangesContainer.syncing .syncChanges, .addComponentContainer.syncing .syncChanges {
+.reactionRoleHeader.syncing .syncChanges, #saveChangesContainer.syncing .syncChanges, .addComponentContainer.syncing .syncChanges,
+.featureOverview.syncing .syncChanges {
 	visibility: visible;
 	opacity: 1;
 	color: var(--colour-orange);
@@ -281,19 +282,22 @@ main {
 }
 
 .settingEnabled.syncing .syncChanges::after, .formButtonsContainer.syncing .syncChanges::after, .subscribedChannel.syncing .syncChanges::after,
-.reactionRoleHeader.syncing .syncChanges::after, #saveChangesContainer.syncing .syncChanges::after, .addComponentContainer.syncing .syncChanges::after {
+.reactionRoleHeader.syncing .syncChanges::after, #saveChangesContainer.syncing .syncChanges::after, .addComponentContainer.syncing .syncChanges::after,
+.featureOverview.syncing .syncChanges::after {
 	content: 'sync'
 }
 
 .settingEnabled.error .syncChanges, .formButtonsContainer.error .syncChanges, .subscribedChannel.error .syncChanges,
-.reactionRoleHeader.error .syncChanges, #saveChangesContainer.error .syncChanges, .addComponentContainer.error .syncChanges {
+.reactionRoleHeader.error .syncChanges, #saveChangesContainer.error .syncChanges, .addComponentContainer.error .syncChanges,
+.featureOverview.error .syncChanges {
 	visibility: visible;
 	opacity: 1;
 	color: var(--colour-red);
 }
 
 .settingEnabled.error .syncChanges::after, .formButtonsContainer.error .syncChanges::after, .subscribedChannel.error .syncChanges::after,
-.reactionRoleHeader.error .syncChanges::after, #saveChangesContainer.error .syncChanges::after, .addComponentContainer.error .syncChanges::after {
+.reactionRoleHeader.error .syncChanges::after, #saveChangesContainer.error .syncChanges::after, .addComponentContainer.error .syncChanges::after,
+.featureOverview.error .syncChanges::after {
 	content: 'sync_problem';
 }
 
@@ -301,7 +305,7 @@ main {
 	margin: 0 0 0 0;
 }
 
-.addMessage .syncChanges, .subscribedChannelSettingsSideContainer .syncChanges, .addComponent .syncChanges {
+.addMessage .syncChanges, .subscribedChannelSettingsSideContainer .syncChanges, .addComponent .syncChanges, .featureOverview .syncChanges {
 	display: none;
 }
 
@@ -890,4 +894,74 @@ main {
 .furtherHelp:hover {
 	cursor: pointer;
 	color: var(--colour-white);
+}
+
+.featureOverviewCategory {
+	margin: 15px 0 15px 0;
+	padding: 15px 15px 15px 15px;
+	background: var(--colour-black);
+}
+
+.featureOverviewCategoryName {
+	font-size: 90%;
+}
+
+.featureOverviewCategoryDescription {
+	margin: 5px 0 5px 0;
+	color: var(--colour-light-grey);
+	font-size: 75%;
+	white-space: unset;
+}
+
+.featureOverviewContainer {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.featureOverview {
+	width: 125px;
+	height: 125px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	margin: 7.5px 7.5px 7.5px 7.5px;
+	padding: 20px 20px 20px 20px;
+	background: var(--colour-dark-grey);
+	user-select: none;
+	transition: var(--transition-hover-fast);
+}
+
+.featureOverview:hover {
+	transform: scale(1.02);
+	box-shadow: var(--shadow-default);
+	cursor: pointer;
+}
+
+.featureOverviewIcon {
+	width: 32px;
+	height: 32px;
+	font-size: 200%;
+	color: var(--colour-light-grey);
+}
+
+.featureOverviewName {
+	font-size: 90%;
+	text-align: center;
+	white-space: unset;
+}
+
+.featureOverview .settingEnabled, .featureOverview .settingEnabledSwitch {
+	margin: 0 0 0 0;
+}
+
+.featureOverview.syncing .featureOverviewIcon, .featureOverview.error .featureOverviewIcon {
+	display: none;
+}
+
+.featureOverview.syncing .syncChanges, .featureOverview.error .syncChanges {
+	width: 32px;
+	height: 32px;
+	display: block;
+	font-size: 200%;
 }

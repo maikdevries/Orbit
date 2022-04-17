@@ -19,6 +19,34 @@ window.toggleSidebarCollapsed = () => {
 	window.localStorage.setItem('sidebarCollapsed', window.localStorage.getItem('sidebarCollapsed') === 'false' ? 'true' : 'false');
 }
 
+window.saveSettingEnabledFeatureOverview = async (event, path) => {
+	event.stopPropagation();
+
+	const settingEnabledSwitch = event.currentTarget;
+	const featureOverview = settingEnabledSwitch.closest('.featureOverview');
+
+	featureOverview.classList.remove('error');
+	document.getElementById('featureSettingsContainer').classList.remove('error');
+
+	settingEnabledSwitch.disabled = true;
+	featureOverview.classList.add('syncing');
+
+	const data = {
+		enabled: settingEnabledSwitch.checked
+	}
+
+	try { await patchAPIGuild(path, data) }
+	catch {
+		featureOverview.classList.add('error');
+		document.getElementById('featureSettingsContainer').classList.add('error');
+
+		settingEnabledSwitch.checked = !settingEnabledSwitch.checked;
+	}
+
+	featureOverview.classList.remove('syncing');
+	settingEnabledSwitch.disabled = false;
+}
+
 window.expandSettings = (event, target) => {
 	event.stopPropagation();
 

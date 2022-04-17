@@ -36,8 +36,55 @@
 						<div>
 							<p id='featureName'>DASHBOARD</p>
 						</div>
-						<p id='featureDescription'>An overview of all the features that you have enabled in your server.</p>
+						<p id='featureDescription'>An overview of all the features that are available in your server.</p>
 					</div>
+
+					<div class='featureOverviewCategory'>
+
+						<p class='featureOverviewCategoryName'>SERVER</p>
+						<p class='featureOverviewCategoryDescription'>These are the features that have a server-wide effect when enabled.</p>
+
+						<div class='featureOverviewContainer'>
+
+							<%- include('./components/featureOverview.ejs', { featureURL: 'welcomeMessage', featureIconSVG: null, featureIcon: 'person_add', featureName: 'WELCOMING MESSAGE', featurePath: 'welcomeMessage.welcoming', enabled: settings.welcomeMessage.welcoming.enabled }) %>
+
+							<%- include('./components/featureOverview.ejs', { featureURL: 'welcomeMessage', featureIconSVG: null, featureIcon: 'person_remove', featureName: 'FAREWELL MESSAGE', featurePath: 'welcomeMessage.farewell', enabled: settings.welcomeMessage.farewell.enabled }) %>
+
+							<%- include('./components/featureOverview.ejs', { featureURL: 'streamerShoutout', featureIconSVG: null, featureIcon: 'campaign', featureName: 'STREAMER SHOUTOUT', featurePath: 'streamerShoutout', enabled: settings.streamerShoutout.enabled }) %>
+
+						</div>
+
+					</div>
+
+					<div class='featureOverviewCategory'>
+
+						<p class='featureOverviewCategoryName'>SOCIALS</p>
+						<p class='featureOverviewCategoryDescription'>These are the features that perform an action on social media changes.</p>
+
+						<div class='featureOverviewContainer'>
+
+							<%- include('./components/featureOverview.ejs', { featureURL: 'twitch', featureIconSVG: true, featureIcon: 'icon_twitch', featureName: 'TWITCH', featurePath: 'twitch', enabled: settings.twitch.enabled }) %>
+
+							<%- include('./components/featureOverview.ejs', { featureURL: 'youtube', featureIconSVG: true, featureIcon: 'icon_youtube', featureName: 'YOUTUBE', featurePath: 'youtube', enabled: settings.youtube.enabled }) %>
+
+						</div>
+
+					</div>
+
+					<div class='featureOverviewCategory'>
+
+						<p class='featureOverviewCategoryName'>OTHER</p>
+						<p class='featureOverviewCategoryDescription'>These are the features that do not necessarily fit with the other categories.</p>
+
+						<div class='featureOverviewContainer'>
+
+							<%- include('./components/featureOverview.ejs', { featureURL: 'reactionRole', featureIconSVG: null, featureIcon: 'add_reaction', featureName: 'REACTION ROLE', featurePath: 'reactionRole', enabled: settings.reactionRole.enabled }) %>
+
+						</div>
+
+					</div>
+
+					<%- include('./components/saveChanges.ejs', { cancelFunction: null, saveFunction: null }) %>
 
 				</div>
 
