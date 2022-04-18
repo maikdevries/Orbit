@@ -11,13 +11,16 @@
 			<li class='discordChannelListEntry' data-discord-channel='<%= guildChannel.id %>' onclick='changeSelectedDiscordChannel(event)'>#<%= guildChannel.name %></li>
 		<% }
 
-		for (const guildCategory of guildCategories) { %>
+		for (const guildCategory of guildCategories) {
+			const categoryChannels = guildChannels.filter((guildChannel) => guildCategory.id === guildChannel.parent_id);
+			if (!categoryChannels.length) continue; %>
+
 			<div class='discordChannelListCategory'>
 
 				<p class='discordChannelListCategoryName'><%= guildCategory.name %></p>
 
 				<ul>
-					<% for (const guildChannel of guildChannels.filter((guildChannel) => guildCategory.id === guildChannel.parent_id)) {%>
+					<% for (const guildChannel of categoryChannels) { %>
 						<li class='discordChannelListEntry' data-discord-channel='<%= guildChannel.id %>' onclick='changeSelectedDiscordChannel(event)'>#<%= guildChannel.name %></li>
 					<% } %>
 				</ul>
