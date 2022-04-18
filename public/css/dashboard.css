@@ -714,7 +714,7 @@ main {
 }
 
 .discordRoleList {
-	width: 175px;
+	width: 150px;
 	max-height: 175px;
 	z-index: 2;
 	position: absolute;
@@ -725,6 +725,7 @@ main {
 	visibility: hidden;
 	opacity: 0;
 	background: var(--colour-dark-grey);
+	border: var(--border-default);
 	box-shadow: var(--shadow-default);
 	transition: var(--transition-collapse-fast);
 	cursor: default;

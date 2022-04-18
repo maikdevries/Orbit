@@ -178,6 +178,7 @@ pre {
 	flex-direction: column;
 	padding: 10px 10px 10px 10px;
 	background: var(--colour-black);
+	border: var(--border-default);
 	box-shadow: var(--shadow-default);
 	visibility: hidden;
 	opacity: 0;
