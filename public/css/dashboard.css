@@ -151,10 +151,43 @@ main {
 	margin: 12.5px 12.5px 12.5px 12.5px;
 }
 
+.featureSidebarAvailability {
+	margin: 0 10px 0 auto;
+	padding: 5px 5px 5px 5px;
+	border: 1px solid;
+	font-size: 80%;
+	transition: var(--transition-hover);
+}
+
+#featureSidebar.collapsed .featureSidebarAvailability {
+	display: none;
+}
+
+.featureSidebarCategoryLink.availabilitySoon {
+	background: var(--colour-dark-grey);
+	pointer-events: none;
+}
+
+.featureSidebarCategoryLink.availabilitySoon .featureSidebarAvailability {
+	color: var(--colour-orange);
+}
+
+.featureSidebarCategoryLink.availabilityNew .featureSidebarAvailability {
+	color: var(--colour-green);
+}
+
+.featureSidebarCategoryLink.availabilityNew:hover .featureSidebarAvailability {
+	color: var(--colour-green-hover);
+}
+
 .currentPage, .currentPage:visited {
 	background: var(--colour-sidebar-current-page);
 	color: var(--colour-white);
 	pointer-events: none;
+}
+
+.featureSidebarCategoryLink.availabilityNew.currentPage .featureSidebarAvailability {
+	color: var(--colour-green-hover);
 }
 
 #featureSettingsContainer {
