@@ -14,11 +14,11 @@ router.use(async (req, res, next) => {
 	try {
 		Object.assign(req.session, {
 			currentGuild: req.params.guildID,
-			guildData: await getGuildData(req.params.guildID, process.env.TOKEN_TYPE, process.env.TOKEN),
-			guildChannels: await getGuildChannels(req.params.guildID, process.env.TOKEN_TYPE, process.env.TOKEN),
-			guildCategories: await getGuildCategories(req.params.guildID, process.env.TOKEN_TYPE, process.env.TOKEN),
-			guildRoles: await getGuildRoles(req.params.guildID, process.env.TOKEN_TYPE, process.env.TOKEN),
-			guildEmojis: await getGuildEmojis(req.params.guildID, process.env.TOKEN_TYPE, process.env.TOKEN)
+			guildData: await getGuildData(req.params.guildID),
+			guildChannels: await getGuildChannels(req.params.guildID),
+			guildCategories: await getGuildCategories(req.params.guildID),
+			guildRoles: await getGuildRoles(req.params.guildID),
+			guildEmojis: await getGuildEmojis(req.params.guildID)
 		});
 	} catch (error) { return next(error) }
 
@@ -90,7 +90,7 @@ router.get('/reactionRole', async (req, res, next) => {
 		const settings = await getGuildSettings(`${req.params.guildID}.reactionRole`);
 
 		for (const channel in settings.channels) {
-			for (const message in settings.channels[channel]) settings.channels[channel][message].messageContent = (await getMessageData(channel, message, process.env.TOKEN_TYPE, process.env.TOKEN))?.content;
+			for (const message in settings.channels[channel]) settings.channels[channel][message].messageContent = (await getMessageData(channel, message))?.content;
 		}
 
 		return res.render('settings/reactionRole', {

@@ -52,7 +52,7 @@ router.get('/support', (req, res, next) => {
 });
 
 router.get('/support/server', (req, res, next) => {
-	return res.redirect(process.env.SUPPORT_INVITE_URL);
+	return res.redirect(process.env.SUPPORT_SERVER_URL);
 });
 
 router.get('/error', (req, res, next) => {

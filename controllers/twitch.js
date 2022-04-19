@@ -17,7 +17,7 @@ async function getFetch (url) {
 	catch { await getTwitchToken() }
 
 	try {
-		const response = await fetch(`https://api.twitch.tv/helix/${url}`, { headers: { 'Client-ID': process.env.TWITCH_ID, 'Authorization': `Bearer ${twitchToken}` } });
+		const response = await fetch(`https://api.twitch.tv/helix/${url}`, { headers: { 'Client-ID': process.env.TWITCH_CLIENT_ID, 'Authorization': `Bearer ${twitchToken}` } });
 		return response.ok ? await response.json() : (() => { throw new Error(`Fetching Twitch API failed with status ${response.status}. URL: ${response.url}`) })();
 	} catch (error) { throw error.toString() }
 }
@@ -28,7 +28,7 @@ function hasTwitchToken () {
 
 async function getTwitchToken () {
 	try {
-		const response = await fetch(`https://id.twitch.tv/oauth2/token?client_id=${process.env.TWITCH_ID}&client_secret=${process.env.TWITCH_SECRET}&grant_type=client_credentials`, { method: 'POST' });
+		const response = await fetch(`https://id.twitch.tv/oauth2/token?client_id=${process.env.TWITCH_CLIENT_ID}&client_secret=${process.env.TWITCH_CLIENT_SECRET}&grant_type=client_credentials`, { method: 'POST' });
 		return response.ok ? twitchToken = (await response.json()).access_token : (() => { throw new Error(`Fetching Twitch Auth API failed with status ${response.status}. URL: ${response.url}`) })();
 	} catch (error) { throw error.toString() }
 }

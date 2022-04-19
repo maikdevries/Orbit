@@ -14,7 +14,7 @@ async function getYouTubeChannelIDByUsername (username) {
 
 async function getYouTubeChannelIDByCustomURL (customURL) {
 	const channelIDs = (await getFetch(`search?part=snippet&q=${customURL}&type=channel&maxResults=5`)).items?.map((channel) => channel.id.channelId);
-	
+
 	const channels = (await getFetch(`channels?part=snippet&id=${channelIDs.join()}&maxResults=5`)).items;
 	if (!channels?.length) return { };
 
@@ -25,7 +25,7 @@ async function getYouTubeChannelIDByCustomURL (customURL) {
 
 async function getFetch (url) {
 	try {
-		const response = await fetch(`https://www.googleapis.com/youtube/v3/${url}&key=${process.env.YOUTUBE_KEY}`);
+		const response = await fetch(`https://www.googleapis.com/youtube/v3/${url}&key=${process.env.YOUTUBE_API_KEY}`);
 		return response.ok ? await response.json() : (() => { throw new Error(`Fetching YouTube API failed with status ${response.status}. URL: ${response.url}`) })();
 	} catch (error) { throw error.toString() }
 }

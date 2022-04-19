@@ -6,8 +6,8 @@ module.exports = {
 
 async function getAuthentication (authCode) {
 	const data = {
-		'client_id': process.env.DISCORD_ID,
-		'client_secret': process.env.DISCORD_SECRET,
+		'client_id': process.env.DISCORD_CLIENT_ID,
+		'client_secret': process.env.DISCORD_CLIENT_SECRET,
 		'grant_type': 'authorization_code',
 		'code': authCode,
 		'redirect_uri': `${process.env.BASE_URL}/auth/login`

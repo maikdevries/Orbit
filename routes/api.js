@@ -38,7 +38,7 @@ router.get('/channels/:channelID', async (req, res, next) => {
 router.get('/channels/:channelID/messages/:messageID', async (req, res, next) => {
 	try {
 		if (!req.session.guildChannels.find((guildChannel) => guildChannel.id === req.params.channelID)) return res.status(404).json('This Discord channel is not part of the current guild.');
-		return res.json(await getMessageData(req.params.channelID, req.params.messageID, process.env.TOKEN_TYPE, process.env.TOKEN));
+		return res.json(await getMessageData(req.params.channelID, req.params.messageID));
 	} catch (error) { console.error(error); return res.status(500).json('Something went terribly wrong on our side of the internet.') }
 });
 

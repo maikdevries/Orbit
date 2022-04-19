@@ -34,32 +34,32 @@ async function getGuilds (tokenType, token) {
 	return await Promise.all(guilds.filter((guild) => guild.owner || (guild.permissions & 0x20) === 0x20 || (guild.permissions & 0x8) === 0x8).map(async (guild) => ({ ...guild, joined: await hasGuildSettings(guild.id) })));
 }
 
-async function getGuildData (guildID, tokenType, token) {
-	return await getFetch(`guilds/${guildID}`, tokenType, token);
+async function getGuildData (guildID) {
+	return await getFetch(`guilds/${guildID}`, 'Bot', process.env.DISCORD_BOT_TOKEN);
 }
 
-async function getGuildChannels (guildID, tokenType, token) {
-	const channels = await getFetch(`guilds/${guildID}/channels`, tokenType, token);
+async function getGuildChannels (guildID) {
+	const channels = await getFetch(`guilds/${guildID}/channels`, 'Bot', process.env.DISCORD_BOT_TOKEN);
 	return channels.filter((channel) => [0, 5].includes(channel.type));
 }
 
-async function getGuildCategories (guildID, tokenType, token) {
-	const channels = await getFetch(`guilds/${guildID}/channels`, tokenType, token);
+async function getGuildCategories (guildID) {
+	const channels = await getFetch(`guilds/${guildID}/channels`, 'Bot', process.env.DISCORD_BOT_TOKEN);
 	return channels.filter((channel) => channel.type === 4).sort((a, b) => a.position - b.position);
 }
 
-async function getGuildRoles (guildID, tokenType, token) {
-	const roles = await getFetch(`guilds/${guildID}/roles`, tokenType, token);
+async function getGuildRoles (guildID) {
+	const roles = await getFetch(`guilds/${guildID}/roles`, 'Bot', process.env.DISCORD_BOT_TOKEN);
 	return roles.filter((role) => !role.managed && role.id !== guildID).map((role) => ({ ...role, color: `rgb(${(role.color === 0 ? 'b9bbbe' : role.color.toString(16).padStart(6, '0')).match(/[a-f\d]{2}/g).map((x) => parseInt(x, 16)).join(', ')})` })).sort((a, b) => b.position - a.position);
 }
 
-async function getGuildEmojis (guildID, tokenType, token) {
-	return await getFetch(`guilds/${guildID}/emojis`, tokenType, token);
+async function getGuildEmojis (guildID) {
+	return await getFetch(`guilds/${guildID}/emojis`, 'Bot', process.env.DISCORD_BOT_TOKEN);
 }
 
-async function getMessageData (channelID, messageID, tokenType, token) {
+async function getMessageData (channelID, messageID) {
 	try {
-		return await getFetch(`channels/${channelID}/messages/${messageID}`, tokenType, token);
+		return await getFetch(`channels/${channelID}/messages/${messageID}`, 'Bot', process.env.DISCORD_BOT_TOKEN);
 	} catch (error) {
 		if (error instanceof FetchError && error.statusCode === 404) return { };
 		else throw error.toString();
