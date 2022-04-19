@@ -300,7 +300,7 @@ window.saveReactionRoleChanges = async (event) => {
 	[...reactionRole.querySelectorAll('.reactionRoleReaction')].forEach((reaction) => data[reactionRole.dataset.id] = { ...data[reactionRole.dataset.id], [reaction.querySelector('.reactionRoleEmoji').dataset.emoji]: [...reaction.querySelectorAll('.discordRole')].map((role) => role.dataset.discordRole) });
 
 	try {
-		await patchAPIGuild(`${currentPage}.channels.${reactionRole.dataset.discordChannel}`, data);
+		await patchAPIGuild(`${currentPage}.channels.${reactionRole.dataset.discordChannel}`, (Object.keys(data).length ? data : { [reactionRole.dataset.id]: { } }));
 		reactionRole.classList.remove('expanded');
 	} catch {
 		formButtonsContainer.classList.add('error');
