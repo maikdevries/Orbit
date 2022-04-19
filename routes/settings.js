@@ -9,7 +9,7 @@ const router = Express.Router({ mergeParams: true });
 module.exports = router;
 
 router.use(async (req, res, next) => {
-	if (req.session.currentGuild === req.params.guildID) return next();
+	if (req.session.currentGuild === req.params.guildID && req.session.expires > Date.now()) return next();
 
 	try {
 		Object.assign(req.session, {
@@ -18,7 +18,8 @@ router.use(async (req, res, next) => {
 			guildChannels: await getGuildChannels(req.params.guildID),
 			guildCategories: await getGuildCategories(req.params.guildID),
 			guildRoles: await getGuildRoles(req.params.guildID),
-			guildEmojis: await getGuildEmojis(req.params.guildID)
+			guildEmojis: await getGuildEmojis(req.params.guildID),
+			expires: Date.now() + 10000
 		});
 	} catch (error) { return next(error) }
 
