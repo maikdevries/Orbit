@@ -9,13 +9,13 @@ async function getData (authData) {
 	return {
 		user: await getUser(authData.tokenType, authData.token),
 		guilds: await getGuilds(authData.tokenType, authData.token),
-		expires: Date.now() + 5000
+		expires: Date.now() + 10000
 	}
 }
 
 async function updateGuildsData (session) {
 	const guilds = await getGuilds(session.tokenType, session.token);
-	Object.assign(session, { guilds: guilds, expires: Date.now() + 5000 });
+	Object.assign(session, { guilds: guilds, expires: Date.now() + 10000 });
 
 	return guilds;
 }

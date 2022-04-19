@@ -32,7 +32,7 @@ router.use('/dashboard', (req, res, next) => {
 router.get('/dashboard', async (req, res, next) => {
 	try {
 		return res.render('guildSelect', {
-			guilds:	(Date.now() > req.session.expires ? await updateGuildsData(req.session) : req.session.guilds)
+			guilds: (req.session.expires > Date.now() ? req.session.guilds : await updateGuildsData(req.session))
 		});
 	} catch (error) { return next(error) }
 });
