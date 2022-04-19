@@ -1,7 +1,9 @@
 #guildContainer {
 	width: 80%;
+	height: 100%;
 	display: flex;
 	flex-wrap: wrap;
+	align-content: center;
 	justify-content: center;
 	margin: 0 auto 0 auto;
 }
@@ -51,4 +53,15 @@
 	padding: 10px 0 10px 0;
 	background: var(--colour-dark-white);
 	font-size: 85%;
+}
+
+#noGuildsMessage {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+#noGuildsMessage p {
+	margin: 5px 5px 5px 5px;
+	font-size: 90%;
 }

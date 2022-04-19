@@ -21,20 +21,29 @@
 		<main>
 			<div id='guildContainer'>
 
-				<% for (const guild of guilds) { %>
+				<% if (guilds.length) {
+					for (const guild of guilds) { %>
 
-					<div class='guild' onclick="location.href = '<%= (guild.joined ? `/dashboard/${guild.id}` : `/auth/server/${guild.id}`) %>'">
+						<div class='guild' onclick="location.href = '<%= (guild.joined ? `/dashboard/${guild.id}` : `/auth/server/${guild.id}`) %>'">
 
-						<div class='guildIcon'>
-							<% if (guild.icon) { %> <img src='<%= `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=128` %>' draggable='false'> <% }
-							else { %> <div><%= guild.name.split(' ').slice(0, 3).map((word) => word[0]).join('') %></div> <% } %>
+							<div class='guildIcon'>
+								<% if (guild.icon) { %> <img src='<%= `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=128` %>' draggable='false'> <% }
+								else { %> <div><%= guild.name.split(' ').slice(0, 3).map((word) => word[0]).join('') %></div> <% } %>
+							</div>
+
+							<p class='guildName'><%= guild.name %></p>
+
+							<% if (guild.joined) { %> <button class='manageButton' type='button'>MANAGE</button> <% }
+							else { %> <button class='inviteButton' type='button'>INVITE</button> <% } %>
+
 						</div>
 
-						<p class='guildName'><%= guild.name %></p>
+					<% }
+				} else { %>
 
-						<% if (guild.joined) { %> <button class='manageButton' type='button'>MANAGE</button> <% }
-						else { %> <button class='inviteButton' type='button'>INVITE</button> <% } %>
-
+					<div id='noGuildsMessage'>
+						<p>It is awfully quiet in here...</p>
+						<p>You are either <span style='color: var(--colour-orange)'>not part of any server</span> yet or <span style='color: var(--colour-orange)'>do not have permission</span> to manage Lunar for the ones you are in.</p>
 					</div>
 
 				<% } %>
