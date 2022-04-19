@@ -48,8 +48,6 @@ window.saveSettingEnabledFeatureOverview = async (event, path) => {
 }
 
 window.expandSettings = (event, target) => {
-	event.stopPropagation();
-
 	const featureContainer = event.currentTarget;
 
 	if (featureContainer.classList.contains('expanded')) return;
@@ -473,8 +471,6 @@ window.addMessage = (event) => {
 	if (event.target.closest('.addMessage')) return;
 
 	event.currentTarget.classList.toggle('expanded');
-
-	document.onclick = closeAddMessageContainer;
 }
 
 window.deleteDiscordRole = async (event) => {
@@ -516,16 +512,6 @@ window.changeSelectedDiscordChannel = (event) => {
 	discordChannelName.dataset.discordChannel = event.currentTarget.dataset.discordChannel;
 
 	discordChannelList.classList.remove('expanded');
-
-	document.onclick = null;
-}
-
-const closeAddMessageContainer = (event) => {
-	event.stopPropagation();
-
-	if (event.target.closest('.addMessage')) return;
-
-	for (const element of document.getElementsByClassName('addMessageContainer')) element.classList.remove('expanded');
 
 	document.onclick = null;
 }

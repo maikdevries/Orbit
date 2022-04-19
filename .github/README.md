@@ -5,8 +5,8 @@
 	<br>
 	Through this interface, users can easily change Lunar's behaviour for their Discord servers.
 	<br><br>
-	<b><a href='https://maikdevries.com/orbit'>Launch into Orbit</a></b>
-	<br><br>
+	<b><a href='https://lunar.maikdevries.com/dashboard'>Launch into Orbit</a></b>
+	<br>
 </p>
 
 ### **Contributing**
