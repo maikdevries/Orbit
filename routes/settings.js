@@ -1,6 +1,6 @@
 const Express = require('express');
 const { getGuildSettings } = require('../controllers/data.js');
-const { getGuildData, getGuildChannels, getGuildCategories, getGuildRoles, getGuildEmojis, getMessageData } = require('../controllers/discord.js');
+const { getGuildData, getGuildChannels, getGuildCategories, getGuildRoles, getGuildEmojis, getMessageData, getMissingPermissions } = require('../controllers/discord.js');
 const { getTwitchChannelData } = require('../controllers/twitch.js');
 const { getYouTubeChannelData } = require('../controllers/youtube.js');
 
@@ -39,6 +39,7 @@ router.use((req, res, next) => {
 router.get('/', async (req, res, next) => {
 	try {
 		return res.render('dashboard', {
+			missingPermissions: await getMissingPermissions(req.params.guildID, req.session.guildRoles, process.env.DISCORD_CLIENT_ID),
 			settings: await getGuildSettings(`${req.params.guildID}`)
 		});
 	} catch (error) { return next(error) }

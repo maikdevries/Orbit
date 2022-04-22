@@ -1,6 +1,6 @@
 {
 	"name": "orbit",
-	"version": "0.36.0",
+	"version": "0.37.0",
 	"description": "Orbit is the interface behind Lunar, a Discord bot that allows for easy customisation to serve your needs",
 	"engines": {
 		"node": ">=16.6.0"
@@ -20,7 +20,7 @@
 		"@joshdb/core": "^1.2.7",
 		"@joshdb/mongo": "^1.1.6",
 		"dotenv": "^16.0.0",
-		"ejs": "^3.1.6",
+		"ejs": "^3.1.7",
 		"express": "^4.17.3",
 		"express-session": "^1.17.2",
 		"memorystore": "^1.6.7",

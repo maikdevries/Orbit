@@ -1,6 +1,6 @@
 <ul class='discordRoleList'>
 
-	<% for (const guildRole of guildRoles) { %>
+	<% for (const guildRole of guildRoles.filter((guildRole) => !guildRole.managed && guildRole.id !== guildData.id)) { %>
 		<li class='discordRoleListEntry' style='color: <%= guildRole.color %>;' data-discord-role='<%= guildRole.id %>' data-manageable='<%= guildRole.manageable %>' onclick='addDiscordRole(event)'><p><%= guildRole.name %></p></li>
 	<% } %>
 

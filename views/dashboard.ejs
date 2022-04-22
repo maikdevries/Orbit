@@ -39,6 +39,25 @@
 						<p id='featureDescription'>An overview of all the features that are available in your server.</p>
 					</div>
 
+					<% if (missingPermissions.length) { %>
+
+						<div id='missingPermissionsContainer'>
+
+							<div id='missingPermissionsHeader'>
+								<span class='material-icons'>error</span>
+								<p>Lunar is missing some of the permissions it needs to function correctly:</p>
+							</div>
+
+							<div id='missingPermissions'>
+								<% for (const permission of missingPermissions) { %>
+									<p>&bullet; <%= permission %></p>
+								<% } %>
+							</div>
+
+						</div>
+
+					<% } %>
+
 					<div class='featureOverviewCategory'>
 
 						<p class='featureOverviewCategoryName'>SERVER</p>

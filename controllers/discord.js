@@ -2,8 +2,22 @@ const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fet
 const { hasGuildSettings } = require('../controllers/data.js');
 
 module.exports = {
-	getData, updateGuildsData, hasGuildAccess, getGuildData, getGuildMember, getGuildChannels, getGuildCategories, getGuildRoles, getGuildEmojis, getMessageData
+	getData, updateGuildsData, hasGuildAccess, getGuildData, getGuildChannels, getGuildCategories, getGuildRoles, getGuildEmojis, getMessageData, getMissingPermissions
 }
+
+const requiredPermissions = [
+	{ name: 'Manage Roles', bits: 0x10000000 },
+	{ name: 'Manage Channels', bits: 0x10 },
+	{ name: 'Create Invite', bits: 0x1 },
+	{ name: 'Read Messages', bits: 0x400 },
+	{ name: 'Send Messages', bits: 0x800 },
+	{ name: 'Manage Messages', bits: 0x2000 },
+	{ name: 'Embed Links', bits: 0x4000 },
+	{ name: 'Read Message History', bits: 0x10000 },
+	{ name: 'Mention @everyone, @here and All Roles', bits: 0x20000 },
+	{ name: 'Add Reactions', bits: 0x40 },
+	{ name: 'Use External Emojis', bits: 0x40000 }
+]
 
 async function getData (authData) {
 	return {
@@ -56,7 +70,7 @@ async function getGuildRoles (guildID) {
 	const roles = await getFetch(`guilds/${guildID}/roles`, 'Bot', process.env.DISCORD_BOT_TOKEN);
 	const clientHighestRole = await getHighestRole(guildID, roles, process.env.DISCORD_CLIENT_ID);
 
-	return roles.filter((role) => !role.managed && role.id !== guildID).map((role) => ({
+	return roles.map((role) => ({
 		...role,
 		color: `rgb(${(role.color === 0 ? 'b9bbbe' : role.color.toString(16).padStart(6, '0')).match(/[a-f\d]{2}/g).map((x) => parseInt(x, 16)).join(', ')})`,
 		manageable: role.position < clientHighestRole.position
@@ -81,9 +95,19 @@ async function getHighestRole (guildID, guildRoles, userID) {
 	return guildRoles.find((guildRole) => guildRole.id === highestRoleID);
 }
 
+async function getMissingPermissions (guildID, guildRoles, userID) {
+	const clientMember = await getGuildMember(guildID, userID);
+	const permissions = clientMember.roles.reduce((previous, current) => previous |= guildRoles.find((role) => role.id === current).permissions, guildRoles.find((role) => role.id === guildID).permissions);
+
+	const missingPermissions = [];
+	for (const permission of requiredPermissions) if ((permissions & permission.bits) !== permission.bits) missingPermissions.push(permission.name);
+
+	return missingPermissions;
+}
+
 async function getFetch (url, tokenType, token) {
 	try {
-		const response = await fetch(`https://discord.com/api/${url}`, { headers: { 'Authorization': `${tokenType} ${token}`, 'Content-Type': 'application/json' } });
+		const response = await fetch(`https://discord.com/api/v9/${url}`, { headers: { 'Authorization': `${tokenType} ${token}`, 'Content-Type': 'application/json' } });
 		return response.ok ? await response.json() : (() => { throw new FetchError(response.status, `Fetching Discord API failed with status ${response.status}. URL: ${response.url}`) })();
 	} catch (error) { throw error }
 }

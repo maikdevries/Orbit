@@ -1026,3 +1026,25 @@ main {
 	display: block;
 	font-size: 200%;
 }
+
+#missingPermissionsContainer {
+	display: flex;
+	flex-direction: column;
+	padding: 15px 15px 15px 15px;
+	background: var(--colour-red);
+	font-size: 80%;
+}
+
+#missingPermissionsHeader {
+	display: flex;
+	align-items: center;
+}
+
+#missingPermissionsHeader span {
+	margin: 0 5px 0 0;
+	font-size: 140%;
+}
+
+#missingPermissions {
+	margin: 5px 0 0 25px;
+}
