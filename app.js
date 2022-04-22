@@ -4,6 +4,7 @@ const Express = require('express');
 const http = require('http');
 const session = require('express-session');
 const MemoryStore = require('memorystore')(session);
+const minify = require('express-minify-html');
 
 const router = require('./routes/router.js');
 
@@ -21,6 +22,13 @@ app.use(session({
 	saveUninitialized: false,
 	resave: false,
 	secret: process.env.SESSION_SECRET
+}));
+
+app.use(minify({
+	override: true,
+	htmlMinifier: {
+		collapseWhitespace: true
+	}
 }));
 
 app.use(Express.json());

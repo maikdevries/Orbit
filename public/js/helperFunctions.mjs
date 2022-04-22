@@ -159,7 +159,7 @@ export async function createAddDiscordRoleElement () {
 	const roleListContainer = document.createElement('ul');
 	roleListContainer.classList.add('discordRoleList');
 
-	for (const role of await getAPIGuild(`guilds/${guildID}/roles`)) {
+	for (const role of (await getAPIGuild(`guilds/${guildID}/roles`)).filter((role) => !role.managed && role.id !== guildID)) {
 		const roleListEntry = document.createElement('li');
 		roleListEntry.classList.add('discordRoleListEntry');
 		roleListEntry.style.color = role.color;
