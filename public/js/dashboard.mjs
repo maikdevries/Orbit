@@ -151,6 +151,8 @@ window.saveStreamerShoutoutChanges = async (event) => {
 
 	const saveButton = event.currentTarget;
 	const saveChangesContainer = saveButton.closest('#saveChangesContainer');
+	const requiredRoles = [...document.getElementById('requiredRole').querySelectorAll('.discordRole')];
+	const shoutoutRole = document.getElementById('shoutoutRole').querySelector('.discordRole');
 
 	saveChangesContainer.classList.remove('error');
 	document.getElementById('featureSettingsContainer').classList.remove('error');
@@ -158,12 +160,14 @@ window.saveStreamerShoutoutChanges = async (event) => {
 	saveButton.disabled = true;
 	saveChangesContainer.classList.add('syncing');
 
-	const data = {
-		requiredRole: [...document.getElementById('requiredRole').querySelectorAll('.discordRole')].map((role) => role.dataset.discordRole),
-		shoutoutRole: document.getElementById('shoutoutRole').querySelector('.discordRole')?.dataset.discordRole ?? ''
-	}
-
 	try {
+		if (requiredRoles.some((role) => role.dataset.manageable === 'false') || shoutoutRole?.dataset.manageable === 'false') throw new Error('One of the selected roles cannot be used by Lunar.');
+
+		const data = {
+			requiredRole: requiredRoles.map((role) => role.dataset.discordRole),
+			shoutoutRole: shoutoutRole?.dataset.discordRole ?? ''
+		}
+
 		await patchAPIGuild(currentPage, data);
 		createMutationObserver(document.getElementById('featureSettings'));
 
@@ -296,10 +300,15 @@ window.saveReactionRoleChanges = async (event) => {
 	saveButton.disabled = true;
 	formButtonsContainer.classList.add('syncing');
 
-	const data = { };
-	[...reactionRole.querySelectorAll('.reactionRoleReaction')].forEach((reaction) => data[reactionRole.dataset.id] = { ...data[reactionRole.dataset.id], [reaction.querySelector('.reactionRoleEmoji').dataset.emoji]: [...reaction.querySelectorAll('.discordRole')].map((role) => role.dataset.discordRole) });
-
 	try {
+		const data = { };
+		[...reactionRole.querySelectorAll('.reactionRoleReaction')].forEach((reaction) => {
+			const roles = [...reaction.querySelectorAll('.discordRole')];
+			if (roles.some((role) => role.dataset.manageable === 'false')) throw new Error('One of the selected roles cannot be used by Lunar.');
+
+			data[reactionRole.dataset.id] = { ...data[reactionRole.dataset.id], [reaction.querySelector('.reactionRoleEmoji').dataset.emoji]: roles.map((role) => role.dataset.discordRole) }
+		});
+
 		await patchAPIGuild(`${currentPage}.channels.${reactionRole.dataset.discordChannel}`, (Object.keys(data).length ? data : { [reactionRole.dataset.id]: { } }));
 		reactionRole.classList.remove('expanded');
 	} catch {
@@ -481,22 +490,28 @@ window.deleteDiscordRole = async (event) => {
 
 	try {
 		const discordRole = event.currentTarget.closest('.discordRole');
-		const discordRoleContainer = discordRole.closest('.discordRoles');
-
-		if ('singleRole' in discordRoleContainer.dataset) discordRoleContainer.append(await createAddDiscordRoleElement());
+		const discordRoles = discordRole.closest('.discordRoles');
 
 		discordRole.remove();
+
+		if ('singleRole' in discordRoles.dataset) discordRoles.append(await createAddDiscordRoleElement());
+		if (![...discordRoles.querySelectorAll('.discordRole')].some((role) => role.dataset.manageable === 'false')) discordRoles.closest('.discordRolesContainer').classList.remove('error');
 	} catch { featureSettingsContainer.classList.add('error') }
 }
 
 window.addDiscordRole = (event) => {
 	event.stopPropagation();
 
-	const discordRoleContainer = event.currentTarget.closest('.discordRoles');
 	const addDiscordRoleButton = event.currentTarget.closest('.addDiscordRole');
-	discordRoleContainer.insertBefore(createDiscordRoleElement(event.currentTarget), addDiscordRoleButton);
+	const discordRoles = addDiscordRoleButton.closest('.discordRoles');
+	const discordRolesContainer = discordRoles.closest('.discordRolesContainer');
 
-	if ('singleRole' in discordRoleContainer.dataset) addDiscordRoleButton.remove();
+	const role = createDiscordRoleElement(event.currentTarget);
+	if (!discordRolesContainer.classList.contains('error') && role.dataset.manageable === 'false') discordRolesContainer.classList.add('error');
+
+	discordRoles.insertBefore(role, addDiscordRoleButton);
+
+	if ('singleRole' in discordRoles.dataset) addDiscordRoleButton.remove();
 	else addDiscordRoleButton.classList.remove('expanded');
 
 	document.onclick = null;

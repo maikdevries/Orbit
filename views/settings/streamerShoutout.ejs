@@ -47,18 +47,14 @@
 							<p class='settingsHeaderName'>REQUIRED ROLE</p>
 							<p class='settingsHeaderDescription'>One or multiple roles of which a streaming member needs to have at least one to receive the shoutout role.</p>
 
-							<div class='discordRoles'>
-								<%- include('../components/manageDiscordRoles.ejs', { roles: settings.requiredRole }) %>
-							</div>
+							<%- include('../components/manageDiscordRoles.ejs', { roles: settings.requiredRole }) %>
 						</div>
 
 						<div id='shoutoutRole' class='settingsContainer'>
 							<p class='settingsHeaderName'>SHOUTOUT ROLE</p>
 							<p class='settingsHeaderDescription'>The role a qualifying streaming member will receive whilst they are streaming.</p>
 
-							<div class='discordRoles' data-single-role='true'>
-								<%- include('../components/manageDiscordRole.ejs', { role: settings.shoutoutRole }) %>
-							</div>
+							<%- include('../components/manageDiscordRole.ejs', { role: settings.shoutoutRole }) %>
 						</div>
 
 					</div>

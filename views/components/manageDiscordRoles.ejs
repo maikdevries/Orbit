@@ -1,17 +1,31 @@
-<% for (const role of roles) {
-	const guildRole = guildRoles.find((guildRole) => guildRole.id === role) %>
+<% const selectedRoles = roles.map((role) => guildRoles.find((guildRole) => guildRole.id === role)) %>
 
-	<div class='discordRole' data-discord-role='<%= role %>'>
-		<div class='discordRoleColour' style='background-color: <%= guildRole?.color %>;'></div>
-		<p class='discordRoleName'><%= guildRole?.name %></p>
+<div class='<%= (selectedRoles.some((role) => !role?.manageable) ? `discordRolesContainer error` : `discordRolesContainer`) %>'>
 
-		<span class='deleteDiscordRole material-icons' onclick='deleteDiscordRole(event)'>clear</span>
+	<div class='discordRoles'>
+
+		<% for (const guildRole of selectedRoles) { %>
+
+			<div class='<%= (guildRole?.manageable ? `discordRole` : `discordRole error`) %>' data-discord-role='<%= guildRole?.id %>' data-manageable='<%= guildRole?.manageable %>'>
+				<div class='discordRoleColour' style='background-color: <%= guildRole?.color %>;'></div>
+				<p class='discordRoleName'><%= guildRole?.name %></p>
+
+				<span class='deleteDiscordRole material-icons' onclick='deleteDiscordRole(event)'>clear</span>
+			</div>
+
+		<% } %>
+
+		<div class='addDiscordRole' onclick='expandDiscordRoleList(event)'>
+			<span class='material-icons'>add</span>
+
+			<%- include('../components/listDiscordRole.ejs') %>
+		</div>
+
 	</div>
 
-<% } %>
+	<div class='errorDiscordRoles'>
+		<span class='material-icons'>error</span>
+		<p>One of the selected roles cannot be used by Lunar.</p>
+	</div>
 
-<div class='addDiscordRole' onclick='expandDiscordRoleList(event)'>
-	<span class='material-icons'>add</span>
-
-	<%- include('../components/listDiscordRole.ejs') %>
 </div>

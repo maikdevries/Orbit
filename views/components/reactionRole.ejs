@@ -29,11 +29,7 @@
 
 					<img class='reactionRoleEmoji' data-emoji='<%= emoji %>' src="<%= guildEmoji ? `https://cdn.discordapp.com/emojis/${guildEmoji.id}.${guildEmoji.animated ? 'gif' : 'png'}?size=24` : `https://twemoji.maxcdn.com/v/12.1.2/svg/${emoji.codePointAt(0).toString(16)}.svg` %>">
 
-					<div class='discordRoles'>
-
-						<%- include('../components/manageDiscordRoles.ejs', { roles: reactions[emoji] }) %>
-
-					</div>
+					<%- include('../components/manageDiscordRoles.ejs', { roles: reactions[emoji] }) %>
 				</div>
 
 			<% } %>

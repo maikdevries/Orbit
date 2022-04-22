@@ -86,7 +86,9 @@ export async function deleteAPIGuild (url) {
 export function createDiscordRoleElement (roleData) {
 	const roleContainerElement = document.createElement('div');
 	roleContainerElement.classList.add('discordRole');
+	if (roleData.dataset.manageable === 'false') roleContainerElement.classList.add('error');
 	roleContainerElement.dataset.discordRole = roleData.dataset.discordRole;
+	roleContainerElement.dataset.manageable = roleData.dataset.manageable;
 
 	const roleColour = document.createElement('div');
 	roleColour.classList.add('discordRoleColour');
@@ -119,12 +121,29 @@ export async function createReactionRoleReactionElement (reactionData) {
 	reactionEmoji.src = reactionData.url;
 	reactionEmoji.dataset.emoji = reactionData.emoji || reactionData.url.match(/(\d{3,})/g);
 
+	const reactionRolesContainer = document.createElement('div');
+	reactionRolesContainer.classList.add('discordRolesContainer');
+
 	const reactionRoles = document.createElement('div');
 	reactionRoles.classList.add('discordRoles');
 
 	reactionRoles.append(await createAddDiscordRoleElement());
 
-	reactionContainerElement.append(deleteReactionButton, reactionEmoji, reactionRoles);
+	const errorReactionRoles = document.createElement('div');
+	errorReactionRoles.classList.add('errorDiscordRoles');
+
+	const errorIcon = document.createElement('span');
+	errorIcon.classList.add('material-icons');
+	errorIcon.textContent = 'error';
+
+	const errorMessage = document.createElement('p');
+	errorMessage.textContent = 'One of the selected roles cannot be used by Lunar.';
+
+	errorReactionRoles.append(errorIcon, errorMessage);
+
+	reactionRolesContainer.append(reactionRoles, errorReactionRoles);
+
+	reactionContainerElement.append(deleteReactionButton, reactionEmoji, reactionRolesContainer);
 	return reactionContainerElement;
 }
 
@@ -145,8 +164,13 @@ export async function createAddDiscordRoleElement () {
 		roleListEntry.classList.add('discordRoleListEntry');
 		roleListEntry.style.color = role.color;
 		roleListEntry.dataset.discordRole = role.id;
+		roleListEntry.dataset.manageable = role.manageable;
 		roleListEntry.setAttribute('onclick', 'addDiscordRole(event)');
-		roleListEntry.textContent = role.name;
+
+		const roleName = document.createElement('p');
+		roleName.textContent = role.name;
+
+		roleListEntry.append(roleName);
 
 		roleListContainer.append(roleListEntry);
 	}
@@ -214,7 +238,11 @@ function createDiscordChannelListEntryElement (channel) {
 	listEntry.classList.add('discordChannelListEntry');
 	listEntry.dataset.discordChannel = channel.id;
 	listEntry.setAttribute('onclick', 'changeSelectedDiscordChannel(event)');
-	listEntry.textContent = `#${channel.name}`;
+
+	const channelName = document.createElement('p');
+	channelName.textContent = `#${channel.name}`;
+
+	listEntry.append(channelName);
 
 	return listEntry;
 }

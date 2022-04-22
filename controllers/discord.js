@@ -2,7 +2,7 @@ const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fet
 const { hasGuildSettings } = require('../controllers/data.js');
 
 module.exports = {
-	getData, updateGuildsData, hasGuildAccess, getGuildData, getGuildChannels, getGuildCategories, getGuildRoles, getGuildEmojis, getMessageData
+	getData, updateGuildsData, hasGuildAccess, getGuildData, getGuildMember, getGuildChannels, getGuildCategories, getGuildRoles, getGuildEmojis, getMessageData
 }
 
 async function getData (authData) {
@@ -38,6 +38,10 @@ async function getGuildData (guildID) {
 	return await getFetch(`guilds/${guildID}`, 'Bot', process.env.DISCORD_BOT_TOKEN);
 }
 
+async function getGuildMember (guildID, userID) {
+	return await getFetch(`guilds/${guildID}/members/${userID}`, 'Bot', process.env.DISCORD_BOT_TOKEN);
+}
+
 async function getGuildChannels (guildID) {
 	const channels = await getFetch(`guilds/${guildID}/channels`, 'Bot', process.env.DISCORD_BOT_TOKEN);
 	return channels.filter((channel) => [0, 5].includes(channel.type));
@@ -50,7 +54,13 @@ async function getGuildCategories (guildID) {
 
 async function getGuildRoles (guildID) {
 	const roles = await getFetch(`guilds/${guildID}/roles`, 'Bot', process.env.DISCORD_BOT_TOKEN);
-	return roles.filter((role) => !role.managed && role.id !== guildID).map((role) => ({ ...role, color: `rgb(${(role.color === 0 ? 'b9bbbe' : role.color.toString(16).padStart(6, '0')).match(/[a-f\d]{2}/g).map((x) => parseInt(x, 16)).join(', ')})` })).sort((a, b) => b.position - a.position);
+	const clientHighestRole = await getHighestRole(guildID, roles, process.env.DISCORD_CLIENT_ID);
+
+	return roles.filter((role) => !role.managed && role.id !== guildID).map((role) => ({
+		...role,
+		color: `rgb(${(role.color === 0 ? 'b9bbbe' : role.color.toString(16).padStart(6, '0')).match(/[a-f\d]{2}/g).map((x) => parseInt(x, 16)).join(', ')})`,
+		manageable: role.position < clientHighestRole.position
+	})).sort((a, b) => b.position - a.position);
 }
 
 async function getGuildEmojis (guildID) {
@@ -64,6 +74,11 @@ async function getMessageData (channelID, messageID) {
 		if (error instanceof FetchError && error.statusCode === 404) return { };
 		else throw error.toString();
 	}
+}
+
+async function getHighestRole (guildID, guildRoles, userID) {
+	const highestRoleID = (await getGuildMember(guildID, userID)).roles.reduce((previous, current) => guildRoles.find((guildRole) => guildRole.id === current).position > guildRoles.find((guildRole) => guildRole.id === previous).position ? current : previous);
+	return guildRoles.find((guildRole) => guildRole.id === highestRoleID);
 }
 
 async function getFetch (url, tokenType, token) {

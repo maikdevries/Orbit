@@ -657,6 +657,7 @@ main {
 .discordRoles {
 	display: flex;
 	flex-wrap: wrap;
+	align-items: center;
 	font-size: 80%;
 }
 
@@ -667,6 +668,10 @@ main {
 	background: var(--colour-dark-grey);
 	margin: 5px 5px 5px 5px;
 	padding: 5px 7.5px 5px 7.5px;
+}
+
+.discordRole.error {
+	border: var(--border-error);
 }
 
 .discordRoleColour {
@@ -751,6 +756,28 @@ main {
 	opacity: 1;
 	transform: scale(1.0125);
 	cursor: pointer;
+}
+
+.errorDiscordRoles {
+	display: none;
+	align-items: center;
+	margin: 5px 0 0 5px;
+	color: var(--colour-red);
+	user-select: none;
+}
+
+.errorDiscordRoles span {
+	font-size: 110%;
+}
+
+.errorDiscordRoles p {
+	margin: 0 0 0 5px;
+	font-size: 75%;
+	white-space: unset;
+}
+
+.discordRolesContainer.error .errorDiscordRoles {
+	display: flex;
 }
 
 .reactionRoleSettingsContainerFooter, .messageListContainerFooter {
