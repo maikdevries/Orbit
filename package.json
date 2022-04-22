@@ -1,6 +1,6 @@
 {
 	"name": "orbit",
-	"version": "0.39.0",
+	"version": "0.40.0",
 	"description": "Orbit is the interface behind Lunar, a Discord bot that allows for easy customisation to serve your needs",
 	"engines": {
 		"node": ">=16.6.0"

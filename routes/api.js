@@ -8,34 +8,53 @@ const router = Express.Router();
 
 module.exports = router;
 
-router.get('/guilds/:guildID', (req, res, next) => {
+const allowedPaths = [
+	'welcomeMessage.welcoming',
+	'welcomeMessage.farewell',
+	'reactionRole',
+	'streamerShoutout',
+	'twitch',
+	'youtube'
+]
+
+router.use((req, res, next) => {
+	if (!req.session.tokenType || !req.session.token) return res.status(401).json('This request lacks proper authentication.');
+	else return next();
+});
+
+router.use('/guilds/:guildID([0-9]{17,19})', (req, res, next) => {
+	if (req.session.currentGuild !== req.params.guildID) return res.status(403).json('This data is not allowed to be accessed at this time.');
+	else return next();
+});
+
+router.get('/guilds/:guildID([0-9]{17,19})', (req, res, next) => {
 	return res.json(req.session.guildData);
 });
 
-router.get('/guilds/:guildID/roles', (req, res, next) => {
+router.get('/guilds/:guildID([0-9]{17,19})/roles', (req, res, next) => {
 	return res.json(req.session.guildRoles);
 });
 
-router.get('/guilds/:guildID/emojis', (req, res, next) => {
+router.get('/guilds/:guildID([0-9]{17,19})/emojis', (req, res, next) => {
 	return res.json(req.session.guildEmojis);
 });
 
-router.get('/guilds/:guildID/channels', (req, res, next) => {
+router.get('/guilds/:guildID([0-9]{17,19})/channels', (req, res, next) => {
 	return res.json(req.session.guildChannels);
 });
 
-router.get('/guilds/:guildID/categories', (req, res, next) => {
+router.get('/guilds/:guildID([0-9]{17,19})/categories', (req, res, next) => {
 	return res.json(req.session.guildCategories);
 });
 
-router.get('/channels/:channelID', async (req, res, next) => {
+router.get('/channels/:channelID([0-9]{17,19})', async (req, res, next) => {
 	try {
 		const channel = req.session.guildChannels.find((guildChannel) => guildChannel.id === req.params.channelID);
 		return channel ? res.json(channel) : res.status(404).json('This Discord channel is not part of the current guild.');
 	} catch (error) { console.error(error); return res.status(500).json('Something went terribly wrong on our side of the internet.') }
 });
 
-router.get('/channels/:channelID/messages/:messageID', async (req, res, next) => {
+router.get('/channels/:channelID([0-9]{17,19})/messages/:messageID([0-9]{17,19})', async (req, res, next) => {
 	try {
 		if (!req.session.guildChannels.find((guildChannel) => guildChannel.id === req.params.channelID)) return res.status(404).json('This Discord channel is not part of the current guild.');
 		return res.json(await getMessageData(req.params.channelID, req.params.messageID));
@@ -66,17 +85,22 @@ router.get('/youtube/:channelURL', async (req, res, next) => {
 	} catch (error) { console.error(error); return res.status(500).json('Something went terribly wrong on our side of the internet.') }
 });
 
-router.post('/:guildID/:featurePath', async (req, res, next) => {
+router.use('/:guildID([0-9]{17,19})/:featurePath([a-zA-Z0-9.]+)', (req, res, next) => {
+	if (req.session.currentGuild !== req.params.guildID || !allowedPaths.some((path) => req.params.featurePath.startsWith(path))) return res.status(403).json('This operation is not to be performed at this time.');
+	else return next();
+});
+
+router.post('/:guildID([0-9]{17,19})/:featurePath([a-zA-Z0-9.]+)', async (req, res, next) => {
 	try { return res.json(await createGuildSetting(`${req.params.guildID}.${req.params.featurePath}`, req.body)) }
 	catch (error) { console.error(error); return res.status(500).json('Something went terribly wrong on our side of the internet.') }
 });
 
-router.patch('/:guildID/:featurePath', async (req, res, next) => {
+router.patch('/:guildID([0-9]{17,19})/:featurePath([a-zA-Z0-9.]+)', async (req, res, next) => {
 	try { return res.json(await updateGuildSetting(`${req.params.guildID}.${req.params.featurePath}`, req.body, req.query.channelUsername)) }
 	catch (error) { console.error(error); return res.status(500).json('Something went terribly wrong on our side of the internet.') }
 });
 
-router.delete('/:guildID/:featurePath', async (req, res, next) => {
+router.delete('/:guildID([0-9]{17,19})/:featurePath([a-zA-Z0-9.]+)', async (req, res, next) => {
 	try { return res.json(await deleteGuildSetting(`${req.params.guildID}.${req.params.featurePath}`, req.query.channelUsername)) }
 	catch (error) { console.error(error); return res.status(500).json('Something went terribly wrong on our side of the internet.') }
 });
