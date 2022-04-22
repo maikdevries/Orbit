@@ -9,7 +9,7 @@
 			<div class='addComponentField'>
 				<p class='settingsHeaderName'><%= featureName.toUpperCase() %> CHANNEL URL</p>
 				<p class='settingsHeaderDescription'>The URL that leads to your <%= featureName %> channel.</p>
-				<input class='addComponentFieldChannel' type='url' placeholder='<%= channelURLPlaceholder %>'>
+				<input class='addComponentFieldChannel' type='text' placeholder='<%= channelURLPlaceholder %>' pattern='<%= channelURLPattern %>'>
 			</div>
 
 		<% }
@@ -29,7 +29,7 @@
 			<div class='addComponentField'>
 				<p class='settingsHeaderName'>MESSAGE ID <span class='furtherHelp material-icons' onclick='window.open(`https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-`, `_blank`)'>info</span></p>
 				<p class='settingsHeaderDescription'>The ID of the Discord message you would like to <%= action %> for.</p>
-				<input class='addComponentFieldMessage' type='text'>
+				<input class='addComponentFieldMessage' type='text' pattern='^[\d]{17,19}$'>
 			</div>
 
 		<% } %>

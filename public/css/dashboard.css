@@ -943,6 +943,10 @@ main {
 	box-sizing: border-box;
 }
 
+.addComponentFieldChannel:invalid, .addComponentFieldMessage:invalid {
+	border: var(--border-error);
+}
+
 .furtherHelp {
 	width: 16px;
 	height: 16px;
