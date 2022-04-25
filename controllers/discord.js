@@ -23,13 +23,13 @@ async function getData (authData) {
 	return {
 		user: await getUser(authData.tokenType, authData.token),
 		guilds: await getGuilds(authData.tokenType, authData.token),
-		expires: Date.now() + 10000
+		expires: Date.now() + 60000
 	}
 }
 
 async function updateGuildsData (session) {
 	const guilds = await getGuilds(session.tokenType, session.token);
-	Object.assign(session, { guilds: guilds, expires: Date.now() + 10000 });
+	Object.assign(session, { guilds: guilds, expires: Date.now() + 60000 });
 
 	return guilds;
 }

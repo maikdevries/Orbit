@@ -9,24 +9,8 @@ const router = Express.Router({ mergeParams: true });
 module.exports = router;
 
 router.use(async (req, res, next) => {
-	if (req.session.currentGuild === req.params.guildID && req.session.expires > Date.now()) return next();
+	if (req.session.currentGuild !== req.params.guildID || (Date.now() > req.session.expires && req.path === '/')) await refreshSessionData(req.session, req.params.guildID);
 
-	try {
-		Object.assign(req.session, {
-			currentGuild: req.params.guildID,
-			guildData: await getGuildData(req.params.guildID),
-			guildChannels: await getGuildChannels(req.params.guildID),
-			guildCategories: await getGuildCategories(req.params.guildID),
-			guildRoles: await getGuildRoles(req.params.guildID),
-			guildEmojis: await getGuildEmojis(req.params.guildID),
-			expires: Date.now() + 10000
-		});
-	} catch (error) { return next(error) }
-
-	return next();
-});
-
-router.use((req, res, next) => {
 	res.locals.guildData = req.session.guildData;
 	res.locals.guildChannels = req.session.guildChannels;
 	res.locals.guildCategories = req.session.guildCategories;
@@ -35,6 +19,20 @@ router.use((req, res, next) => {
 
 	return next();
 });
+
+async function refreshSessionData (session, guildID) {
+	try {
+		Object.assign(session, {
+			currentGuild: guildID,
+			expires: Date.now() + 60000,
+			guildData: await getGuildData(guildID),
+			guildChannels: await getGuildChannels(guildID),
+			guildCategories: await getGuildCategories(guildID),
+			guildRoles: await getGuildRoles(guildID),
+			guildEmojis: await getGuildEmojis(guildID)
+		});
+	} catch (error) { return next(error) }
+}
 
 router.get('/', async (req, res, next) => {
 	try {
