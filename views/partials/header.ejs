@@ -14,6 +14,7 @@
 				<div id='userData'>
 					<img id='userAvatar' src="<%= `https://cdn.discordapp.com/${ user.avatar ? `avatars/${user.id}/${user.avatar}.png?size=28` : `embed/avatars/${user.discriminator % 5}.png` }` %>" draggable='false'>
 					<p id='userName'><%= user.username %></p>
+					<span class='expandList material-icons'>expand_more</span>
 				</div>
 
 				<ul id='userProfileDropdown'>

@@ -6,7 +6,6 @@
 
 		<%- include('../partials/head.ejs') %>
 
-		<link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
 		<link rel='stylesheet' href='/css/dashboard.css'>
 
 		<script type='module' src='/js/dashboard.mjs'></script>
@@ -34,15 +33,15 @@
 
 					<div id='featureHeader'>
 						<div>
-							<p id='featureName'>WELCOME MESSAGE</p>
+							<p id='featureName'>SERVER MESSAGES</p>
 						</div>
 
-						<p id='featureDescription'>Send out a welcoming message when a new member joins your server or say farewell when they leave again.</p>
+						<p id='featureDescription'>Send out a message when certain events happen in your server.</p>
 					</div>
 
 					<% for (const subFeature in settings) { %>
 
-						<%- include('../components/welcomeMessageFeature.ejs', { subFeature: subFeature, settings: settings[subFeature] }) %>
+						<%- include('../components/serverMessage.ejs', { subFeature: subFeature, settings: settings[subFeature] }) %>
 
 					<% } %>
 

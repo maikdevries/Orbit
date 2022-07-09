@@ -1,12 +1,14 @@
-<div class='welcomeMessageFeature' data-id='<%= subFeature %>' onclick="expandSettings(event, '.welcomeMessageSettings')">
+<div class='serverMessage' data-id='<%= subFeature %>' onclick="expandSettings(event, '.serverMessageSettings')">
 
-	<div class='welcomeMessageHeader'>
-		<p class='welcomeMessageFeatureName'><%= subFeature %> message</p>
+	<div class='serverMessageHeader'>
+		<p class='serverMessageName'><%= subFeature %> message</p>
 
 		<%- include('../components/settingEnabled.ejs') %>
+
+		<span class='expandSettings material-icons'>expand_more</span>
 	</div>
 
-	<div class='welcomeMessageSettings'>
+	<div class='serverMessageSettings'>
 
 		<div class='settingsContainer'>
 			<p class='settingsHeaderName'>CHANNEL</p>
@@ -30,11 +32,11 @@
 						<form class='addMessage'>
 							<textarea class='addMessageInput' maxlength='2000' placeholder='To refer to the member in your message, use [MEMBER].'></textarea>
 
-							<%- include('../components/formButtons.ejs', { cancelFunction: 'cancelWelcomeMessageAddMessage(event)', saveFunction: 'saveWelcomeMessageAddMessage(event)' }) %>
+							<%- include('../components/formButtons.ejs', { cancelFunction: 'cancelServerMessageAddMessage(event)', saveFunction: 'saveServerMessageAddMessage(event)' }) %>
 						</form>
 					</div>
 
-					<%- include('../components/formButtons.ejs', { cancelFunction: 'cancelWelcomeMessageChanges(event)', saveFunction: 'saveWelcomeMessageChanges(event)' }) %>
+					<%- include('../components/formButtons.ejs', { cancelFunction: 'cancelServerMessageChanges(event)', saveFunction: 'saveServerMessageChanges(event)' }) %>
 
 				</div>
 			</div>

@@ -2,7 +2,7 @@ const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fet
 const { hasGuildSettings } = require('../controllers/data.js');
 
 module.exports = {
-	getData, updateGuildsData, hasGuildAccess, getGuildData, getGuildChannels, getGuildCategories, getGuildRoles, getGuildEmojis, getMessageData, getMissingPermissions
+	getUserData, getGuildData, refreshUserGuilds, hasGuildAccess, getGuild, getGuildChannels, getGuildCategories, getGuildRoles, getGuildEmojis, getMessageData, getMissingPermissions
 }
 
 const requiredPermissions = [
@@ -19,16 +19,27 @@ const requiredPermissions = [
 	{ name: 'Use External Emojis', bits: 0x40000 }
 ]
 
-async function getData (authData) {
+async function getUserData (authData) {
 	return {
 		user: await getUser(authData.tokenType, authData.token),
-		guilds: await getGuilds(authData.tokenType, authData.token),
+		guilds: await getUserGuilds(authData.tokenType, authData.token),
 		expires: Date.now() + 60000
 	}
 }
 
-async function updateGuildsData (session) {
-	const guilds = await getGuilds(session.tokenType, session.token);
+async function getGuildData (guildID) {
+	return {
+		currentGuild: guildID,
+		guildData: await getGuild(guildID),
+		guildChannels: await getGuildChannels(guildID),
+		guildCategories: await getGuildCategories(guildID),
+		guildRoles: await getGuildRoles(guildID),
+		guildEmojis: await getGuildEmojis(guildID)
+	}
+}
+
+async function refreshUserGuilds (session) {
+	const guilds = await getUserGuilds(session.tokenType, session.token);
 	Object.assign(session, { guilds: guilds, expires: Date.now() + 60000 });
 
 	return guilds;
@@ -43,12 +54,12 @@ async function getUser (tokenType, token) {
 	return await getFetch('users/@me', tokenType, token);
 }
 
-async function getGuilds (tokenType, token) {
+async function getUserGuilds (tokenType, token) {
 	const guilds = await getFetch('users/@me/guilds', tokenType, token);
-	return await Promise.all(guilds.filter((guild) => guild.owner || (guild.permissions & 0x20) === 0x20 || (guild.permissions & 0x8) === 0x8).map(async (guild) => ({ ...guild, joined: await hasGuildSettings(guild.id) })));
+	return (await Promise.all(guilds.filter((guild) => guild.owner || (guild.permissions & 0x20) === 0x20 || (guild.permissions & 0x8) === 0x8).map(async (guild) => ({ ...guild, joined: await hasGuildSettings(guild.id) })))).sort((a, b) => b.joined - a.joined);
 }
 
-async function getGuildData (guildID) {
+async function getGuild (guildID) {
 	return await getFetch(`guilds/${guildID}`, 'Bot', process.env.DISCORD_BOT_TOKEN);
 }
 
@@ -107,7 +118,7 @@ async function getMissingPermissions (guildID, guildRoles, userID) {
 
 async function getFetch (url, tokenType, token) {
 	try {
-		const response = await fetch(`https://discord.com/api/v9/${url}`, { headers: { 'Authorization': `${tokenType} ${token}`, 'Content-Type': 'application/json' } });
+		const response = await fetch(`https://discord.com/api/v10/${url}`, { headers: { 'Authorization': `${tokenType} ${token}`, 'Content-Type': 'application/json' } });
 		return response.ok ? await response.json() : (() => { throw new FetchError(response.status, `Fetching Discord API failed with status ${response.status}. URL: ${response.url}`) })();
 	} catch (error) { throw error }
 }

@@ -34,7 +34,7 @@ app.use(minify({
 app.use(Express.json());
 app.use(Express.urlencoded({ extended: true }));
 
-app.use('/', router);
+app.use(router);
 
 app.use((error, req, res, next) => {
 	console.error(error.toString());

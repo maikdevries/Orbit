@@ -6,7 +6,6 @@
 
 		<%- include('../partials/head.ejs') %>
 
-		<link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
 		<link rel='stylesheet' href='/css/dashboard.css'>
 
 		<script type='module' src='/js/dashboard.mjs'></script>
@@ -45,7 +44,7 @@
 
 						<div id='requiredRole' class='settingsContainer'>
 							<p class='settingsHeaderName'>REQUIRED ROLE</p>
-							<p class='settingsHeaderDescription'>One or multiple roles of which a streaming member needs to have at least one to receive the shoutout role.</p>
+							<p class='settingsHeaderDescription'>Roles of which a streaming member needs to have at least one to receive the shoutout role.</p>
 
 							<%- include('../components/manageDiscordRoles.ejs', { roles: settings.requiredRole }) %>
 						</div>

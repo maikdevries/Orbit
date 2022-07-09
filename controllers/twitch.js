@@ -11,7 +11,7 @@ let oAuth = {
 
 async function getTwitchChannelData (username) {
 	const channel = (await getFetch(`users?login=${username}`)).data?.[0] ?? { };
-	return { ...channel, profile_image_url: channel?.profile_image_url?.replace(/profile_image-([0-9]+)x([0-9]+).png/, 'profile_image-50x50.png') };
+	return { ...channel, profile_image_url: channel?.profile_image_url?.replace(/-([0-9]+)x([0-9]+).png/, '-50x50.png') };
 }
 
 async function getFetch (url) {

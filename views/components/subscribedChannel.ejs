@@ -4,14 +4,18 @@
 
 		<div class='subscribedChannelData'>
 			<img class='subscribedChannelImage' src='<%= resources.profile_image_url || resources.thumbnails.default.url %>'>
-			<p class='subscribedChannelName'><%= resources.display_name || resources.title %></p>
+
+			<div class='subscribedChannelNameContainer'>
+				<p class='subscribedChannelName'><%= resources.display_name || resources.title %></p>
+				<p class='headerDiscordChannelName'>#<%= guildChannels.find((guildChannel) => guildChannel.id === settings.channel)?.name %></p>
+			</div>
 		</div>
 
 		<div class='subscribedChannelHeaderSideContainer'>
-			<p class='headerDiscordChannelName'>#<%= guildChannels.find((guildChannel) => guildChannel.id === settings.channel)?.name %></p>
 			<span class='syncChanges material-icons'></span>
+			<span class='deleteElement material-icons' onclick='deleteSubscribedChannel(event)'>delete</span>
 
-			<button class='deleteElementButton' type='button' onclick='deleteSubscribedChannel(event)'>DELETE</button>
+			<span class='expandSettings material-icons'>expand_more</span>
 		</div>
 
 	</div>

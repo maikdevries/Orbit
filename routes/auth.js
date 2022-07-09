@@ -1,6 +1,6 @@
 const Express = require('express');
 const { getAuthentication } = require('../controllers/auth.js');
-const { getData } = require('../controllers/discord.js');
+const { getUserData } = require('../controllers/discord.js');
 
 const router = Express.Router();
 
@@ -15,7 +15,7 @@ router.get('/login', async (req, res, next) => {
 
 	try {
 		const authData = await getAuthentication(req.query.code);
-		Object.assign(req.session, authData, await getData(authData));
+		Object.assign(req.session, authData, await getUserData(authData));
 
 		return res.redirect('/dashboard');
 	} catch (error) { return next(error) }

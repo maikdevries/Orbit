@@ -1,6 +1,6 @@
 const Express = require('express');
 const { createGuildSetting, updateGuildSetting, deleteGuildSetting } = require('../controllers/data.js');
-const { getMessageData } = require('../controllers/discord.js');
+const { getGuildData, getMessageData } = require('../controllers/discord.js');
 const { getYouTubeChannelData, getYouTubeChannelIDByUsername, getYouTubeChannelIDByCustomURL } = require('../controllers/youtube.js');
 const { getTwitchChannelData } = require('../controllers/twitch.js');
 
@@ -9,8 +9,8 @@ const router = Express.Router();
 module.exports = router;
 
 const allowedPaths = [
-	'welcomeMessage.welcoming',
-	'welcomeMessage.farewell',
+	'serverMessages.welcoming',
+	'serverMessages.farewell',
 	'reactionRole',
 	'streamerShoutout',
 	'twitch',
@@ -29,6 +29,13 @@ router.use('/guilds/:guildID([0-9]{17,19})', (req, res, next) => {
 
 router.get('/guilds/:guildID([0-9]{17,19})', (req, res, next) => {
 	return res.json(req.session.guildData);
+});
+
+router.get('/guilds/:guildID([0-9]{17,19})/refresh', async (req, res, next) => {
+	try {
+		Object.assign(req.session, await getGuildData(req.params.guildID));
+		return res.status(200).json('Successfully refreshed cached Discord data with the latest updates.');
+	} catch (error) { console.error(error); return res.status(500).json('Something went terribly wrong on our side of the internet.') }
 });
 
 router.get('/guilds/:guildID([0-9]{17,19})/roles', (req, res, next) => {

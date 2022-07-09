@@ -6,7 +6,6 @@
 
 		<%- include('./partials/head.ejs') %>
 
-		<link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
 		<link rel='stylesheet' href='/css/dashboard.css'>
 
 		<script type='module' src='/js/dashboard.mjs'></script>
@@ -65,9 +64,9 @@
 
 						<div class='featureOverviewContainer'>
 
-							<%- include('./components/featureOverview.ejs', { featureURL: 'welcomeMessage', featureIconSVG: null, featureIcon: 'person_add', featureName: 'WELCOMING MESSAGE', featurePath: 'welcomeMessage.welcoming', enabled: settings.welcomeMessage.welcoming.enabled }) %>
+							<%- include('./components/featureOverview.ejs', { featureURL: 'serverMessages', featureIconSVG: null, featureIcon: 'person_add', featureName: 'WELCOMING MESSAGE', featurePath: 'serverMessages.welcoming', enabled: settings.serverMessages.welcoming.enabled }) %>
 
-							<%- include('./components/featureOverview.ejs', { featureURL: 'welcomeMessage', featureIconSVG: null, featureIcon: 'person_remove', featureName: 'FAREWELL MESSAGE', featurePath: 'welcomeMessage.farewell', enabled: settings.welcomeMessage.farewell.enabled }) %>
+							<%- include('./components/featureOverview.ejs', { featureURL: 'serverMessages', featureIconSVG: null, featureIcon: 'person_remove', featureName: 'FAREWELL MESSAGE', featurePath: 'serverMessages.farewell', enabled: settings.serverMessages.farewell.enabled }) %>
 
 							<%- include('./components/featureOverview.ejs', { featureURL: 'streamerShoutout', featureIconSVG: null, featureIcon: 'campaign', featureName: 'STREAMER SHOUTOUT', featurePath: 'streamerShoutout', enabled: settings.streamerShoutout.enabled }) %>
 

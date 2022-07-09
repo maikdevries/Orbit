@@ -4,4 +4,6 @@
 		<li class='discordRoleListEntry' style='color: <%= guildRole.color %>;' data-discord-role='<%= guildRole.id %>' data-manageable='<%= guildRole.manageable %>' onclick='addDiscordRole(event)'><p><%= guildRole.name %></p></li>
 	<% } %>
 
+	<button class='refreshData' type='button' onclick='refreshDiscordRoleData(event)'><span class='syncChanges material-icons'></span></button>
+
 </ul>

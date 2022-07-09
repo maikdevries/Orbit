@@ -1,4 +1,6 @@
-<div class='featureOverview' onclick="location.href = '<%= `/dashboard/${guildData.id}/${featureURL}` %>'">
+<div class='featureOverview'>
+	<span class='manageSettings material-icons' onclick="location.href = '<%= `/dashboard/${guildData.id}/${featureURL}` %>'">settings</span>
+
 	<% if (featureIconSVG) { %> <svg class='featureOverviewIcon' viewBox='0 0 24 24'> <%- include(`../../public/resources/${featureIcon}.ejs`) %> </svg> <% }
 	else { %> <span class='featureOverviewIcon material-icons'><%= featureIcon %></span> <% } %>
 	<span class='syncChanges material-icons'></span>

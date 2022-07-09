@@ -2,7 +2,7 @@
 
 	<div class='discordChannelListHeader'>
 		<p class='discordChannelName' data-discord-channel='<%= settings.channel %>'>#<%= guildChannels.find((guildChannel) => guildChannel.id === settings.channel)?.name %></p>
-		<span class='material-icons'>expand_more</span>
+		<span class='expandList material-icons'>expand_more</span>
 	</div>
 
 	<ul class='discordChannelList'>
@@ -27,6 +27,8 @@
 
 			</div>
 		<% } %>
+
+		<button class='refreshData' type='button' onclick='refreshDiscordChannelData(event)'><span class='syncChanges material-icons'></span></button>
 
 	</ul>
 

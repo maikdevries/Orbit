@@ -257,7 +257,7 @@ main {
 	transition: var(--transition-collapse);
 }
 
-#errorPopup, #saveChanges {
+#errorPopup, #savePopup, #saveChanges {
 	display: none;
 	align-items: center;
 	padding: 15px 15px 15px 15px;
@@ -265,6 +265,10 @@ main {
 
 #errorPopup {
 	background: var(--colour-red);
+}
+
+#savePopup {
+	background: var(--colour-green);
 }
 
 #saveChanges {
@@ -276,12 +280,12 @@ main {
 	margin: 0 0 0 10px;
 }
 
-#featureSettingsContainer.error #saveChangesContainer, #saveChangesContainer.visible {
+#featureSettingsContainer.error #saveChangesContainer, #featureSettingsContainer.saved #saveChangesContainer, #saveChangesContainer.visible {
 	visibility: visible;
 	opacity: 1;
 }
 
-#featureSettingsContainer.error #errorPopup, #saveChangesContainer.visible #saveChanges {
+#featureSettingsContainer.error #errorPopup, #featureSettingsContainer.saved #savePopup, #saveChangesContainer.visible #saveChanges {
 	display: flex;
 }
 
@@ -296,7 +300,7 @@ main {
 	transition: var(--transition-collapse-fast);
 }
 
-.addComponentContainer .syncChanges {
+.addComponentContainer .syncChanges, .refreshData .syncChanges {
 	visibility: visible;
 	opacity: 1;
 }
@@ -307,7 +311,7 @@ main {
 
 .settingEnabled.syncing .syncChanges, .formButtonsContainer.syncing .syncChanges, .subscribedChannel.syncing .syncChanges,
 .reactionRoleHeader.syncing .syncChanges, #saveChangesContainer.syncing .syncChanges, .addComponentContainer.syncing .syncChanges,
-.featureOverview.syncing .syncChanges {
+.featureOverview.syncing .syncChanges, .refreshData.syncing .syncChanges {
 	visibility: visible;
 	opacity: 1;
 	color: var(--colour-orange);
@@ -316,13 +320,13 @@ main {
 
 .settingEnabled.syncing .syncChanges::after, .formButtonsContainer.syncing .syncChanges::after, .subscribedChannel.syncing .syncChanges::after,
 .reactionRoleHeader.syncing .syncChanges::after, #saveChangesContainer.syncing .syncChanges::after, .addComponentContainer.syncing .syncChanges::after,
-.featureOverview.syncing .syncChanges::after {
+.featureOverview.syncing .syncChanges::after, .refreshData.syncing .syncChanges::after {
 	content: 'sync'
 }
 
 .settingEnabled.error .syncChanges, .formButtonsContainer.error .syncChanges, .subscribedChannel.error .syncChanges,
 .reactionRoleHeader.error .syncChanges, #saveChangesContainer.error .syncChanges, .addComponentContainer.error .syncChanges,
-.featureOverview.error .syncChanges {
+.featureOverview.error .syncChanges, .refreshData.error .syncChanges {
 	visibility: visible;
 	opacity: 1;
 	color: var(--colour-red);
@@ -330,15 +334,15 @@ main {
 
 .settingEnabled.error .syncChanges::after, .formButtonsContainer.error .syncChanges::after, .subscribedChannel.error .syncChanges::after,
 .reactionRoleHeader.error .syncChanges::after, #saveChangesContainer.error .syncChanges::after, .addComponentContainer.error .syncChanges::after,
-.featureOverview.error .syncChanges::after {
+.featureOverview.error .syncChanges::after, .refreshData.error .syncChanges::after {
 	content: 'sync_problem';
 }
 
-.addMessage .cancelChangesButton, .subscribedChannelSettingsSideContainer .cancelChangesButton, .addComponent .cancelChangesButton {
+.addMessage .cancelChangesButton, .subscribedChannelSettingsSideContainer .formButtonsContainer .cancelChangesButton, .addComponent .formButtonsContainer .cancelChangesButton {
 	margin: 0 0 0 0;
 }
 
-.addMessage .syncChanges, .subscribedChannelSettingsSideContainer .syncChanges, .addComponent .syncChanges, .featureOverview .syncChanges {
+.addMessage .syncChanges, .subscribedChannelSettingsSideContainer .formButtonsContainer .syncChanges, .addComponent .formButtonsContainer .syncChanges, .featureOverview .syncChanges {
 	display: none;
 }
 
@@ -366,39 +370,37 @@ main {
 	background: var(--colour-green-hover);
 }
 
-.deleteElementButton {
-	margin: 0 0 0 15px;
-	padding: 7.5px 7.5px 7.5px 7.5px;
-	background: var(--colour-red);
+.deleteElement {
+	margin: 0 15px 0 15px;
+	color: var(--colour-light-grey);
 	transition: var(--transition-hover);
-	font-size: 85%;
-	color: var(--colour-black);
 }
 
-.deleteElementButton:hover {
-	background: var(--colour-red-hover);
+.deleteElement:hover {
+	color: var(--colour-red-hover);
+	cursor: pointer;
 }
 
-.subscribedChannel, .reactionRole, .welcomeMessageFeature {
+.subscribedChannel, .reactionRole, .serverMessage {
 	margin: 15px 0 15px 0;
 	padding: 15px 15px 15px 15px;
 	background: var(--colour-black);
 	transition: var(--transition-hover);
 }
 
-.subscribedChannel:hover, .reactionRole:hover, .welcomeMessageFeature:hover {
+.subscribedChannel:hover, .reactionRole:hover, .serverMessage:hover {
 	cursor: pointer;
 	transform: scale(1.0125);
 	box-shadow: var(--shadow-default);
 }
 
-.subscribedChannel.expanded:hover, .reactionRole.expanded:hover, .welcomeMessageFeature.expanded:hover {
+.subscribedChannel.expanded:hover, .reactionRole.expanded:hover, .serverMessage.expanded:hover {
 	cursor: default;
 	transform: unset;
 	box-shadow: unset;
 }
 
-.subscribedChannelHeader, .reactionRoleHeader, .welcomeMessageHeader {
+.subscribedChannelHeader, .reactionRoleHeader, .serverMessageHeader {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -406,7 +408,7 @@ main {
 }
 
 .subscribedChannelData {
-	max-width: 50%;
+	max-width: 75%;
 	display: flex;
 	align-items: center;
 	flex: 1 1 auto;
@@ -417,27 +419,26 @@ main {
 	height: 50px;
 }
 
-.subscribedChannelName {
-	max-width: 67%;
+.subscribedChannelNameContainer {
+	max-width: 80%;
+	display: flex;
+	flex-direction: column;
 	margin: 0 0 0 15px;
 }
 
+.headerDiscordChannelName {
+	font-size: 80%;
+	color: var(--colour-light-grey);
+}
+
 .subscribedChannelHeaderSideContainer {
-	max-width: 50%;
 	display: flex;
 	flex-direction: row;
 	justify-content: flex-end;
 	align-items: center;
 }
 
-.headerDiscordChannelName {
-	max-width: 67%;
-	margin: 0 15px 0 0;
-	font-size: 90%;
-	color: var(--colour-light-grey);
-}
-
-.subscribedChannelSettings, .reactionRoleSettings, .welcomeMessageSettings {
+.subscribedChannelSettings, .reactionRoleSettings, .serverMessageSettings {
 	display: none;
 	margin: 15px 0 0 0;
 }
@@ -446,7 +447,7 @@ main {
 	display: none;
 }
 
-.subscribedChannel.expanded .subscribedChannelSettings, .reactionRole.expanded .reactionRoleSettings, .welcomeMessageFeature.expanded .welcomeMessageSettings {
+.subscribedChannel.expanded .subscribedChannelSettings, .reactionRole.expanded .reactionRoleSettings, .serverMessage.expanded .serverMessageSettings {
 	display: block;
 }
 
@@ -513,15 +514,6 @@ main {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-}
-
-.discordChannelListContainer span {
-	font-size: 20px;
-	transition: var(--transition-collapse-fast);
-}
-
-.discordChannelListContainer.expanded span {
-	transform: rotate(180deg);
 }
 
 .discordChannelList {
@@ -707,14 +699,14 @@ main {
 	cursor: pointer;
 }
 
-.addDiscordRole span {
+.addDiscordRole > span {
 	font-size: 120%;
 	color: var(--colour-green);
 	user-select: none;
 	transition: var(--transition-hover);
 }
 
-.addDiscordRole:hover span {
+.addDiscordRole:hover > span {
 	color: var(--colour-green-hover);
 }
 
@@ -818,7 +810,7 @@ main {
 	white-space: unset;
 }
 
-.welcomeMessageFeatureName {
+.serverMessageName {
 	font-size: 95%;
 	text-transform: uppercase;
 }
@@ -986,6 +978,7 @@ main {
 .featureOverview {
 	width: 125px;
 	height: 125px;
+	position: relative;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -1000,13 +993,26 @@ main {
 .featureOverview:hover {
 	transform: scale(1.02);
 	box-shadow: var(--shadow-default);
+}
+
+.manageSettings {
+	position: absolute;
+	top: 5%;
+	right: 5%;
+	font-size: 20px;
+	color: var(--colour-light-grey);
+	transition: var(--transition-hover);
+}
+
+.manageSettings:hover {
+	color: var(--colour-white);
 	cursor: pointer;
 }
 
 .featureOverviewIcon {
 	width: 32px;
 	height: 32px;
-	font-size: 200%;
+	font-size: 32px;
 	color: var(--colour-light-grey);
 }
 
@@ -1051,4 +1057,54 @@ main {
 
 #missingPermissions {
 	margin: 5px 0 0 25px;
+}
+
+.refreshData {
+	width: 87.5px;
+	height: 30px;
+	position: sticky;
+	bottom: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 0 0 0 auto;
+	padding: 2.5px 2.5px 2.5px 2.5px;
+	background: var(--colour-black);
+	border: var(--border-default);
+	font-size: 95%;
+	color: var(--colour-light-grey);
+	transition: var(--transition-hover);
+}
+
+.refreshData::after {
+	content: 'Refresh';
+}
+
+.refreshData:hover {
+	color: var(--colour-white);
+	cursor: pointer;
+}
+
+.refreshData .syncChanges {
+	font-size: 150%;
+}
+
+.refreshData .syncChanges::after {
+	content: 'refresh';
+}
+
+.refreshData.syncing::after, .refreshData.error::after {
+	content: '';
+}
+
+.refreshData.syncing {
+	border: var(--border-warning);
+}
+
+.refreshData.error {
+	border: var(--border-error);
+}
+
+.discordRoleList .refreshData, .subscribedChannelSettingsSideContainer .refreshData {
+	margin: 7.5px auto 0 auto;
 }

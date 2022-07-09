@@ -1,6 +1,6 @@
 const Express = require('express');
 const { getGuildSettings } = require('../controllers/data.js');
-const { getGuildData, getGuildChannels, getGuildCategories, getGuildRoles, getGuildEmojis, getMessageData, getMissingPermissions } = require('../controllers/discord.js');
+const { getGuildData, getMessageData, getMissingPermissions } = require('../controllers/discord.js');
 const { getTwitchChannelData } = require('../controllers/twitch.js');
 const { getYouTubeChannelData } = require('../controllers/youtube.js');
 
@@ -9,30 +9,18 @@ const router = Express.Router({ mergeParams: true });
 module.exports = router;
 
 router.use(async (req, res, next) => {
-	if (req.session.currentGuild !== req.params.guildID || (Date.now() > req.session.expires && req.path === '/')) await refreshSessionData(req.session, req.params.guildID);
-
-	res.locals.guildData = req.session.guildData;
-	res.locals.guildChannels = req.session.guildChannels;
-	res.locals.guildCategories = req.session.guildCategories;
-	res.locals.guildRoles = req.session.guildRoles;
-	res.locals.guildEmojis = req.session.guildEmojis;
-
-	return next();
-});
-
-async function refreshSessionData (session, guildID) {
 	try {
-		Object.assign(session, {
-			currentGuild: guildID,
-			expires: Date.now() + 60000,
-			guildData: await getGuildData(guildID),
-			guildChannels: await getGuildChannels(guildID),
-			guildCategories: await getGuildCategories(guildID),
-			guildRoles: await getGuildRoles(guildID),
-			guildEmojis: await getGuildEmojis(guildID)
-		});
+		if (req.session.currentGuild !== req.params.guildID) Object.assign(req.session, await getGuildData(req.params.guildID));
+
+		res.locals.guildData = req.session.guildData;
+		res.locals.guildChannels = req.session.guildChannels;
+		res.locals.guildCategories = req.session.guildCategories;
+		res.locals.guildRoles = req.session.guildRoles;
+		res.locals.guildEmojis = req.session.guildEmojis;
+
+		return next();
 	} catch (error) { return next(error) }
-}
+});
 
 router.get('/', async (req, res, next) => {
 	try {
@@ -47,10 +35,10 @@ router.get('/settings', (req, res, next) => {
 	return res.render('settings/settings');
 });
 
-router.get('/welcomeMessage', async (req, res, next) => {
+router.get('/serverMessages', async (req, res, next) => {
 	try {
-		return res.render('settings/welcomeMessage', {
-			settings: await getGuildSettings(`${req.params.guildID}.welcomeMessage`)
+		return res.render('settings/serverMessages', {
+			settings: await getGuildSettings(`${req.params.guildID}.serverMessages`)
 		});
 	} catch (error) { return next(error) }
 });
