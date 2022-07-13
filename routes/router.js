@@ -23,6 +23,10 @@ router.get('/', (req, res, next) => {
 	return res.render('index');
 });
 
+router.get('/invite', (req, res, next) => {
+	return res.redirect(process.env.INVITE_URL);
+});
+
 router.use('/dashboard', (req, res, next) => {
 	if (!req.session.tokenType || !req.session.token) return res.redirect('/auth');
 
@@ -57,4 +61,4 @@ router.get('/support/server', (req, res, next) => {
 
 router.get('/error', (req, res, next) => {
 	return res.render('error');
-})
+});

@@ -30,5 +30,5 @@ router.get('/server', (req, res, next) => {
 });
 
 router.get('/server/:guildID', (req, res, next) => {
-	return res.redirect(`${process.env.INVITE_URL}&guild_id=${req.params.guildID}`);
+	return res.redirect(`${process.env.INVITE_URL}&guild_id=${req.params.guildID}&disable_guild_select=true`);
 });

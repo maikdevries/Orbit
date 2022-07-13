@@ -2,9 +2,11 @@
 	--colour-white: #f0f0f0;
 	--colour-dark-white: #f0f0f019;
 	--colour-black: #1a1e21;
+	--colour-transparent-black: #1a1e21cc;
 	--colour-dark-grey: #23282d;
 	--colour-grey: #36393f;
 	--colour-light-grey: #969696;
+	--colour-lightest-grey: #aaaaaa;
 	--colour-dark-blue: #14151b;
 	--colour-blue: #233a54;
 	--colour-blue-hover: #1a3254;

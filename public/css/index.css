@@ -1,9 +1,51 @@
+#landingPage {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
 #mainHeader {
-	margin: 17.5% 0 0 0;
+	width: 400px;
+	height: 400px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+	background: var(--colour-transparent-black);
+	box-shadow: var(--shadow-default);
+	padding: 25px 25px 25px 25px;
+}
+
+#landingPageIcon {
+	width: 150px;
+}
+
+#textContainer {
+	margin: -25px 0 0 0;
 	text-align: center;
 }
 
-#subtext {
-	text-align: center;
-	font-weight: normal;
+.mainText {
+	font-size: 175%;
+}
+
+.subText {
+	margin: 5px 0 0 0;
+	font-size: 80%;
+}
+
+.headerButton {
+	margin: 0 5px 0 5px;
+	padding: 10px 10px 10px 10px;
+	background: inherit;
+	border: 1px solid;
+	color: var(--colour-lightest-grey);
+	font-size: 85%;
+	transition: var(--transition-hover);
+}
+
+.headerButton:hover {
+	color: var(--colour-white);
 }
