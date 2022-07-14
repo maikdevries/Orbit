@@ -112,10 +112,7 @@ window.refreshDiscordChannelData = async (event) => {
 	try {
 		await getAPIGuild(`guilds/${guildID}/refresh`);
 
-		const discordChannel = await getAPIGuild(`/channels/${channelID}`);
-		if (!discordChannel?.id || !discordChannel?.name) throw new Error('Data related to this Discord channel could not be fetched.');
-
-		const discordChannelList = await createListDiscordChannelElement(discordChannel);
+		const discordChannelList = await createListDiscordChannelElement(channelID ? await getAPIGuild(`channels/${channelID}`) : null);
 		discordChannelList.classList.add('expanded');
 
 		discordChannelListContainer.replaceWith(discordChannelList);
@@ -455,7 +452,7 @@ window.createComponentSubscribedChannel = async (event) => {
 		if (currentPage === 'twitch' && (!response?.login || !response?.display_name || !response?.profile_image_url)) throw new Error('The Twitch channel with that URL could not be found.');
 		else if (currentPage === 'youtube' && (!response?.channelID || !response?.title || !response?.thumbnails?.default)) throw new Error('The YouTube channel with that URL could not be found.');
 
-		const discordChannel = await getAPIGuild(`/channels/${data.discordChannel}`);
+		const discordChannel = await getAPIGuild(`channels/${data.discordChannel}`);
 		if (!discordChannel?.id || !discordChannel?.name) throw new Error('This Discord channel is not part of the current guild.');
 
 		await postAPIGuild(`${currentPage}.channels`, { username: (response.login || response.channelID), channel: discordChannel.id, message: '' });

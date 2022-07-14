@@ -275,8 +275,8 @@ export async function createListDiscordChannelElement (channelData) {
 
 	const discordChannelName = document.createElement('p');
 	discordChannelName.classList.add('discordChannelName');
-	discordChannelName.dataset.discordChannel = channelData.id;
-	discordChannelName.textContent = `#${channelData.name}`;
+	discordChannelName.dataset.discordChannel = channelData?.id ?? '';
+	discordChannelName.textContent = `#${channelData?.name ?? ''}`;
 
 	const expandList = document.createElement('span');
 	expandList.classList.add('expandList', 'material-icons');
