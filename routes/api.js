@@ -1,7 +1,7 @@
 const Express = require('express');
 const { createGuildSetting, updateGuildSetting, deleteGuildSetting } = require('../controllers/data.js');
 const { getGuildData, getMessageData } = require('../controllers/discord.js');
-const { getYouTubeChannelData, getYouTubeChannelIDByUsername, getYouTubeChannelIDByCustomURL } = require('../controllers/youtube.js');
+const { getYouTubeChannelData, getYouTubeChannelIDByHandle } = require('../controllers/youtube.js');
 const { getTwitchChannelData } = require('../controllers/twitch.js');
 
 const router = Express.Router();
@@ -77,14 +77,13 @@ router.get('/twitch/:channelURL', async (req, res, next) => {
 });
 
 router.get('/youtube/:channelURL', async (req, res, next) => {
-	let { channelID, username, customURL } = req.params.channelURL.match(/^(?:https:\/\/)?(?:www\.)?youtube\.com\/(?:channel\/(?<channelID>UC[\w-]{21}[AQgw])|(?:user\/(?<username>[\w-]+))|(?:c\/)?(?<customURL>[\w-]+))$/)?.groups ?? { undefined, undefined, undefined };
-	if (!channelID && !username && !customURL) return res.status(400).json('This is not a valid YouTube channel URL.');
+	let { channelID, handle } = req.params.channelURL.match(/^(?:https:\/\/)?(?:www\.)?youtube\.com\/(?:channel\/(?<channelID>UC[\w-]{21}[AQgw])|(?<handle>@[\w-]+))$/)?.groups ?? { undefined, undefined };
+	if (!channelID && !handle) return res.status(400).json('This is not a valid YouTube channel URL.');
 
 	try {
 		let channelSnippet = null;
 
-		if (username) channelID = await getYouTubeChannelIDByUsername(username);
-		else if (customURL) ({ channelID, ...channelSnippet } = await getYouTubeChannelIDByCustomURL(customURL));
+		if (handle) ({ channelID, ...channelSnippet } = await getYouTubeChannelIDByHandle(handle));
 
 		if (!channelID) return res.status(404).json('The YouTube channel with that URL could not be found.');
 

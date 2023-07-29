@@ -1,24 +1,20 @@
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
 module.exports = {
-	getYouTubeChannelData, getYouTubeChannelIDByUsername, getYouTubeChannelIDByCustomURL
+	getYouTubeChannelData, getYouTubeChannelIDByHandle
 }
 
 async function getYouTubeChannelData (channelID) {
 	return (await getFetch(`channels?part=snippet&id=${channelID}&maxResults=1`)).items?.[0]?.snippet ?? { };
 }
 
-async function getYouTubeChannelIDByUsername (username) {
-	return (await getFetch(`channels?part=snippet&forUsername=${username}&maxResults=1`)).items?.[0]?.id;
-}
-
-async function getYouTubeChannelIDByCustomURL (customURL) {
-	const channelIDs = (await getFetch(`search?part=snippet&q=${customURL}&type=channel&maxResults=5`)).items?.map((channel) => channel.id.channelId);
+async function getYouTubeChannelIDByHandle (handle) {
+	const channelIDs = (await getFetch(`search?part=snippet&q=${handle}&type=channel&maxResults=5`)).items?.map((channel) => channel.id.channelId);
 
 	const channels = (await getFetch(`channels?part=snippet&id=${channelIDs.join()}&maxResults=5`)).items;
 	if (!channels?.length) return { };
 
-	for (const channel of channels) if (channel.snippet?.customUrl?.toLowerCase() === customURL.toLowerCase()) return { channelID: channel.id, ...channel.snippet };
+	for (const channel of channels) if (channel.snippet?.customUrl?.toLowerCase() === handle.toLowerCase()) return { channelID: channel.id, ...channel.snippet };
 
 	return { };
 }
